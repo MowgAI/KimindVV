@@ -8,10 +8,17 @@ Devine les couleurs et les valeurs de 4 cartes cachées, avec les cartes de [Kib
 - Chaque valeur est entre 1 et 10, chaque couleur est bleu, vert, rouge ou jaune.
 - Les cartes ont des couleurs différentes : une carte de chaque couleur.
 - On connaît la somme S des valeurs et l'ordre des couleurs, par exemple `jaune = rouge < vert < bleu`.
-- À chaque coup, on choisit une carte cachée et on propose une couleur et une valeur. Le jeu répond si la couleur est la bonne, et si la vraie valeur est plus petite, plus grande ou égale.
-- Une carte est trouvée quand on propose sa couleur et sa valeur. La partie est gagnée quand les 4 cartes sont trouvées.
+- À chaque tour, on propose une carte pour chaque position encore cachée, avec 4 couleurs différentes.
+- Pour chaque position, le jeu répond : la carte se retourne si elle est juste ; sinon le cadre est de la couleur proposée si elle est bonne, gris sinon, avec « Plus », « Moins » ou « Égal » pour la valeur.
+- Les cartes trouvées restent en place. La partie est gagnée quand les 4 cartes sont trouvées ; le score est le nombre de tours.
 
 Les règles et les réponses reprennent celles du Kimind d'origine (dépôt organizationMowgAI/Kimind).
+
+## Versions
+
+Le jeu s'ouvre sur un menu qui propose les versions de Kimind. Les versions sont décrites dans `js/versions.js` ; l'adresse garde la version choisie (par exemple `#initiale`).
+
+- **Kimind (version initiale)** : les règles ci-dessus.
 
 ## Niveaux
 
@@ -33,8 +40,9 @@ python3 -m http.server 8000
 
 - `index.html` : page du jeu
 - `css/style.css` : styles (thème clair/sombre, téléphone)
-- `js/kimind.js` : moteur (tirage des parties, solutions possibles, réponses) ; utilisable sous Node
-- `js/game.js` : état de la partie et affichage
+- `js/versions.js` : versions proposées dans le menu
+- `js/kimind.js` : moteur (tirage des parties, solutions possibles, réponses aux tours) ; utilisable sous Node
+- `js/game.js` : menu, état de la partie et affichage
 - `lang/fr.js` : textes en français
 - `assets/cards/` : images des 40 cartes de Kiboo (WebP)
 - `tests/kimind.test.js` : tests du moteur (`node tests/kimind.test.js`)

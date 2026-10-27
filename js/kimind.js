@@ -62,12 +62,26 @@
     };
   }
 
+  // Réponse à un tour : le joueur propose une carte pour chaque position encore cachée.
+  // offer : [{position, colour, value}] ; renvoie les mêmes cartes avec leur réponse.
+  function answerRound(solution, offer) {
+    return offer.map(c => Object.assign({}, c, { answer: answer(solution, c.position, c.colour, c.value) }));
+  }
+
+  // Une proposition est valable si chaque position cachée a une carte et si les 4 couleurs
+  // (cartes déjà trouvées comprises) sont différentes.
+  function validOffer(offer, foundCards) {
+    const cards = offer.concat(foundCards);
+    if (cards.length !== NB_CARDS || cards.some(c => !c.colour || !c.value)) return false;
+    return new Set(cards.map(c => c.colour)).size === NB_CARDS;
+  }
+
   function compatible(candidate, play) {
     const r = answer(candidate, play.position, play.colour, play.value);
     return r.colour === play.answer.colour && r.value === play.answer.value;
   }
 
-  // Solutions encore possibles après les cartes jouées.
+  // Solutions encore possibles après les cartes jouées (les cartes de tous les tours, à plat).
   function remaining(statement, plays) {
     return allSolutions(statement).filter(s => plays.every(p => compatible(s, p)));
   }
@@ -114,7 +128,7 @@
   }
 
   const Kimind = { COLOURS, NB_CARDS, VMIN, VMAX, PERMS, LEVELS, orderFromValues, valueSolutions,
-    allSolutions, answer, remaining, levelOf, newGame };
+    allSolutions, answer, answerRound, validOffer, remaining, levelOf, newGame };
   if (typeof module !== "undefined" && module.exports) module.exports = Kimind;
   else root.Kimind = Kimind;
 })(this);
