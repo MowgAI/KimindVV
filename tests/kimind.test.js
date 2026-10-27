@@ -64,7 +64,7 @@ for (const level of Object.keys(K.SIGNED_LEVELS)) {
   }
 }
 
-// KiMinus 2 : signes cachés ; les solutions comprennent les signes.
+// KimMinmaxus : signes cachés ; les solutions comprennent les signes.
 assert.strictEqual(K.SIGN_COMBOS.length, 8);
 assert.deepStrictEqual(K.answerSigns([1, -1, 1, -1], [{ position: 1, sign: -1 }, { position: 3, sign: 1 }]).map(s => s.ok), [true, false]);
 for (const level of Object.keys(K.HIDDEN_LEVELS)) {

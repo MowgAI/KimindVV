@@ -17,8 +17,8 @@ const VERSIONS = [
     newGame: level => Kimind.newSignedGame(level),
   },
   {
-    id: "kiminus-2",
-    name: "KiMinus 2",
+    id: "kimminmaxus",
+    name: "KimMinmaxus",
     subtitle: "Variante 2 : les signes sont cachés",
     description: "Comme KiMinus, mais les signes sont cachés : propose aussi un + ou un − entre tes cartes. Le jeu dit si chaque signe est juste.",
     signs: "hidden",

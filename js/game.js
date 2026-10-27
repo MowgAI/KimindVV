@@ -6,7 +6,7 @@
 
   // rounds : [[{position, colour, value, answer}]] ; found[p] : carte trouvée ;
   // draft[p] : carte proposée en cours de composition ; sel : position choisie.
-  // Signes cachés (KiMinus 2) : signRounds : [[{position, sign, ok}]] ; signFound[p] : signe
+  // Signes cachés (KimMinmaxus) : signRounds : [[{position, sign, ok}]] ; signFound[p] : signe
   // de la carte p trouvé ; signDraft[p] : signe proposé (+1, -1 ou null). La carte 0 est toujours en +.
   let version, game, rounds, found, draft, sel, signRounds, signFound, signDraft;
 
@@ -95,7 +95,7 @@
     }
   }
 
-  // Signe à placer entre les cartes proposées (KiMinus 2) : un clic passe de + à −.
+  // Signe à placer entre les cartes proposées (KimMinmaxus) : un clic passe de + à −.
   function signButton(p) {
     if (!hiddenSigns() || signFound[p]) return el("div", "sign", signText(knownSign(p)));
     const b = el("button", "sign sign-btn" + (signDraft[p] ? "" : " unknown"), signText(signDraft[p]));

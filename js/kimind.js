@@ -104,7 +104,7 @@
   }
 
   // Solutions encore possibles après les cartes jouées (les cartes de tous les tours, à plat).
-  // Signes cachés (KiMinus 2) : les solutions sont {cards, signs}, et signPlays donne les
+  // Signes cachés (KimMinmaxus) : les solutions sont {cards, signs}, et signPlays donne les
   // signes proposés avec leur réponse [{position, sign, ok}].
   function remaining(statement, plays, signPlays) {
     if (statement.hiddenSigns) {
@@ -192,7 +192,7 @@
     throw new Error("Aucune partie trouvée pour le niveau " + level);
   }
 
-  // KiMinus 2 : mêmes parties que KiMinus, mais les signes sont cachés et le joueur les propose.
+  // KimMinmaxus : mêmes parties que KiMinus, mais les signes sont cachés et le joueur les propose.
   // Niveaux selon le nombre de solutions complètes (cartes et signes).
   const HIDDEN_LEVELS = {
     easy:   { min: 1,   max: 340 },
