@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh api -X PUT repos/MowgAI/KimindVV/pulls/*/merge*)"
+    ]
+  }
+}
