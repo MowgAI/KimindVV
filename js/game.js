@@ -54,14 +54,11 @@
     return signFound[p] ? game.signs[p] : null;
   }
 
-  // Énoncé : la somme (ou, dans KiMinus, le calcul avec ses signes) et l'ordre des couleurs.
+  // Énoncé : la somme (dans KiMinus, le résultat du calcul ; les signes sont entre les cartes) et l'ordre des couleurs.
   function renderStatement() {
     const sum = game.statement.sum;
     $("lbl-sum").textContent = withSigns() ? T.signedSum : T.sum;
-    $("sum").textContent = withSigns()
-      ? [0, 1, 2, 3].map(p => (p ? signText(knownSign(p)) + "\u00a0" : "") + T.position.toLowerCase() + "\u00a0" + p).join(" ") + "\u00a0=\u00a0" + (sum < 0 ? "−" + -sum : sum)
-      : sum;
-    $("sum").classList.toggle("formula", withSigns());
+    $("sum").textContent = sum < 0 ? "−" + -sum : sum;
     const order = $("order");
     order.textContent = "";
     game.statement.order.forEach((group, g) => {
