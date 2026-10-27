@@ -20,6 +20,7 @@ Les règles et les réponses reprennent celles du Kimind d'origine (dépôt orga
 Le jeu s'ouvre sur un menu qui propose les versions de Kimind. Les versions sont décrites dans `js/versions.js` ; l'adresse garde la version choisie (par exemple `#initiale`).
 
 - **Kimind (version initiale)** : les règles ci-dessus.
+- **Kimind ±** (`#plus-moins`) : les valeurs ne s'ajoutent plus toutes. La carte 0 compte en +, chacune des autres en + ou en − (au moins un −), par exemple `carte 0 + carte 1 − carte 2 + carte 3 = 25` ; le résultat va de −29 à 40. Les signes s'affichent entre les cartes cachées. Le reste des règles ne change pas.
 
 ## Niveaux
 
@@ -28,6 +29,12 @@ La difficulté dépend du nombre de façons de choisir les valeurs compatibles a
 - Facile : 1 à 3
 - Moyen : 4 à 8
 - Difficile : 9 et plus
+
+Dans Kimind ±, la somme dépend aussi de la place des couleurs : on compte les solutions complètes (couleurs et valeurs à chaque position), avec les mêmes proportions de parties par niveau que la version initiale :
+
+- Facile : 1 à 90
+- Moyen : 91 à 200
+- Difficile : 201 et plus
 
 ## Lancer
 

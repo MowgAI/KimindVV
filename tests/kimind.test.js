@@ -45,4 +45,23 @@ const rest = K.remaining(g.statement, plays);
 assert.ok(rest.length >= 1 && rest.length <= g.nbSolutions);
 assert.ok(rest.some(s => JSON.stringify(s) === JSON.stringify(g.solution)));
 
+
+// Variante ± : la carte 0 compte en +, au moins une autre en −, somme entre −29 et 40.
+assert.strictEqual(K.signedSum([{ value: 1 }, { value: 10 }, { value: 10 }, { value: 10 }], [1, -1, -1, -1]), -29);
+for (const level of Object.keys(K.SIGNED_LEVELS)) {
+  for (let i = 0; i < 50; i++) {
+    const g = K.newSignedGame(level);
+    const { sum, signs } = g.statement;
+    assert.strictEqual(g.level, level);
+    assert.strictEqual(signs[0], 1);
+    assert.ok(signs.slice(1).includes(-1));
+    assert.ok(sum >= -29 && sum <= 40);
+    assert.strictEqual(K.signedSum(g.solution, signs), sum);
+    const all = K.allSolutions(g.statement);
+    assert.strictEqual(all.length, g.nbSolutions);
+    assert.ok(all.every(s => K.signedSum(s, signs) === sum));
+    assert.ok(all.some(s => JSON.stringify(s) === JSON.stringify(g.solution)));
+  }
+}
+
 console.log("Tous les tests passent.");

@@ -36,6 +36,8 @@ const TEXTS = {
   label: { less: "Moins", more: "Plus", equals: "Égal" },
   waiting: "?",
   won: n => "Bravo ! Tu as trouvé les 4 cartes en " + n + (n > 1 ? " tours." : " tour."),
+  signedSum: "Calcul",
+  signedRule: "Le calcul dit comment les valeurs se combinent : la carte 0 compte en +, les autres en + ou en −, selon les signes placés entre les cartes cachées. Le résultat va de −29 à 40.",
   rulesBody: [
     "Quatre cartes sont cachées, aux positions 0, 1, 2 et 3.",
     "Chaque carte a une valeur de 1 à 10 et une couleur : bleu, vert, rouge ou jaune.",

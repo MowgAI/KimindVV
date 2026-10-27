@@ -6,7 +6,7 @@
 
   // rounds : [[{position, colour, value, answer}]] ; found[p] : carte trouvée ;
   // draft[p] : carte proposée en cours de composition ; sel : position choisie.
-  let game, rounds, found, draft, sel;
+  let version, game, rounds, found, draft, sel;
 
   function cardImage(colour, value) { return "assets/cards/" + colour + "-" + value + ".webp"; }
 
@@ -41,8 +41,16 @@
 
   function chip(colour) { return el("span", "chip c-" + colour, T.colours[colour]); }
 
+  const signText = sign => (sign > 0 ? "+" : "−");
+
+  // Énoncé : la somme (ou, dans la variante ±, le calcul avec ses signes) et l'ordre des couleurs.
   function renderStatement() {
-    $("sum").textContent = game.statement.sum;
+    const { sum, signs } = game.statement;
+    $("lbl-sum").textContent = signs ? T.signedSum : T.sum;
+    $("sum").textContent = signs
+      ? signs.map((sign, p) => (p ? signText(sign) + "\u00a0" : "") + T.position.toLowerCase() + "\u00a0" + p).join(" ") + "\u00a0=\u00a0" + sum
+      : sum;
+    $("sum").classList.toggle("formula", !!signs);
     const order = $("order");
     order.textContent = "";
     game.statement.order.forEach((group, g) => {
@@ -62,10 +70,14 @@
   }
 
   // Les 4 cartes à deviner : dos de carte, ou la carte elle-même une fois trouvée.
+  // Dans la variante ±, le signe de chaque carte s'affiche entre les cartes.
   function renderHidden() {
     const zone = $("hidden-cards");
+    const signs = game.statement.signs;
     zone.textContent = "";
+    zone.classList.toggle("signed", !!signs);
     for (let p = 0; p < K.NB_CARDS; p++) {
+      if (signs && p) zone.append(el("div", "sign", signText(signs[p])));
       const slot = el("div", "slot");
       slot.append(el("div", "num", p));
       slot.append(found[p] ? faceCard(game.solution[p].colour, game.solution[p].value) : backCard());
@@ -199,7 +211,7 @@
   }
 
   function newGame() {
-    game = K.newGame($("level").value);
+    game = version.newGame($("level").value);
     rounds = [];
     found = [false, false, false, false];
     draft = [0, 1, 2, 3].map(() => ({ colour: null, value: null }));
@@ -222,12 +234,19 @@
   }
 
   function route() {
-    const version = VERSIONS.find(v => v.id === location.hash.slice(1));
+    version = VERSIONS.find(v => v.id === location.hash.slice(1));
     $("menu-screen").hidden = !!version;
     $("game-screen").hidden = !version;
     $("game-btns").hidden = !version;
-    if (version) newGame();
+    if (version) { renderRules(); newGame(); }
     window.scrollTo(0, 0);
+  }
+
+  function renderRules() {
+    const lines = T.rulesBody.slice();
+    if (version.id === "plus-moins") lines.splice(4, 0, T.signedRule);
+    $("rules-body").textContent = "";
+    lines.forEach(line => $("rules-body").append(el("li", "", line)));
   }
 
   function init() {
@@ -239,7 +258,6 @@
     $("lbl-level").textContent = T.level;
     $("btn-new").textContent = T.newGame;
     $("lbl-rules").textContent = T.rules;
-    $("lbl-sum").textContent = T.sum;
     $("lbl-order").textContent = T.order;
     $("lbl-hidden").textContent = T.hiddenTitle;
     $("history-empty").textContent = T.historyEmpty;
@@ -250,7 +268,6 @@
     $("lbl-possible").textContent = T.showPossible;
     $("rules-title").textContent = T.rules;
     $("btn-close").textContent = T.close;
-    T.rulesBody.forEach(line => $("rules-body").append(el("li", "", line)));
     Object.keys(K.LEVELS).forEach(k => $("level").append(new Option(T.levels[k], k)));
     $("level").value = "easy";
     $("level").addEventListener("change", newGame);
