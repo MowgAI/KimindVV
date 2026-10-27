@@ -20,7 +20,8 @@ Les règles et les réponses reprennent celles du Kimind d'origine (dépôt orga
 Le jeu s'ouvre sur un menu qui propose les versions de Kimind. Les versions sont décrites dans `js/versions.js` ; l'adresse garde la version choisie (par exemple `#initiale`).
 
 - **Kimind (version initiale)** : les règles ci-dessus.
-- **Kimind ±** (`#plus-moins`) : les valeurs ne s'ajoutent plus toutes. La carte 0 compte en +, chacune des autres en + ou en − (au moins un −), par exemple `carte 0 + carte 1 − carte 2 + carte 3 = 25` ; le résultat va de −29 à 40. Les signes s'affichent entre les cartes cachées. Le reste des règles ne change pas.
+- **KiMinus** (`#kiminus`, variante 1) : les valeurs s'ajoutent ou se retranchent. La carte 0 compte en +, chacune des autres en + ou en −, par exemple `carte 0 + carte 1 − carte 2 + carte 3 = 25` ; le résultat va de −29 à 40. Les signes changent à chaque partie et s'affichent entre les cartes cachées. Le reste des règles ne change pas.
+- **KiMinus 2** (`#kiminus-2`, variante 2) : comme KiMinus, mais les signes sont cachés (seul le résultat est donné). À chaque tour, le joueur propose aussi un signe entre ses cartes ; le jeu dit si chaque signe est juste, et un signe juste reste en place. La partie est gagnée quand les 4 cartes et les 3 signes sont trouvés.
 
 ## Niveaux
 
@@ -30,11 +31,17 @@ La difficulté dépend du nombre de façons de choisir les valeurs compatibles a
 - Moyen : 4 à 8
 - Difficile : 9 et plus
 
-Dans Kimind ±, la somme dépend aussi de la place des couleurs : on compte les solutions complètes (couleurs et valeurs à chaque position), avec les mêmes proportions de parties par niveau que la version initiale :
+Dans KiMinus, la somme dépend aussi de la place des couleurs : on compte les solutions complètes (couleurs et valeurs à chaque position), avec les mêmes proportions de parties par niveau que la version initiale :
 
 - Facile : 1 à 90
 - Moyen : 91 à 200
 - Difficile : 201 et plus
+
+Dans KiMinus 2, on compte aussi les signes possibles (solutions complètes : cartes et signes) :
+
+- Facile : 1 à 340
+- Moyen : 341 à 850
+- Difficile : 851 et plus
 
 ## Lancer
 

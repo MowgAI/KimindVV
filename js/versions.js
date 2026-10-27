@@ -9,10 +9,19 @@ const VERSIONS = [
     newGame: level => Kimind.newGame(level),
   },
   {
-    id: "plus-moins",
-    name: "Kimind ±",
-    subtitle: "Variante plus et moins",
-    description: "Les valeurs des cartes ne s'ajoutent plus toutes : certaines se retranchent, par exemple carte 0 + carte 1 − carte 2 + carte 3 = 25.",
+    id: "kiminus",
+    name: "KiMinus",
+    subtitle: "Variante 1 : des plus et des moins",
+    description: "Les valeurs des cartes s'ajoutent ou se retranchent, par exemple carte 0 + carte 1 − carte 2 + carte 3 = 25. Les signes sont donnés.",
+    signs: "shown",
     newGame: level => Kimind.newSignedGame(level),
+  },
+  {
+    id: "kiminus-2",
+    name: "KiMinus 2",
+    subtitle: "Variante 2 : les signes sont cachés",
+    description: "Comme KiMinus, mais les signes sont cachés : propose aussi un + ou un − entre tes cartes. Le jeu dit si chaque signe est juste.",
+    signs: "hidden",
+    newGame: level => Kimind.newHiddenSignsGame(level),
   },
 ];

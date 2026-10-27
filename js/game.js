@@ -6,7 +6,9 @@
 
   // rounds : [[{position, colour, value, answer}]] ; found[p] : carte trouvée ;
   // draft[p] : carte proposée en cours de composition ; sel : position choisie.
-  let version, game, rounds, found, draft, sel;
+  // Signes cachés (KiMinus 2) : signRounds : [[{position, sign, ok}]] ; signFound[p] : signe
+  // de la carte p trouvé ; signDraft[p] : signe proposé (+1, -1 ou null). La carte 0 est toujours en +.
+  let version, game, rounds, found, draft, sel, signRounds, signFound, signDraft;
 
   function cardImage(colour, value) { return "assets/cards/" + colour + "-" + value + ".webp"; }
 
@@ -41,16 +43,25 @@
 
   function chip(colour) { return el("span", "chip c-" + colour, T.colours[colour]); }
 
-  const signText = sign => (sign > 0 ? "+" : "−");
+  const signText = sign => (sign > 0 ? "+" : sign < 0 ? "−" : "?");
+  const withSigns = () => !!version.signs;
+  const hiddenSigns = () => version.signs === "hidden";
 
-  // Énoncé : la somme (ou, dans la variante ±, le calcul avec ses signes) et l'ordre des couleurs.
+  // Signe de la carte p tel que le joueur le connaît (null s'il est encore caché).
+  function knownSign(p) {
+    if (!p) return 1;
+    if (!hiddenSigns()) return game.statement.signs[p];
+    return signFound[p] ? game.signs[p] : null;
+  }
+
+  // Énoncé : la somme (ou, dans KiMinus, le calcul avec ses signes) et l'ordre des couleurs.
   function renderStatement() {
-    const { sum, signs } = game.statement;
-    $("lbl-sum").textContent = signs ? T.signedSum : T.sum;
-    $("sum").textContent = signs
-      ? signs.map((sign, p) => (p ? signText(sign) + "\u00a0" : "") + T.position.toLowerCase() + "\u00a0" + p).join(" ") + "\u00a0=\u00a0" + (sum < 0 ? "−" + -sum : sum)
+    const sum = game.statement.sum;
+    $("lbl-sum").textContent = withSigns() ? T.signedSum : T.sum;
+    $("sum").textContent = withSigns()
+      ? [0, 1, 2, 3].map(p => (p ? signText(knownSign(p)) + "\u00a0" : "") + T.position.toLowerCase() + "\u00a0" + p).join(" ") + "\u00a0=\u00a0" + (sum < 0 ? "−" + -sum : sum)
       : sum;
-    $("sum").classList.toggle("formula", !!signs);
+    $("sum").classList.toggle("formula", withSigns());
     const order = $("order");
     order.textContent = "";
     game.statement.order.forEach((group, g) => {
@@ -70,14 +81,13 @@
   }
 
   // Les 4 cartes à deviner : dos de carte, ou la carte elle-même une fois trouvée.
-  // Dans la variante ±, le signe de chaque carte s'affiche entre les cartes.
+  // Dans KiMinus, le signe de chaque carte s'affiche entre les cartes (? s'il est caché).
   function renderHidden() {
     const zone = $("hidden-cards");
-    const signs = game.statement.signs;
     zone.textContent = "";
-    zone.classList.toggle("signed", !!signs);
+    zone.classList.toggle("signed", withSigns());
     for (let p = 0; p < K.NB_CARDS; p++) {
-      if (signs && p) zone.append(el("div", "sign", signText(signs[p])));
+      if (withSigns() && p) zone.append(el("div", "sign" + (knownSign(p) ? "" : " unknown"), signText(knownSign(p))));
       const slot = el("div", "slot");
       slot.append(el("div", "num", p));
       slot.append(found[p] ? faceCard(game.solution[p].colour, game.solution[p].value) : backCard());
@@ -85,10 +95,23 @@
     }
   }
 
+  // Signe à placer entre les cartes proposées (KiMinus 2) : un clic passe de + à −.
+  function signButton(p) {
+    if (!hiddenSigns() || signFound[p]) return el("div", "sign", signText(knownSign(p)));
+    const b = el("button", "sign sign-btn" + (signDraft[p] ? "" : " unknown"), signText(signDraft[p]));
+    b.type = "button";
+    b.disabled = won();
+    b.setAttribute("aria-label", T.signOf(p));
+    b.addEventListener("click", () => { signDraft[p] = signDraft[p] === 1 ? -1 : 1; render(); });
+    return b;
+  }
+
   function renderOffer() {
     const zone = $("offer");
     zone.textContent = "";
+    zone.classList.toggle("signed", withSigns());
     for (let p = 0; p < K.NB_CARDS; p++) {
+      if (withSigns() && p) zone.append(signButton(p));
       const slot = el("div", "slot" + (found[p] ? " found" : "") + (sel === p ? " selected" : ""));
       slot.append(el("div", "num", p));
       const btn = el("button", "slot-btn");
@@ -140,10 +163,11 @@
 
     const { offer, fixed } = offerCards();
     const complete = offer.every(c => c.colour && c.value);
-    const ok = K.validOffer(offer, fixed);
+    const signsOk = !hiddenSigns() || [1, 2, 3].every(p => signFound[p] || signDraft[p]);
+    const ok = K.validOffer(offer, fixed) && signsOk;
     $("btn-propose").textContent = T.propose;
     $("btn-propose").disabled = !ok;
-    $("warn").textContent = ok ? "" : complete ? T.sameColours : T.incomplete;
+    $("warn").textContent = ok ? "" : !complete ? T.incomplete : !signsOk ? T.incompleteSigns : T.sameColours;
     $("panel").hidden = won();
     $("offer-zone").hidden = won();
   }
@@ -166,10 +190,23 @@
     rounds.slice().reverse().forEach((round, i) => {
       const li = el("li", "round");
       li.append(el("div", "round-num", T.round(rounds.length - i)));
-      const offered = el("div", "mini-row"), answers = el("div", "mini-row");
+      const cls = "mini-row" + (withSigns() ? " signed" : "");
+      const offered = el("div", cls), answers = el("div", cls);
       offered.append(el("span", "mini-lbl", T.proposalTitle));
       answers.append(el("span", "mini-lbl", T.answerTitle));
+      const signRound = hiddenSigns() ? signRounds[rounds.length - 1 - i] : [];
       for (let p = 0; p < K.NB_CARDS; p++) {
+        if (withSigns() && p) {
+          const sp = signRound.find(sp => sp.position === p);
+          if (sp) {
+            offered.append(el("span", "sign", signText(sp.sign)));
+            answers.append(Object.assign(el("span", "sign " + (sp.ok ? "ok" : "ko"), signText(sp.sign)), { title: sp.ok ? T.signOk : T.signKo }));
+          } else {
+            const known = hiddenSigns() ? game.signs[p] : game.statement.signs[p];
+            offered.append(el("span", "sign" + (hiddenSigns() ? " done" : ""), signText(known)));
+            answers.append(el("span", "sign" + (hiddenSigns() ? " done" : ""), signText(known)));
+          }
+        }
         const c = round.find(c => c.position === p);
         if (c) {
           offered.append(faceCard(c.colour, c.value));
@@ -187,22 +224,28 @@
 
   function renderStatus() {
     $("rounds").textContent = T.rounds(rounds.length);
-    const n = K.remaining(game.statement, [].concat(...rounds)).length;
+    const n = K.remaining(game.statement, [].concat(...rounds), [].concat(...signRounds)).length;
     $("possible").textContent = T.possible(n);
     $("possible").hidden = !$("show-possible").checked;
     $("won").hidden = !won();
     $("won").textContent = T.won(rounds.length);
   }
 
-  function render() { renderHidden(); renderOffer(); renderPicker(); renderHistory(); renderStatus(); }
+  function render() { renderStatement(); renderHidden(); renderOffer(); renderPicker(); renderHistory(); renderStatus(); }
 
-  function won() { return found.every(Boolean); }
+  function won() { return found.every(Boolean) && (!hiddenSigns() || [1, 2, 3].every(p => signFound[p])); }
 
   function propose() {
     const { offer } = offerCards();
     const round = K.answerRound(game.solution, offer);
     rounds.push(round);
     round.forEach(c => { if (c.answer.colour && c.answer.value === "equals") found[c.position] = true; });
+    if (hiddenSigns()) {
+      const signRound = K.answerSigns(game.signs, [1, 2, 3].filter(p => !signFound[p]).map(p => ({ position: p, sign: signDraft[p] })));
+      signRounds.push(signRound);
+      signRound.forEach(sp => { if (sp.ok) signFound[sp.position] = true; });
+    } else signRounds.push([]);
+    signDraft = [null, null, null, null];
     // Nouvelle proposition à saisir : les cartes non trouvées repartent de zéro.
     draft = draft.map(() => ({ colour: null, value: null }));
     const first = found.indexOf(false);
@@ -215,8 +258,10 @@
     rounds = [];
     found = [false, false, false, false];
     draft = [0, 1, 2, 3].map(() => ({ colour: null, value: null }));
+    signRounds = [];
+    signFound = [true, false, false, false];
+    signDraft = [null, null, null, null];
     sel = 0;
-    renderStatement();
     render();
   }
 
@@ -244,7 +289,8 @@
 
   function renderRules() {
     const lines = T.rulesBody.slice();
-    if (version.id === "plus-moins") lines.splice(4, 0, T.signedRule);
+    if (version.signs === "shown") lines.splice(4, 0, T.signedRule);
+    if (version.signs === "hidden") lines.splice(4, 0, T.hiddenSignsRule);
     $("rules-body").textContent = "";
     lines.forEach(line => $("rules-body").append(el("li", "", line)));
   }

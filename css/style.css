@@ -104,7 +104,19 @@ select { font: inherit; padding: 5px 8px; border-radius: 10px; border: 2px solid
 .sep { font-size: 1.4rem; }
 .sum.formula { font-size: 1.3rem; }
 .slots.signed { grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; gap: 4px; }
-.sign { align-self: center; margin-top: 1.2em; font-size: 2rem; font-weight: 700; color: var(--ink); }
+.sign { align-self: center; margin-top: 1.2em; font-size: 2rem; font-weight: 700; color: var(--ink); text-align: center; }
+.sign.unknown { color: var(--ink-soft); }
+.sign-btn {
+  font: inherit; font-size: 1.8rem; font-weight: 700; line-height: 1; cursor: pointer;
+  width: 1.6em; height: 1.6em; padding: 0; border-radius: 50%;
+  border: 3px solid var(--ink); background: var(--panel); color: var(--ink);
+}
+.sign-btn.unknown { border-style: dashed; border-color: var(--ink-soft); }
+.mini-row.signed { grid-template-columns: 5.6em minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); gap: 3px; }
+.mini-row .sign { margin-top: 0; font-size: 1.1rem; }
+.mini-row .sign.ok { color: var(--ok); }
+.mini-row .sign.ko { color: var(--ko); text-decoration: line-through; }
+.mini-row .sign.done { opacity: 0.35; }
 .chip { padding: 2px 12px; border-radius: 999px; color: #FFFFFF; font-weight: 600; }
 .chip.c-yellow { color: #2A1F3D; }
 .c-blue { --c: var(--c-blue); } .c-green { --c: var(--c-green); }
@@ -217,4 +229,10 @@ dialog li { margin-bottom: 6px; }
   .slot-btn { padding: 4px; }
   .mini-row { grid-template-columns: 4.6em repeat(4, minmax(0, 1fr)); }
   .mini-row .card { --w: 48px; }
+  .mini-row.signed { grid-template-columns: 4.6em repeat(7, auto); }
+  .slots.signed { gap: 2px; }
+  .slots.signed .card { --w: 56px; }
+  .sign { font-size: 1.4rem; }
+  .sign-btn { font-size: 1.2rem; border-width: 2px; }
+  .mini-row.signed .card { --w: 44px; }
 }

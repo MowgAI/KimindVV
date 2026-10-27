@@ -46,7 +46,7 @@ assert.ok(rest.length >= 1 && rest.length <= g.nbSolutions);
 assert.ok(rest.some(s => JSON.stringify(s) === JSON.stringify(g.solution)));
 
 
-// Variante ± : la carte 0 compte en +, au moins une autre en −, somme entre −29 et 40.
+// KiMinus : la carte 0 compte en +, les autres en + ou en −, somme entre −29 et 40.
 assert.strictEqual(K.signedSum([{ value: 1 }, { value: 10 }, { value: 10 }, { value: 10 }], [1, -1, -1, -1]), -29);
 for (const level of Object.keys(K.SIGNED_LEVELS)) {
   for (let i = 0; i < 50; i++) {
@@ -54,13 +54,35 @@ for (const level of Object.keys(K.SIGNED_LEVELS)) {
     const { sum, signs } = g.statement;
     assert.strictEqual(g.level, level);
     assert.strictEqual(signs[0], 1);
-    assert.ok(signs.slice(1).includes(-1));
+    assert.ok(signs.every(x => x === 1 || x === -1));
     assert.ok(sum >= -29 && sum <= 40);
     assert.strictEqual(K.signedSum(g.solution, signs), sum);
     const all = K.allSolutions(g.statement);
     assert.strictEqual(all.length, g.nbSolutions);
     assert.ok(all.every(s => K.signedSum(s, signs) === sum));
     assert.ok(all.some(s => JSON.stringify(s) === JSON.stringify(g.solution)));
+  }
+}
+
+// KiMinus 2 : signes cachés ; les solutions comprennent les signes.
+assert.strictEqual(K.SIGN_COMBOS.length, 8);
+assert.deepStrictEqual(K.answerSigns([1, -1, 1, -1], [{ position: 1, sign: -1 }, { position: 3, sign: 1 }]).map(s => s.ok), [true, false]);
+for (const level of Object.keys(K.HIDDEN_LEVELS)) {
+  for (let i = 0; i < 10; i++) {
+    const g = K.newHiddenSignsGame(level);
+    assert.strictEqual(g.level, level);
+    assert.ok(!g.statement.signs && g.statement.hiddenSigns);
+    assert.strictEqual(K.signedSum(g.solution, g.signs), g.statement.sum);
+    const all = K.allSolutions(g.statement);
+    assert.strictEqual(all.length, g.nbSolutions);
+    const key = s => JSON.stringify(s.cards) + s.signs;
+    assert.ok(all.some(s => key(s) === key({ cards: g.solution, signs: g.signs })));
+    // Après un tour, la vraie solution reste possible.
+    const plays = K.answerRound(g.solution, [0, 1, 2, 3].map(p => ({ position: p, colour: "red", value: 5 })));
+    const signPlays = K.answerSigns(g.signs, [1, 2, 3].map(p => ({ position: p, sign: 1 })));
+    const rest = K.remaining(g.statement, plays, signPlays);
+    assert.ok(rest.some(s => key(s) === key({ cards: g.solution, signs: g.signs })));
+    assert.ok(rest.every(s => signPlays.every(sp => (s.signs[sp.position] === sp.sign) === sp.ok)));
   }
 }
 
