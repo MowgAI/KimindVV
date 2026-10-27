@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kimind</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 class="logo" aria-label="Kimind"><span>K</span><span>i</span><span>m</span><span>i</span><span>n</span><span>d</span></h1>
+    <div class="head-btns">
+      <label class="level-wrap"><span id="lbl-level">Niveau</span>
+        <select id="level"></select>
+      </label>
+      <button class="act" id="btn-new" type="button">Nouvelle partie</button>
+      <button class="act ghost" id="btn-rules" type="button" aria-haspopup="dialog">📖 <span id="lbl-rules">Règles du jeu</span></button>
+    </div>
+  </header>
+
+  <p class="tagline" id="tagline"></p>
+
+  <section class="statement" aria-live="polite">
+    <div class="stat"><span class="stat-lbl" id="lbl-sum"></span><span class="sum" id="sum"></span></div>
+    <div class="stat"><span class="stat-lbl" id="lbl-order"></span><span class="order" id="order"></span></div>
+  </section>
+
+  <section class="table">
+    <div class="slots" id="slots"></div>
+  </section>
+
+  <section class="panel" id="panel">
+    <p class="hint" id="hint"></p>
+    <div class="picker">
+      <div class="pick-row"><span class="pick-lbl" id="lbl-colour"></span><div class="choices" id="colours"></div></div>
+      <div class="pick-row"><span class="pick-lbl" id="lbl-value"></span><div class="choices" id="values"></div></div>
+      <button class="act big" id="btn-play" type="button" disabled></button>
+    </div>
+  </section>
+
+  <section class="status">
+    <span id="played"></span>
+    <label class="toggle"><input type="checkbox" id="show-possible"> <span id="lbl-possible"></span></label>
+    <span id="possible" hidden></span>
+  </section>
+
+  <p class="won" id="won" hidden></p>
+</div>
+
+<dialog id="dlg-rules">
+  <h2 id="rules-title"></h2>
+  <ul id="rules-body"></ul>
+  <form method="dialog"><button class="act" id="btn-close"></button></form>
+</dialog>
+
+<script src="lang/fr.js"></script>
+<script src="js/kimind.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
