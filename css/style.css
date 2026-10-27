@@ -102,7 +102,6 @@ select { font: inherit; padding: 5px 8px; border-radius: 10px; border: 2px solid
 .sum { font-size: 1.8rem; font-weight: 700; }
 .order { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .sep { font-size: 1.4rem; }
-.sum.formula { font-size: 1.3rem; }
 .slots.signed { grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; gap: 4px; }
 .sign { align-self: center; margin-top: 1.2em; font-size: 2rem; font-weight: 700; color: var(--ink); text-align: center; }
 .sign.unknown { color: var(--ink-soft); }
