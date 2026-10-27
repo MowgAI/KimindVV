@@ -51,28 +51,24 @@
     });
   }
 
-  function lastAnswer(p) {
-    for (let r = rounds.length - 1; r >= 0; r--) {
-      const c = rounds[r].find(c => c.position === p);
-      if (c) return c;
-    }
-    return null;
-  }
-
   function describe(c) {
     return T.colours[c.colour] + " " + c.value + " : " + (c.answer.colour ? T.colourOk : T.colourKo) + ", " + T.value[c.answer.value];
   }
 
-  function renderAnswer() {
-    const zone = $("answer");
+  // Réponse du jeu pour une carte : retournée si elle est juste, sinon cadre coloré ou gris.
+  function answerCard(c) {
+    if (c.answer.colour && c.answer.value === "equals") return faceCard(c.colour, c.value);
+    return frameCard(c.answer.colour ? c.colour : null, T.label[c.answer.value], describe(c));
+  }
+
+  // Les 4 cartes à deviner : dos de carte, ou la carte elle-même une fois trouvée.
+  function renderHidden() {
+    const zone = $("hidden-cards");
     zone.textContent = "";
     for (let p = 0; p < K.NB_CARDS; p++) {
       const slot = el("div", "slot");
       slot.append(el("div", "num", p));
-      const last = lastAnswer(p);
-      if (found[p]) slot.append(faceCard(game.solution[p].colour, game.solution[p].value));
-      else if (!last) slot.append(backCard());
-      else slot.append(frameCard(last.answer.colour ? last.colour : null, T.label[last.answer.value], describe(last)));
+      slot.append(found[p] ? faceCard(game.solution[p].colour, game.solution[p].value) : backCard());
       zone.append(slot);
     }
   }
@@ -149,27 +145,30 @@
     }
   }
 
+  // Historique : pour chaque tour, la proposition et la réponse du jeu, le plus récent en haut.
+  // Une position trouvée à un tour précédent montre sa carte, en grisé.
   function renderHistory() {
     const list = $("history");
     list.textContent = "";
-    $("history-zone").hidden = !rounds.length;
+    $("history-empty").hidden = rounds.length > 0;
     rounds.slice().reverse().forEach((round, i) => {
       const li = el("li", "round");
-      li.append(el("span", "round-num", T.round(rounds.length - i)));
-      const cells = el("div", "round-cells");
+      li.append(el("div", "round-num", T.round(rounds.length - i)));
+      const offered = el("div", "mini-row"), answers = el("div", "mini-row");
+      offered.append(el("span", "mini-lbl", T.proposalTitle));
+      answers.append(el("span", "mini-lbl", T.answerTitle));
       for (let p = 0; p < K.NB_CARDS; p++) {
         const c = round.find(c => c.position === p);
-        const cell = el("span", "cell" + (c ? " c-" + c.colour : " empty"));
         if (c) {
-          const v = c.answer.value;
-          cell.title = T.position + " " + p + " — " + describe(c);
-          cell.innerHTML = "<b>" + c.value + "</b>" +
-            '<span class="mark ' + (c.answer.colour ? "ok" : "ko") + '">' + (c.answer.colour ? "✓" : "✗") + "</span>" +
-            '<span class="mark v-' + v + '">' + (v === "less" ? "▼" : v === "more" ? "▲" : "=") + "</span>";
+          offered.append(faceCard(c.colour, c.value));
+          answers.append(answerCard(c));
+        } else {
+          const done = game.solution[p];
+          offered.append(Object.assign(faceCard(done.colour, done.value), { className: "card face done" }));
+          answers.append(Object.assign(faceCard(done.colour, done.value), { className: "card face done" }));
         }
-        cells.append(cell);
       }
-      li.append(cells);
+      li.append(offered, answers);
       list.append(li);
     });
   }
@@ -183,7 +182,7 @@
     $("won").textContent = T.won(rounds.length);
   }
 
-  function render() { renderAnswer(); renderOffer(); renderPicker(); renderHistory(); renderStatus(); }
+  function render() { renderHidden(); renderOffer(); renderPicker(); renderHistory(); renderStatus(); }
 
   function won() { return found.every(Boolean); }
 
@@ -192,7 +191,8 @@
     const round = K.answerRound(game.solution, offer);
     rounds.push(round);
     round.forEach(c => { if (c.answer.colour && c.answer.value === "equals") found[c.position] = true; });
-    // Les cartes non trouvées gardent la proposition, pour la corriger au tour suivant.
+    // Nouvelle proposition à saisir : les cartes non trouvées repartent de zéro.
+    draft = draft.map(() => ({ colour: null, value: null }));
     const first = found.indexOf(false);
     sel = first >= 0 ? first : null;
     render();
@@ -241,7 +241,8 @@
     $("lbl-rules").textContent = T.rules;
     $("lbl-sum").textContent = T.sum;
     $("lbl-order").textContent = T.order;
-    $("lbl-answer").textContent = T.answerTitle;
+    $("lbl-hidden").textContent = T.hiddenTitle;
+    $("history-empty").textContent = T.historyEmpty;
     $("lbl-offer").textContent = T.offerTitle;
     $("lbl-history").textContent = T.historyTitle;
     $("lbl-colour").textContent = T.chooseColour;

@@ -10,7 +10,8 @@ Devine les couleurs et les valeurs de 4 cartes cachées, avec les cartes de [Kib
 - On connaît la somme S des valeurs et l'ordre des couleurs, par exemple `jaune = rouge < vert < bleu`.
 - À chaque tour, on propose une carte pour chaque position encore cachée, avec 4 couleurs différentes.
 - Pour chaque position, le jeu répond : la carte se retourne si elle est juste ; sinon le cadre est de la couleur proposée si elle est bonne, gris sinon, avec « Plus », « Moins » ou « Égal » pour la valeur.
-- Les cartes trouvées restent en place. La partie est gagnée quand les 4 cartes sont trouvées ; le score est le nombre de tours.
+- Les cartes trouvées restent en place ; les autres sont à proposer de nouveau (la proposition repart de zéro à chaque tour). L'historique, à droite de l'écran, montre chaque proposition et la réponse du jeu.
+- La partie est gagnée quand les 4 cartes sont trouvées ; le score est le nombre de tours.
 
 Les règles et les réponses reprennent celles du Kimind d'origine (dépôt organizationMowgAI/Kimind).
 

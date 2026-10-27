@@ -31,47 +31,50 @@
   <div id="game-screen" hidden>
   <p class="tagline" id="tagline"></p>
 
-  <section class="statement" aria-live="polite">
-    <div class="stat"><span class="stat-lbl" id="lbl-sum"></span><span class="sum" id="sum"></span></div>
-    <div class="stat"><span class="stat-lbl" id="lbl-order"></span><span class="order" id="order"></span></div>
-  </section>
+  <div class="layout">
+    <div class="play-col">
+      <section class="statement" aria-live="polite">
+        <div class="stat"><span class="stat-lbl" id="lbl-sum"></span><span class="sum" id="sum"></span></div>
+        <div class="stat"><span class="stat-lbl" id="lbl-order"></span><span class="order" id="order"></span></div>
+      </section>
 
-  <div class="zones">
-    <section class="table">
-      <h2 class="zone-title" id="lbl-answer"></h2>
-      <div class="slots" id="answer" aria-live="polite"></div>
-    </section>
+      <section class="table">
+        <h2 class="zone-title" id="lbl-hidden"></h2>
+        <div class="slots" id="hidden-cards"></div>
+      </section>
 
-    <section class="table offer" id="offer-zone">
-      <h2 class="zone-title" id="lbl-offer"></h2>
-      <div class="slots" id="offer"></div>
-    </section>
-  </div>
+      <section class="table offer" id="offer-zone">
+        <h2 class="zone-title" id="lbl-offer"></h2>
+        <div class="slots" id="offer"></div>
+      </section>
 
-  <section class="panel" id="panel">
-    <p class="hint" id="hint"></p>
-    <div class="picker">
-      <div class="pick-row"><span class="pick-lbl" id="lbl-colour"></span><div class="choices" id="colours"></div></div>
-      <div class="pick-row"><span class="pick-lbl" id="lbl-value"></span><div class="choices" id="values"></div></div>
-      <div class="pick-row">
-        <button class="act big" id="btn-propose" type="button" disabled></button>
-        <span class="warn" id="warn"></span>
-      </div>
+      <section class="panel" id="panel">
+        <p class="hint" id="hint"></p>
+        <div class="picker">
+          <div class="pick-row"><span class="pick-lbl" id="lbl-colour"></span><div class="choices" id="colours"></div></div>
+          <div class="pick-row"><span class="pick-lbl" id="lbl-value"></span><div class="choices" id="values"></div></div>
+          <div class="pick-row">
+            <button class="act big" id="btn-propose" type="button" disabled></button>
+            <span class="warn" id="warn"></span>
+          </div>
+        </div>
+      </section>
+
+      <p class="won" id="won" hidden></p>
+
+      <section class="status">
+        <span id="rounds"></span>
+        <label class="toggle"><input type="checkbox" id="show-possible"> <span id="lbl-possible"></span></label>
+        <span id="possible" hidden></span>
+      </section>
     </div>
-  </section>
 
-  <p class="won" id="won" hidden></p>
-
-  <section class="status">
-    <span id="rounds"></span>
-    <label class="toggle"><input type="checkbox" id="show-possible"> <span id="lbl-possible"></span></label>
-    <span id="possible" hidden></span>
-  </section>
-
-  <section class="history-zone" id="history-zone" hidden>
-    <h2 class="zone-title" id="lbl-history"></h2>
-    <ol class="rounds" id="history" reversed></ol>
-  </section>
+    <aside class="history-col">
+      <h2 class="zone-title" id="lbl-history"></h2>
+      <p class="history-empty" id="history-empty"></p>
+      <ol class="rounds" id="history" reversed aria-live="polite"></ol>
+    </aside>
+  </div>
   </div>
 </div>
 

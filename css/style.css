@@ -54,7 +54,7 @@ body {
   font-size: 16px;
   line-height: 1.4;
 }
-.wrap { max-width: 900px; margin: 0 auto; padding: 16px; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 16px; }
 
 header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .logo { font-size: 2.4rem; font-weight: 700; margin: 0; line-height: 1; }
@@ -151,25 +151,29 @@ select { font: inherit; padding: 5px 8px; border-radius: 10px; border: 2px solid
 .card.frame.c-yellow .frame-lbl { color: #2A1F3D; }
 .card.frame.neutral .frame-lbl { color: #4A4058; }
 
-.zones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-.zones .table { margin-bottom: 0; }
+/* Écran de jeu : le jeu à gauche, l'historique à droite. */
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 400px); gap: 16px; align-items: start; }
+.play-col > * + * { margin-top: 12px; }
+.play-col .table, .play-col .statement { margin-bottom: 0; }
 .zone-title { margin: 0 0 6px 6px; font-size: 1rem; font-weight: 600; color: var(--felt-ink); }
 .offer .slot.found .card { opacity: 0.55; }
 
-/* Tours précédents */
-.history-zone { margin-top: 16px; }
-.history-zone .zone-title { color: var(--ink-soft); }
-.rounds { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
-.round { display: flex; align-items: center; gap: 12px; background: var(--panel); border: 2px solid var(--line); border-radius: 12px; padding: 6px 10px; }
-.round-num { min-width: 4em; color: var(--ink-soft); }
-.round-cells { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; flex: 1; }
-.cell { display: flex; align-items: center; gap: 6px; border-left: 6px solid var(--c); padding: 2px 8px; border-radius: 8px; background: var(--page); }
-.cell.empty { border-left-color: transparent; background: transparent; }
-.cell b { min-width: 1.4em; }
-.mark { font-weight: 700; }
-.mark.ok, .mark.v-equals { color: var(--ok); }
-.mark.ko { color: var(--ko); }
-.mark.v-less, .mark.v-more { color: var(--ink-soft); }
+/* Historique */
+.history-col {
+  position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow-y: auto;
+  background: var(--panel); border: 2px solid var(--line); border-radius: 16px; padding: 12px;
+}
+.history-col .zone-title { color: var(--ink-soft); margin-left: 0; }
+.history-empty { color: var(--ink-soft); margin: 0; }
+.rounds { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.round { background: var(--felt); border-radius: 12px; padding: 8px; }
+.round-num { font-weight: 600; color: var(--felt-ink); margin-bottom: 4px; }
+.mini-row { display: grid; grid-template-columns: 5.6em repeat(4, minmax(0, 1fr)); gap: 6px; align-items: center; justify-items: center; }
+.mini-row + .mini-row { margin-top: 6px; }
+.mini-lbl { justify-self: start; font-size: 0.8rem; color: var(--felt-ink); }
+.mini-row .card { --w: 52px; }
+.mini-row .frame-lbl { font-size: 10px; padding: 1px 3px; min-width: 80%; }
+.mini-row .card.done { opacity: 0.35; }
 .warn { color: var(--ko); font-weight: 500; }
 
 /* Choix de la carte à jouer */
@@ -202,11 +206,12 @@ dialog::backdrop { background: rgba(0,0,0,0.4); }
 dialog li { margin-bottom: 6px; }
 
 @media (max-width: 860px) {
-  .zones { grid-template-columns: 1fr; }
+  .layout { grid-template-columns: 1fr; }
+  .history-col { position: static; max-height: none; }
 }
 @media (max-width: 560px) {
   :root { --cw: 64px; }
   .slot-btn { padding: 4px; }
-  .round { flex-direction: column; align-items: stretch; gap: 4px; }
-  .cell { padding: 2px 4px; gap: 3px; font-size: 0.9rem; border-left-width: 4px; }
+  .mini-row { grid-template-columns: 4.6em repeat(4, minmax(0, 1fr)); }
+  .mini-row .card { --w: 48px; }
 }
