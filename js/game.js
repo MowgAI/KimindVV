@@ -48,7 +48,7 @@
     const { sum, signs } = game.statement;
     $("lbl-sum").textContent = signs ? T.signedSum : T.sum;
     $("sum").textContent = signs
-      ? signs.map((sign, p) => (p ? signText(sign) + "\u00a0" : "") + T.position.toLowerCase() + "\u00a0" + p).join(" ") + "\u00a0=\u00a0" + sum
+      ? signs.map((sign, p) => (p ? signText(sign) + "\u00a0" : "") + T.position.toLowerCase() + "\u00a0" + p).join(" ") + "\u00a0=\u00a0" + (sum < 0 ? "−" + -sum : sum)
       : sum;
     $("sum").classList.toggle("formula", !!signs);
     const order = $("order");
