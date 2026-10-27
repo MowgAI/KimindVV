@@ -26,16 +26,17 @@
       .map(v => rng ? shuffle(byValue[v].slice(), rng) : byValue[v]);
   }
 
-  // Toutes les valeurs des couleurs compatibles avec la somme et l'ordre.
+  // Toutes les valeurs des couleurs compatibles avec la somme et l'ordre
+  // (sum null : seulement l'ordre).
   function valueSolutions(sum, order) {
     const out = [];
     const groups = order.length;
     (function rec(g, min, acc, total) {
-      if (g === groups) { if (total === sum) out.push(Object.assign({}, acc)); return; }
+      if (g === groups) { if (sum === null || total === sum) out.push(Object.assign({}, acc)); return; }
       const size = order[g].length;
       for (let v = min; v <= VMAX; v++) {
         const t = total + v * size;
-        if (t > sum) break;
+        if (sum !== null && t > sum) break;
         order[g].forEach(c => { acc[c] = v; });
         rec(g + 1, v + 1, acc, t);
       }
@@ -44,8 +45,29 @@
     return out;
   }
 
+  // Somme avec signes : signs[p] vaut +1 ou -1 pour la carte en position p.
+  function signedSum(cards, signs) {
+    return cards.reduce((t, c, p) => t + signs[p] * c.value, 0);
+  }
+
   // Solutions complètes : une couleur et une valeur pour chaque position.
+  // Avec des signes (variante ±), la somme dépend aussi de la place des couleurs.
   function allSolutions(statement) {
+    if (statement.hiddenSigns) {
+      const out = [];
+      SIGN_COMBOS.forEach(signs => allSolutions({ sum: statement.sum, order: statement.order, signs })
+        .forEach(cards => out.push({ cards, signs })));
+      return out;
+    }
+    if (statement.signs) {
+      const out = [];
+      const vals = valueSolutions(null, statement.order);
+      PERMS.forEach(perm => vals.forEach(v => {
+        const cards = perm.map(c => ({ colour: c, value: v[c] }));
+        if (signedSum(cards, statement.signs) === statement.sum) out.push(cards);
+      }));
+      return out;
+    }
     const vals = valueSolutions(statement.sum, statement.order);
     const out = [];
     PERMS.forEach(perm => vals.forEach(v => out.push(perm.map(c => ({ colour: c, value: v[c] })))));
@@ -62,13 +84,33 @@
     };
   }
 
+  // Réponse à un tour : le joueur propose une carte pour chaque position encore cachée.
+  // offer : [{position, colour, value}] ; renvoie les mêmes cartes avec leur réponse.
+  function answerRound(solution, offer) {
+    return offer.map(c => Object.assign({}, c, { answer: answer(solution, c.position, c.colour, c.value) }));
+  }
+
+  // Une proposition est valable si chaque position cachée a une carte et si les 4 couleurs
+  // (cartes déjà trouvées comprises) sont différentes.
+  function validOffer(offer, foundCards) {
+    const cards = offer.concat(foundCards);
+    if (cards.length !== NB_CARDS || cards.some(c => !c.colour || !c.value)) return false;
+    return new Set(cards.map(c => c.colour)).size === NB_CARDS;
+  }
+
   function compatible(candidate, play) {
     const r = answer(candidate, play.position, play.colour, play.value);
     return r.colour === play.answer.colour && r.value === play.answer.value;
   }
 
-  // Solutions encore possibles après les cartes jouées.
-  function remaining(statement, plays) {
+  // Solutions encore possibles après les cartes jouées (les cartes de tous les tours, à plat).
+  // Signes cachés (KimMinmaxus) : les solutions sont {cards, signs}, et signPlays donne les
+  // signes proposés avec leur réponse [{position, sign, ok}].
+  function remaining(statement, plays, signPlays) {
+    if (statement.hiddenSigns) {
+      return allSolutions(statement).filter(s => plays.every(p => compatible(s.cards, p)) &&
+        (signPlays || []).every(sp => (s.signs[sp.position] === sp.sign) === sp.ok));
+    }
     return allSolutions(statement).filter(s => plays.every(p => compatible(s, p)));
   }
 
@@ -113,8 +155,78 @@
     throw new Error("Aucune partie trouvée pour le niveau " + level);
   }
 
-  const Kimind = { COLOURS, NB_CARDS, VMIN, VMAX, PERMS, LEVELS, orderFromValues, valueSolutions,
-    allSolutions, answer, remaining, levelOf, newGame };
+  // KiMinus : la carte 0 compte en +, chacune des autres en + ou en −.
+  // La somme va donc de 1 − 3 × 10 = −29 à 4 × 10 = 40.
+  // Niveaux selon le nombre de solutions complètes (places des couleurs comprises).
+  const SIGNED_LEVELS = {
+    easy:   { min: 1,   max: 90 },
+    medium: { min: 91,  max: 200 },
+    hard:   { min: 201, max: Infinity },
+  };
+
+  function signedLevelOf(nbSolutions) {
+    return Object.keys(SIGNED_LEVELS).find(k => nbSolutions >= SIGNED_LEVELS[k].min && nbSolutions <= SIGNED_LEVELS[k].max);
+  }
+
+  function randomSigns(rng) {
+    return [1].concat([1, 1, 1].map(() => (rng() < 0.5 ? -1 : 1)));
+  }
+
+  // Les 8 façons de choisir les signes des cartes 1 à 3 (la carte 0 compte toujours en +).
+  const SIGN_COMBOS = [];
+  [1, -1].forEach(a => [1, -1].forEach(b => [1, -1].forEach(c => SIGN_COMBOS.push([1, a, b, c]))));
+
+  function newSignedGame(level, rng) {
+    rng = rng || Math.random;
+    for (let tries = 0; tries < 10000; tries++) {
+      const values = {};
+      COLOURS.forEach(c => { values[c] = VMIN + Math.floor(rng() * (VMAX - VMIN + 1)); });
+      const perm = PERMS[Math.floor(rng() * PERMS.length)];
+      const solution = perm.map(c => ({ colour: c, value: values[c] }));
+      const signs = randomSigns(rng);
+      const statement = { sum: signedSum(solution, signs), order: orderFromValues(values, rng), signs };
+      const nb = allSolutions(statement).length;
+      if (level && signedLevelOf(nb) !== level) continue;
+      return { statement, solution, nbSolutions: nb, level: signedLevelOf(nb) };
+    }
+    throw new Error("Aucune partie trouvée pour le niveau " + level);
+  }
+
+  // KimMinmaxus : mêmes parties que KiMinus, mais les signes sont cachés et le joueur les propose.
+  // Niveaux selon le nombre de solutions complètes (cartes et signes).
+  const HIDDEN_LEVELS = {
+    easy:   { min: 1,   max: 340 },
+    medium: { min: 341, max: 850 },
+    hard:   { min: 851, max: Infinity },
+  };
+
+  function hiddenLevelOf(nbSolutions) {
+    return Object.keys(HIDDEN_LEVELS).find(k => nbSolutions >= HIDDEN_LEVELS[k].min && nbSolutions <= HIDDEN_LEVELS[k].max);
+  }
+
+  // Réponse aux signes proposés : [{position, sign}] → [{position, sign, ok}].
+  function answerSigns(signs, proposed) {
+    return proposed.map(sp => Object.assign({}, sp, { ok: signs[sp.position] === sp.sign }));
+  }
+
+  function newHiddenSignsGame(level, rng) {
+    rng = rng || Math.random;
+    for (let tries = 0; tries < 10000; tries++) {
+      const values = {};
+      COLOURS.forEach(c => { values[c] = VMIN + Math.floor(rng() * (VMAX - VMIN + 1)); });
+      const perm = PERMS[Math.floor(rng() * PERMS.length)];
+      const solution = perm.map(c => ({ colour: c, value: values[c] }));
+      const signs = randomSigns(rng);
+      const statement = { sum: signedSum(solution, signs), order: orderFromValues(values, rng), hiddenSigns: true };
+      const nb = allSolutions(statement).length;
+      if (level && hiddenLevelOf(nb) !== level) continue;
+      return { statement, solution, signs, nbSolutions: nb, level: hiddenLevelOf(nb) };
+    }
+    throw new Error("Aucune partie trouvée pour le niveau " + level);
+  }
+
+  const Kimind = { COLOURS, NB_CARDS, VMIN, VMAX, PERMS, LEVELS, SIGNED_LEVELS, orderFromValues, valueSolutions,
+    signedSum, signedLevelOf, newSignedGame, SIGN_COMBOS, HIDDEN_LEVELS, hiddenLevelOf, answerSigns, newHiddenSignsGame, allSolutions, answer, answerRound, validOffer, remaining, levelOf, newGame };
   if (typeof module !== "undefined" && module.exports) module.exports = Kimind;
   else root.Kimind = Kimind;
 })(this);
