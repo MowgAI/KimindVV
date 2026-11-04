@@ -4,7 +4,7 @@ LANGS.fr = {
   langName: "Français",
   language: "Langue",
   title: "Kimind",
-  introTitle: "Le jeu",
+  introTitle: "Règles du jeu",
   intro: [
     ["Le but", "Trouver les 4 cartes cachées, leur couleur et leur valeur, en le moins de tours possible."],
     ["Les cartes", "Les cartes de Kiboo : 4 couleurs (bleu, vert, rouge, jaune) et des valeurs de 1 à 10. Les 4 cartes cachées ont des couleurs différentes : une carte de chaque couleur."],
@@ -12,9 +12,8 @@ LANGS.fr = {
     ["Un tour", "Tu proposes une carte pour chaque position (0, 1, 2 et 3), avec 4 couleurs différentes."],
     ["La réponse", "Pour chaque position, le jeu répond : la carte se retourne si elle est juste ; sinon le cadre est de la couleur de ta carte si la couleur est bonne, gris sinon, avec « Plus » si la vraie valeur est plus grande, « Moins » si elle est plus petite et « Égal » si elle est juste."],
     ["La fin", "Les cartes trouvées restent en place, les autres sont à proposer de nouveau. La partie est gagnée quand tout est trouvé ; ton score est le nombre de tours."],
-    ["Les versions", "Chaque version change une règle. Choisis-en une ci-dessous ; pendant la partie, le bouton « Règles du jeu » rappelle les règles de ta version."],
+    ["Les versions", "Chaque version change une règle. Choisis-en une dans le menu ; pendant la partie, le bouton « Règles du jeu » rappelle les règles de ta version."],
   ],
-  paradeButton: "Voir la parade des 40 personnages des cartes",
   parade: "La parade de Kiboo",
   paradePause: "Pause",
   paradeResume: "Reprendre",
@@ -22,7 +21,9 @@ LANGS.fr = {
   paradeBack: "Menu",
   paradeNext: "Suivant",
   paradeEnd: "Et voilà ! Les quarante personnages de Kiboo t'ont dit bonjour. Maintenant, on joue ?",
-  menuTitle: "Choisis ta version de Kimind",
+  menuTitle: "Que veux-tu faire ?",
+  menuRules: { name: "Règles du jeu", subtitle: "Le but et l'énoncé", description: "Comment se joue Kimind : le but, les cartes, l'énoncé, un tour, la réponse du jeu et la fin de la partie.", action: "Lire" },
+  menuParade: { name: "La parade", subtitle: "Les 40 personnages", description: "Les personnages des cartes défilent un par un et se présentent, avec la musique de leur famille.", action: "Voir" },
   versions: {
     initiale: {
       name: "Kimind",

@@ -21,7 +21,7 @@ Kimind existe en français et en anglais. Le menu 🌐 en haut de la page change
 
 ## Versions
 
-Le jeu s'ouvre sur un menu qui présente le jeu (but, cartes, énoncé, déroulement d'un tour) et propose les versions de Kimind. Le bouton « Voir la parade » fait défiler les 40 personnages des cartes, repris de Kiboo : chacun arrive en sautillant, fait son bruit et dit son nom avec une petite phrase drôle, lue à voix haute (voix de femme ou d'homme selon le personnage, voix d'homme pour les neutres) si l'appareil a une voix dans la langue choisie, avec la musique de sa famille. Les versions sont décrites dans `js/versions.js` ; l'adresse garde la version choisie (par exemple `#initiale`).
+Le jeu s'ouvre sur un menu, avec une carte par choix : « Règles du jeu » (but, cartes, énoncé, déroulement d'un tour, réponse, fin), « La parade », puis les versions de Kimind. La parade fait défiler les 40 personnages des cartes, repris de Kiboo : chacun arrive en sautillant, fait son bruit et dit son nom avec une petite phrase drôle, lue à voix haute (voix de femme pour les personnages féminins de la famille des métiers, voix d'homme pour tous les autres) si l'appareil a une voix dans la langue choisie, avec la musique de sa famille. Les versions sont décrites dans `js/versions.js` ; l'adresse garde la version choisie (par exemple `#initiale`).
 
 - **Kimind (version initiale)** : les règles ci-dessus.
 - **KiMinus** (`#kiminus`, variante 1) : les valeurs s'ajoutent ou se retranchent. La carte 0 compte en +, chacune des autres en + ou en −, par exemple `carte 0 + carte 1 − carte 2 + carte 3 = 25` ; le résultat va de −29 à 40. Les signes changent à chaque partie et s'affichent entre les cartes cachées. Le reste des règles ne change pas.

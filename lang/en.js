@@ -3,7 +3,7 @@ LANGS.en = {
   langName: "English",
   language: "Language",
   title: "Kimind",
-  introTitle: "The game",
+  introTitle: "Rules",
   intro: [
     ["Goal", "Find the 4 hidden cards, their colour and their rank, in as few rounds as possible."],
     ["Cards", "The Kiboo cards: 4 colours (blue, green, red, yellow) and ranks from 1 to 10. The 4 hidden cards have different colours: one card of each colour."],
@@ -11,9 +11,8 @@ LANGS.en = {
     ["A round", "You offer one card for each position (0, 1, 2 and 3), with 4 different colours."],
     ["Answer", "For each position, the game answers: the card turns over if it is right; otherwise the frame has the colour of your card if the colour is right, grey if not, with “More” if the true rank is higher, “Less” if it is lower and “Equal” if it is right."],
     ["End", "Cards you have found stay in place; the others must be offered again. You win when everything is found; your score is the number of rounds."],
-    ["Versions", "Each version changes one rule. Pick one below; during the game, the “Rules” button reminds you of the rules of your version."],
+    ["Versions", "Each version changes one rule. Pick one in the menu; during the game, the “Rules” button reminds you of the rules of your version."],
   ],
-  paradeButton: "Watch the parade of the 40 card characters",
   parade: "The Kiboo parade",
   paradePause: "Pause",
   paradeResume: "Resume",
@@ -21,7 +20,9 @@ LANGS.en = {
   paradeBack: "Menu",
   paradeNext: "Next",
   paradeEnd: "That's it! All forty Kiboo characters have said hello. Now, shall we play?",
-  menuTitle: "Choose your version of Kimind",
+  menuTitle: "What would you like to do?",
+  menuRules: { name: "Rules", subtitle: "Goal and puzzle", description: "How to play Kimind: the goal, the cards, the puzzle, a round, the game's answer and the end of the game.", action: "Read" },
+  menuParade: { name: "The parade", subtitle: "The 40 characters", description: "The card characters march past one by one and introduce themselves, with their family's music.", action: "Watch" },
   versions: {
     initiale: {
       name: "Kimind",
