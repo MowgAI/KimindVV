@@ -80,12 +80,11 @@ select { font: inherit; padding: 5px 8px; border-radius: 10px; border: 2px solid
 
 /* Menu des versions */
 /* Présentation du jeu, dans le menu */
-.intro { background: var(--panel); border: 2px solid var(--line); border-radius: 16px; padding: 12px 16px; margin-top: 16px; }
+dialog.intro { max-width: min(760px, calc(100vw - 32px)); }
 .intro h2 { margin: 0 0 8px; font-size: 1.3rem; font-weight: 600; }
 .intro dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; }
 .intro dt { font-weight: 600; }
 .intro dd { margin: 0; color: var(--ink-soft); }
-.parade-btn { margin-top: 12px; }
 
 /* La parade (js/parade.js) : chaque personnage arrive par la droite en sautillant. */
 body.parade-open { overflow: hidden; }
@@ -124,6 +123,7 @@ body.parade-open { overflow: hidden; }
 .version-sub { color: var(--ink-soft); font-weight: 500; }
 .version-desc { color: var(--ink-soft); }
 .version-play { margin-top: 6px; }
+.version.extra { border-style: dashed; }
 
 /* Énoncé */
 .statement {

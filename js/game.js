@@ -267,6 +267,14 @@
   function renderMenu() {
     const list = $("versions");
     list.textContent = "";
+    // D'abord les règles du jeu et la parade, puis les versions.
+    [[T.menuRules, () => $("dlg-intro").showModal()], [T.menuParade, () => Parade.open(T, $("lang").value)]].forEach(([t, open]) => {
+      const b = el("button", "version extra");
+      b.type = "button";
+      b.append(el("span", "version-name", t.name), el("span", "version-sub", t.subtitle), el("span", "version-desc", t.description), el("span", "act ghost version-play", t.action));
+      b.addEventListener("click", open);
+      list.append(b);
+    });
     VERSIONS.forEach(v => {
       const b = el("button", "version");
       b.type = "button";
@@ -318,7 +326,7 @@
     const intro = $("intro");
     intro.textContent = "";
     T.intro.forEach(([term, text]) => intro.append(el("dt", "", term), el("dd", "", text)));
-    $("lbl-parade").textContent = T.paradeButton;
+    $("btn-intro-close").textContent = T.close;
     $("menu-title").textContent = T.menuTitle;
     $("lbl-menu").textContent = T.menu;
     renderMenu();
@@ -349,7 +357,6 @@
     setLang($("lang").value);
     $("btn-menu").addEventListener("click", () => { location.hash = ""; });
     Parade.init();
-    $("btn-parade").addEventListener("click", () => Parade.open(T, $("lang").value));
     $("level").addEventListener("change", newGame);
     $("btn-new").addEventListener("click", newGame);
     $("btn-propose").addEventListener("click", propose);

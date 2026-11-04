@@ -27,11 +27,6 @@
   </header>
 
   <section id="menu-screen">
-    <section class="intro">
-      <h2 id="intro-title"></h2>
-      <dl id="intro"></dl>
-      <button class="act parade-btn" id="btn-parade" type="button">🎪 <span id="lbl-parade"></span></button>
-    </section>
     <h2 class="menu-title" id="menu-title"></h2>
     <div class="versions" id="versions"></div>
   </section>
@@ -96,6 +91,12 @@
     <button class="act" type="button" id="parade-next"></button>
   </div>
 </div>
+
+<dialog id="dlg-intro" class="intro">
+  <h2 id="intro-title"></h2>
+  <dl id="intro"></dl>
+  <form method="dialog"><button class="act" id="btn-intro-close"></button></form>
+</dialog>
 
 <dialog id="dlg-rules">
   <h2 id="rules-title"></h2>
