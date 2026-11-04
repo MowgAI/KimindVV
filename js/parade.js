@@ -1,6 +1,7 @@
 /* La parade de Kiboo, reprise de Kiboo (js/intro.js) : les 40 personnages des cartes
-   défilent tout seuls ; chacun arrive en sautillant, fait son bruit, dit sa présentation
-   (lang/personnages.js, lue à voix haute) puis laisse la place au suivant.
+   défilent tout seuls ; chacun arrive en sautillant, fait son bruit, dit son nom et une
+   petite phrase drôle (lang/personnages.js, lue à voix haute avec une voix de femme ou
+   d'homme selon le personnage) puis laisse la place au suivant.
    Boutons : pause, son, suivant, retour au menu. Musique de la famille présentée
    (js/sound.js, repris de Kiboo). */
 
@@ -15,37 +16,49 @@ const Parade = (() => {
   const wait = ms => new Promise(r => setTimeout(r, ms));
 
   /* ---------- La voix (synthèse vocale du navigateur) ---------- */
+  // Une voix de femme ou d'homme selon le personnage (lang/personnages.js, gender).
+  // Les navigateurs ne disent pas si une voix est féminine ou masculine : on la reconnaît
+  // à son nom (les noms varient selon les appareils). Si l'appareil n'a qu'une voix,
+  // la hauteur change (plus aiguë pour une femme, plus grave pour un homme).
   const speechOk = "speechSynthesis" in window;
   const LOCALE = { fr: "fr-FR", en: "en-GB" };
-  const RATE = { fr: 1.18, en: 0.95 };
-  // Voix agréables, par ordre de préférence (les noms varient selon les appareils), comme dans Kiboo.
-  const NICE = {
-    fr: ["Thomas", "Henri", "Paul", "Nicolas", "Rémy", "Antoine", "Jérôme", "Mathieu", "Daniel", "Google français"],
-    en: ["Samantha", "Karen", "Moira", "Tessa", "Libby", "Sonia", "Jenny", "Aria", "Google UK English Female", "Google US English"],
+  const RATE = { fr: 1.35, en: 1.1 };
+  const PITCH = { f: 1.25, m: 0.95 };
+  const PITCH_OTHER = { f: 1.45, m: 0.7 };            // voix de l'autre genre : on force la hauteur
+  const NAMES = {
+    fr: {
+      m: ["Thomas", "Henri", "Paul", "Nicolas", "Rémy", "Antoine", "Jérôme", "Mathieu", "Claude", "Daniel", "Guillaume", "Eloi", "Remi"],
+      f: ["Amélie", "Audrey", "Aurélie", "Marie", "Virginie", "Julie", "Denise", "Hortense", "Céline", "Léa", "Vivienne", "Brigitte", "Eloise", "Joséphine", "Charlotte", "Google français"],
+    },
+    en: {
+      m: ["Daniel", "Arthur", "Oliver", "Alex", "Fred", "Tom", "Aaron", "Guy", "Ryan", "George", "David", "Mark", "Thomas", "Google UK English Male"],
+      f: ["Samantha", "Karen", "Moira", "Tessa", "Libby", "Sonia", "Jenny", "Aria", "Serena", "Kate", "Hazel", "Susan", "Zira", "Google UK English Female", "Google US English"],
+    },
   };
+  const FEMALE = /female|femme|woman/i, MALE = /\bmale\b|homme|\bman\b/i;
 
-  function pickVoice() {
+  function pickVoice(gender) {
     const list = speechSynthesis.getVoices().filter(v => v.lang.toLowerCase().replace("_", "-").startsWith(lang));
+    if (!list.length) return null;
     const fine = v => /natural|online|premium|enhanced|amélior|neural|siri/i.test(v.name);
-    for (const good of [true, false]) for (const name of NICE[lang] || []) {
-      const v = list.find(x => x.name.includes(name) && fine(x) === good);
-      if (v) return v;
-    }
-    return list.find(fine) || list[0] || null;
+    const names = (NAMES[lang] || NAMES.fr)[gender];
+    const ofGender = v => names.some(n => v.name.includes(n)) || (gender === "f" ? FEMALE : MALE).test(v.name);
+    const voice = list.find(v => ofGender(v) && fine(v)) || list.find(ofGender);
+    return voice ? { voice, match: true } : { voice: list.find(fine) || list[0], match: false };
   }
 
-  // Lit le texte ; la promesse est tenue à la fin de la lecture (false si rien n'est lu :
-  // pas de voix dans la langue sur l'appareil, ou son coupé).
-  function speak(text) {
+  // Lit le texte avec une voix du genre demandé ; la promesse est tenue à la fin de la
+  // lecture (false si rien n'est lu : pas de voix dans la langue sur l'appareil, ou son coupé).
+  function speak(text, gender = "m") {
     if (!speechOk || !sound) return Promise.resolve(false);
-    const v = pickVoice();
-    if (!v) return Promise.resolve(false);
+    const pick = pickVoice(gender);
+    if (!pick) return Promise.resolve(false);
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = LOCALE[lang] || "fr-FR";
-    u.voice = v;
-    u.rate = RATE[lang] || 1;
-    u.pitch = 1.1;
+    u.voice = pick.voice;
+    u.rate = RATE[lang] || 1.2;
+    u.pitch = (pick.match ? PITCH : PITCH_OTHER)[gender];
     const done = new Promise(resolve => { u.onend = u.onerror = () => { Sound.duck(false); resolve(true); }; });
     u.onstart = () => Sound.duck(true);
     speechSynthesis.speak(u);
@@ -59,11 +72,12 @@ const Parade = (() => {
     if (!sound) return Promise.resolve(false);
     Sound.character(s, v);
     const token = run;
-    return wait(750).then(() => (token === run ? speak(text) : false));
+    return wait(500).then(() => (token === run ? speak(text, genderOf(s, v)) : false));
   }
 
   /* ---------- L'écran de la parade ---------- */
   const presentation = (s, v) => (window.KIBOO_CHARACTERS[lang] || window.KIBOO_CHARACTERS.fr)[COLORS[s] + "-" + v];
+  const genderOf = (s, v) => window.KIBOO_CHARACTERS.gender[COLORS[s] + "-" + v] || "m";
   const cardImage = (s, v) => "assets/cards/" + COLORS[s] + "-" + v + ".webp";
 
   function labels() {
@@ -114,7 +128,7 @@ const Parade = (() => {
       }
       const skip = new Promise(r => { skipNow = r; });
       const talk = paused ? Promise.resolve(false) : i < 40 ? introduce(s, v, text) : speak(text);
-      await Promise.race([talk.then(spoken => wait(spoken ? 900 : Math.max(2500, text.length * 60))), skip]);
+      await Promise.race([talk.then(spoken => wait(spoken ? 500 : Math.max(2200, text.length * 50))), skip]);
       if (me !== run) return;
       if (paused) {
         await new Promise(r => { resumeFn = r; });

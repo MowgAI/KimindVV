@@ -21,7 +21,7 @@ Kimind existe en français et en anglais. Le menu 🌐 en haut de la page change
 
 ## Versions
 
-Le jeu s'ouvre sur un menu qui présente le jeu (but, cartes, énoncé, déroulement d'un tour) et propose les versions de Kimind. Le bouton « Voir la parade » fait défiler les 40 personnages des cartes, repris de Kiboo : chacun arrive en sautillant, fait son bruit et se présente (lu à voix haute si l'appareil a une voix dans la langue choisie), avec la musique de sa famille. Les versions sont décrites dans `js/versions.js` ; l'adresse garde la version choisie (par exemple `#initiale`).
+Le jeu s'ouvre sur un menu qui présente le jeu (but, cartes, énoncé, déroulement d'un tour) et propose les versions de Kimind. Le bouton « Voir la parade » fait défiler les 40 personnages des cartes, repris de Kiboo : chacun arrive en sautillant, fait son bruit et dit son nom avec une petite phrase drôle, lue à voix haute (voix de femme ou d'homme selon le personnage, voix d'homme pour les neutres) si l'appareil a une voix dans la langue choisie, avec la musique de sa famille. Les versions sont décrites dans `js/versions.js` ; l'adresse garde la version choisie (par exemple `#initiale`).
 
 - **Kimind (version initiale)** : les règles ci-dessus.
 - **KiMinus** (`#kiminus`, variante 1) : les valeurs s'ajoutent ou se retranchent. La carte 0 compte en +, chacune des autres en + ou en −, par exemple `carte 0 + carte 1 − carte 2 + carte 3 = 25` ; le résultat va de −29 à 40. Les signes changent à chaque partie et s'affichent entre les cartes cachées. Le reste des règles ne change pas.
@@ -64,6 +64,7 @@ python3 -m http.server 8000
 - `js/game.js` : menu, état de la partie et affichage
 - `lang/fr.js`, `lang/en.js` : tous les textes en français et en anglais (mêmes clés ; noms et descriptions des versions, présentation du jeu)
 - `js/parade.js` : la parade des 40 personnages (voix du navigateur)
-- `js/sound.js`, `lang/personnages.js` : musiques et bruits des personnages, présentations des personnages ; repris tels quels de Kiboo
+- `js/sound.js` : musiques et bruits des personnages, repris tel quel de Kiboo
+- `lang/personnages.js` : ce que dit chaque personnage dans la parade (noms de Kiboo) et son genre, pour la voix
 - `assets/cards/` : images des 40 cartes de Kiboo (WebP)
 - `tests/kimind.test.js` : tests du moteur (`node tests/kimind.test.js`)
