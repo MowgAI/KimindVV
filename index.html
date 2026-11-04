@@ -13,6 +13,7 @@
 <div class="wrap">
   <header>
     <h1 class="logo" aria-label="Kimind"><span>K</span><span>i</span><span>m</span><span>i</span><span>n</span><span>d</span></h1>
+    <div class="head-right">
     <div class="head-btns" id="game-btns" hidden>
       <button class="act ghost" id="btn-menu" type="button">☰ <span id="lbl-menu">Menu</span></button>
       <label class="level-wrap"><span id="lbl-level">Niveau</span>
@@ -21,9 +22,16 @@
       <button class="act" id="btn-new" type="button">Nouvelle partie</button>
       <button class="act ghost" id="btn-rules" type="button" aria-haspopup="dialog">📖 <span id="lbl-rules">Règles du jeu</span></button>
     </div>
+    <label class="lang-wrap"><span aria-hidden="true">🌐</span><select id="lang"></select></label>
+    </div>
   </header>
 
   <section id="menu-screen">
+    <section class="intro">
+      <h2 id="intro-title"></h2>
+      <dl id="intro"></dl>
+      <button class="act parade-btn" id="btn-parade" type="button">🎪 <span id="lbl-parade"></span></button>
+    </section>
     <h2 class="menu-title" id="menu-title"></h2>
     <div class="versions" id="versions"></div>
   </section>
@@ -78,6 +86,17 @@
   </div>
 </div>
 
+<div class="parade" id="parade" hidden>
+  <h2 class="parade-title" id="parade-title"></h2>
+  <div class="parade-floor" id="parade-floor" aria-live="polite"></div>
+  <div class="parade-nav">
+    <button class="act ghost" type="button" id="parade-pause"></button>
+    <button class="act ghost" type="button" id="parade-sound"></button>
+    <button class="act ghost" type="button" id="parade-back"></button>
+    <button class="act" type="button" id="parade-next"></button>
+  </div>
+</div>
+
 <dialog id="dlg-rules">
   <h2 id="rules-title"></h2>
   <ul id="rules-body"></ul>
@@ -85,8 +104,12 @@
 </dialog>
 
 <script src="lang/fr.js"></script>
+<script src="lang/en.js"></script>
 <script src="js/versions.js"></script>
+<script src="lang/personnages.js"></script>
 <script src="js/kimind.js"></script>
+<script src="js/sound.js"></script>
+<script src="js/parade.js"></script>
 <script src="js/game.js"></script>
 </body>
 </html>

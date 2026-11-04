@@ -1,7 +1,45 @@
-/* Textes de Kimind en français. */
-const TEXTS = {
+/* Textes de Kimind en français (langue de référence : lang/en.js a les mêmes clés). */
+const LANGS = {};
+LANGS.fr = {
+  langName: "Français",
+  language: "Langue",
   title: "Kimind",
+  introTitle: "Le jeu",
+  intro: [
+    ["Le but", "Trouver les 4 cartes cachées, leur couleur et leur valeur, en le moins de tours possible."],
+    ["Les cartes", "Les cartes de Kiboo : 4 couleurs (bleu, vert, rouge, jaune) et des valeurs de 1 à 10. Les 4 cartes cachées ont des couleurs différentes : une carte de chaque couleur."],
+    ["L'énoncé", "Au début de la partie, tu connais la somme des valeurs et l'ordre des couleurs. Par exemple, jaune = rouge < vert < bleu veut dire que la carte jaune a la même valeur que la rouge, qui est plus petite que la verte, elle-même plus petite que la bleue."],
+    ["Un tour", "Tu proposes une carte pour chaque position (0, 1, 2 et 3), avec 4 couleurs différentes."],
+    ["La réponse", "Pour chaque position, le jeu répond : la carte se retourne si elle est juste ; sinon le cadre est de la couleur de ta carte si la couleur est bonne, gris sinon, avec « Plus » si la vraie valeur est plus grande, « Moins » si elle est plus petite et « Égal » si elle est juste."],
+    ["La fin", "Les cartes trouvées restent en place, les autres sont à proposer de nouveau. La partie est gagnée quand tout est trouvé ; ton score est le nombre de tours."],
+    ["Les versions", "Chaque version change une règle. Choisis-en une ci-dessous ; pendant la partie, le bouton « Règles du jeu » rappelle les règles de ta version."],
+  ],
+  paradeButton: "Voir la parade des 40 personnages des cartes",
+  parade: "La parade de Kiboo",
+  paradePause: "Pause",
+  paradeResume: "Reprendre",
+  paradeSound: "Son",
+  paradeBack: "Menu",
+  paradeNext: "Suivant",
+  paradeEnd: "Et voilà ! Les quarante personnages de Kiboo t'ont dit bonjour. Maintenant, on joue ?",
   menuTitle: "Choisis ta version de Kimind",
+  versions: {
+    initiale: {
+      name: "Kimind",
+      subtitle: "Version initiale",
+      description: "Propose les 4 cartes à chaque tour. Le jeu répond pour chaque position : bonne couleur ou pas, valeur plus grande, plus petite ou égale.",
+    },
+    kiminus: {
+      name: "KiMinus",
+      subtitle: "Variante 1 : des plus et des moins",
+      description: "Les valeurs des cartes s'ajoutent ou se retranchent, par exemple carte 0 + carte 1 − carte 2 + carte 3 = 25. Les signes sont donnés.",
+    },
+    kimminmaxus: {
+      name: "KimMinmaxus",
+      subtitle: "Variante 2 : les signes sont cachés",
+      description: "Comme KiMinus, mais les signes sont cachés : propose aussi un + ou un − entre tes cartes. Le jeu dit si chaque signe est juste.",
+    },
+  },
   menu: "Menu",
   play: "Jouer",
   tagline: "Devine les couleurs et les valeurs des 4 cartes cachées.",

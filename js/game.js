@@ -1,7 +1,8 @@
 /* Kimind : état de la partie et affichage. */
 (function () {
   "use strict";
-  const K = window.Kimind, T = TEXTS;
+  const K = window.Kimind;
+  let T = LANGS.fr;
   const $ = id => document.getElementById(id);
 
   // rounds : [[{position, colour, value, answer}]] ; found[p] : carte trouvée ;
@@ -269,7 +270,8 @@
     VERSIONS.forEach(v => {
       const b = el("button", "version");
       b.type = "button";
-      b.append(el("span", "version-name", v.name), el("span", "version-sub", v.subtitle), el("span", "version-desc", v.description), el("span", "act version-play", T.play));
+      const t = T.versions[v.id];
+      b.append(el("span", "version-name", t.name), el("span", "version-sub", t.subtitle), el("span", "version-desc", t.description), el("span", "act version-play", T.play));
       b.addEventListener("click", () => { location.hash = v.id; });
       list.append(b);
     });
@@ -292,10 +294,33 @@
     lines.forEach(line => $("rules-body").append(el("li", "", line)));
   }
 
-  function init() {
+  // Langue : choisie dans le menu en haut, gardée dans le navigateur ; à la première visite,
+  // celle du navigateur (français si elle n'est pas disponible).
+  const LANG_KEY = "kimind-lang";
+
+  function savedLang() {
+    try { const l = localStorage.getItem(LANG_KEY); if (LANGS[l]) return l; } catch (e) { /* stockage indisponible */ }
+    const nav = (navigator.language || "fr").slice(0, 2);
+    return LANGS[nav] ? nav : "fr";
+  }
+
+  function setLang(lang) {
+    T = LANGS[lang];
+    document.documentElement.lang = lang;
+    try { localStorage.setItem(LANG_KEY, lang); } catch (e) { /* stockage indisponible */ }
+    applyTexts();
+    if (version && game) { renderRules(); render(); }
+  }
+
+  function applyTexts() {
+    $("lang").setAttribute("aria-label", T.language);
+    $("intro-title").textContent = T.introTitle;
+    const intro = $("intro");
+    intro.textContent = "";
+    T.intro.forEach(([term, text]) => intro.append(el("dt", "", term), el("dd", "", text)));
+    $("lbl-parade").textContent = T.paradeButton;
     $("menu-title").textContent = T.menuTitle;
     $("lbl-menu").textContent = T.menu;
-    $("btn-menu").addEventListener("click", () => { location.hash = ""; });
     renderMenu();
     $("tagline").textContent = T.tagline;
     $("lbl-level").textContent = T.level;
@@ -311,8 +336,20 @@
     $("lbl-possible").textContent = T.showPossible;
     $("rules-title").textContent = T.rules;
     $("btn-close").textContent = T.close;
+    const level = $("level").value || "easy";
+    $("level").textContent = "";
     Object.keys(K.LEVELS).forEach(k => $("level").append(new Option(T.levels[k], k)));
-    $("level").value = "easy";
+    $("level").value = level;
+  }
+
+  function init() {
+    Object.keys(LANGS).forEach(l => $("lang").append(new Option(LANGS[l].langName, l)));
+    $("lang").value = savedLang();
+    $("lang").addEventListener("change", () => setLang($("lang").value));
+    setLang($("lang").value);
+    $("btn-menu").addEventListener("click", () => { location.hash = ""; });
+    Parade.init();
+    $("btn-parade").addEventListener("click", () => Parade.open(T, $("lang").value));
     $("level").addEventListener("change", newGame);
     $("btn-new").addEventListener("click", newGame);
     $("btn-propose").addEventListener("click", propose);
