@@ -66,6 +66,10 @@ const Parade = (() => {
     $("parade-next").textContent = T.paradeNext + " ▶";
     const box = $("parade-modes");
     box.setAttribute("aria-label", T.paradeMode);
+    // Modes pas encore écrits dans cette langue : on le dit.
+    const note = $("parade-note");
+    note.textContent = T.paradeModesSoon;
+    note.hidden = !T.paradeModesSoon || !!(window.PARADE_MODES || {})[lang];
     box.innerHTML = MODES.map(m => `<button type="button" class="parade-mode" data-mode="${m}" aria-pressed="${m === mode}">${T.paradeModes[m]}</button>`).join("");
   }
 

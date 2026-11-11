@@ -20,6 +20,7 @@ LANGS.en = {
   paradeBack: "Menu",
   paradeNext: "Next",
   paradeMode: "Parade mode",
+  paradeModesSoon: "The Baby, Funny and Naughty modes only exist in French for now (button FR at the top of the home page). The English texts are coming.",
   paradeModes: { gentil: "😊 Kind", bebe: "👶 Baby", drole: "🤪 Funny", mechant: "😈 Naughty" },
   paradeEnd: "That's it! All forty Kiboo characters have said hello. Now, shall we play?",
   audio: { sfx: "Sounds", voice: "Voice", hello: "Hello! I'll read the game messages to you." },

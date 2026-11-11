@@ -115,6 +115,7 @@ body.parade-open { overflow: hidden; }
 .parade-modes { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
 .parade-mode { font: inherit; font-weight: 600; font-size: 0.95rem; padding: 6px 14px; border-radius: 999px; border: 2px solid rgba(255,255,255,0.7); background: rgba(255,255,255,0.15); color: inherit; cursor: pointer; }
 .parade-mode[aria-pressed="true"] { background: #fff; color: var(--brand); border-color: #fff; }
+.parade-note { margin: 0; max-width: 520px; text-align: center; font-size: 0.9rem; opacity: 0.85; }
 .parade-nav { position: fixed; left: 0; right: 0; bottom: 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 12px; background: rgba(0,0,0,0.25); }
 @keyframes parade-in { from { transform: translateX(60vw) rotate(8deg); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes hop { 0%, 100% { translate: 0 0; rotate: -4deg; } 50% { translate: 0 -18px; rotate: 4deg; } }
