@@ -26,6 +26,7 @@ LANGS.en = {
     kimba: { name: "Kimba", subtitle: "Count the colours", description: "How many cards of each colour are there? Count them with Archi." },
     kiplus: { name: "Kiplus", subtitle: "Add up the colours", description: "Add up the cards of each colour with Lili." },
     kipharaon: { name: "Kipharaon", subtitle: "The pyramid", description: "Add up the cards of the pyramid to reach the target number and clear the whole pyramid, with Fonzy." },
+    kidory: { name: "KiDory", subtitle: "Memory", description: "Remember the cards, then find the pairs with the same rank, with Johnny." },
     kijun: { name: "KiJun", subtitle: "Sort and add up", description: "Sort the cards of each colour, add them up, then sort the colours, with Mary." },
   },
   colourGames: {
@@ -61,6 +62,20 @@ LANGS.en = {
     doneUp: n => "Well done, the pyramid is empty! On to level " + n + ".",
     stuck: "No addition left: draw a bonus card!",
     score: (n, total) => n + " pyramid" + (n === 1 ? "" : "s") + " cleared" + (total > n ? " out of " + total : ""),
+  },
+  kidory: {
+    rule: "Remember the cards! Then turn them over two by two to find the pairs with the same rank.",
+    memorize: s => "Remember the cards… " + s + " s left",
+    play: "Your turn! Turn over two cards.",
+    hidden: "hidden card",
+    pair: "Well done, a pair!",
+    miss: "Not the same rank… try again.",
+    help: "Show the cards again",
+    left: (n, e) => n + (n === 1 ? " pair" : " pairs") + " to find · " + e + (e === 1 ? " mistake" : " mistakes"),
+    done: e => "Well done, you found all the pairs with " + e + (e === 1 ? " mistake." : " mistakes."),
+    doneUp: (e, n) => "Well done, all the pairs with " + e + (e === 1 ? " mistake" : " mistakes") + "! On to level " + n + ".",
+    doneEasier: e => "All the pairs are found (" + e + " mistakes). Let's try something a little easier.",
+    score: (n, total) => n + " game" + (n === 1 ? "" : "s") + " finished",
   },
   kijun: {
     rule: "Sort the cards, add up each colour, then sort the colours.",

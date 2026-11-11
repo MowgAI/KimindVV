@@ -144,6 +144,19 @@ body.parade-open { overflow: hidden; }
   .other-ctrl { margin-left: 0; }
 }
 
+/* KiDory */
+.mem-grid { display: grid; grid-template-columns: repeat(var(--cols), auto); justify-content: center; gap: 10px; padding: 16px; margin-bottom: 12px; }
+.mem-card { --w: 76px; border: 0; padding: 0; cursor: pointer; transition: transform 0.2s; }
+.mem-card:disabled { cursor: default; }
+.mem-card.face { animation: flip-card 0.25s ease-out; }
+.mem-card.found { box-shadow: 0 0 0 3px var(--ok); }
+@keyframes flip-card { from { transform: rotateY(90deg); } to { transform: none; } }
+@media (max-width: 560px) {
+  .mem-grid { grid-template-columns: repeat(4, auto); gap: 6px; }
+  .mem-card { --w: 58px; }
+}
+@media (prefers-reduced-motion: reduce) { .mem-card.face { animation: none; } }
+
 /* Kipharaon */
 .pyr-zone { display: flex; gap: 16px; align-items: center; justify-content: center; padding: 16px; margin-bottom: 12px; flex-wrap: wrap; }
 .pyr { display: flex; flex-direction: column; align-items: center; --pw: 64px; }
