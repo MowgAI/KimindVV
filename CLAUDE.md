@@ -33,6 +33,14 @@ La théorie du domaine de l'auteur (bkKiboomGenerale.pl, Prolog) décrit élève
 
 `lang/parade-modes.js` : noms et phrases tirés au hasard, par mode (méchant « pour rire », adapté aux enfants, voix plus grave ; bébé voix aiguë). Les 40 personnages sont écrits en français (à relire par l'auteur) ; ensuite l'anglais. Mêmes textes dans Kiboo (MowgAI/kiboo, lang/parade-modes.js, sans le mode gentil) : les changer dans les deux dépôts. En anglais, voix de femme pour les filles (genderEn) et voix au hasard pour les robots.
 
+## Récompenses partagées avec Kiboo (règle donnée par Kiboo, à appliquer quand l'auteur dira quand donner une récompense)
+
+Même site (mowgai.github.io), donc même localStorage que Kiboo :
+- Clé `kiboo.rewards.v1` : JSON `{ "progress": 0..3, "collection": [ids] }`. id d'une carte = couleur × 10 + (valeur − 1), couleurs 0 bleu, 1 vert, 2 rouge, 3 jaune (3 bleu = 2, 10 jaune = 39). `progress` appartient à Kiboo (bonnes réponses vers le prochain cadeau, 3 = cadeau prêt) : ne jamais y toucher depuis KibooM. Pour donner une carte : relire la clé, AJOUTER l'id à `collection` s'il n'y est pas (ne jamais écraser ni retirer), puis réécrire la clé.
+- Clé `kiboo.names.v1` : JSON `{ "blue-3": "Minou", ... }` (couleur en anglais + "-" + valeur), noms donnés par le joueur, 20 caractères max. Ne jamais changer automatiquement un nom choisi par le joueur ; sans nom, utiliser le nom d'origine de la langue. La parade devra utiliser ces noms.
+- Lire ces clés dans un try/catch (stockage parfois indisponible).
+- Comptes (plus tard) : réutiliser le projet Supabase de Kiboo (même compte pour les deux jeux) ; ne pas modifier ses tables sans en parler.
+
 ## À rappeler à l'auteur au début de la prochaine session
 
 - Ajouter des indices, par exemple pour la version la plus difficile (KimMinmaxus, niveau Difficile).
