@@ -31,7 +31,7 @@ La théorie du domaine de l'auteur (bkKiboomGenerale.pl, Prolog) décrit élève
 
 ## Parade : modes Gentil, Bébé, Drôle, Méchant
 
-`lang/parade-modes.js` : noms et phrases tirés au hasard, par mode (méchant « pour rire », adapté aux enfants, voix plus grave ; bébé voix aiguë). Les 40 personnages sont écrits en français et en anglais (jeux de mots adaptés). La musique suit le mode et change de tonalité à chaque personnage (js/sound.js, MODE_MUSIC). Mêmes textes dans Kiboo (MowgAI/kiboo, lang/parade-modes.js, sans le mode gentil) : les changer dans les deux dépôts. En anglais, voix de femme pour les filles (genderEn) et voix au hasard pour les robots.
+`lang/parade-modes.js` : noms et phrases tirés au hasard, par mode (méchant « pour rire », adapté aux enfants, voix plus grave ; bébé voix aiguë). Les 40 personnages sont écrits en français et en anglais (jeux de mots adaptés). La musique suit le mode et change de tonalité à chaque personnage (js/sound.js, MODE_MUSIC). Mêmes textes dans Kiboo (MowgAI/kiboo, lang/parade-modes.js, sans le mode gentil) : les changer dans les deux dépôts. Pour modifier Kiboo, toujours repartir de la dernière version de sa branche main (une nouvelle branche par changement), jamais d'une ancienne branche. Dans Kiboo, un nom donné par le joueur à sa carte remplace le nom tiré au hasard, dans tous les modes. En anglais, voix de femme pour les filles (genderEn) et voix au hasard pour les robots.
 
 ## Récompenses partagées avec Kiboo (règle donnée par Kiboo, à appliquer quand l'auteur dira quand donner une récompense)
 
