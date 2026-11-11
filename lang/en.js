@@ -29,6 +29,7 @@ LANGS.en = {
     kidory: { name: "KiDory", subtitle: "Memory", description: "Remember the cards, then find the pairs with the same rank, with Johnny." },
     kibal: { name: "Kibal", subtitle: "The scales", description: "Where are there more cards? Click the right area quickly, with Nath." },
     kipotter: { name: "KiPotter", subtitle: "The magic ruler", description: "Which number is hiding under the mark on the ruler? Find it with Galadriel." },
+    kicompuzzle: { name: "Kicompuzzle", subtitle: "Fill the gaps", description: "Place the right cards and pick the operations to reach the total, with Ray." },
     kijun: { name: "KiJun", subtitle: "Sort and add up", description: "Sort the cards of each colour, add them up, then sort the colours, with Mary." },
   },
   colourGames: {
@@ -97,6 +98,12 @@ LANGS.en = {
     marker: "mark",
     help: "Remove a wrong answer",
     bad: v => "No, the mark is on " + v + ".",
+  },
+  kicompuzzle: {
+    rule: "Place cards in the gaps and pick the operations (click them to change) to reach the total! × comes before + and −.",
+    op: o => "operation " + o + " (click to change)",
+    wrong: (v, t) => "Your calculation makes " + v + ", you need " + t + ". Try again!",
+    solution: v => "Your calculation made " + v + ". Here is a solution.",
   },
   kijun: {
     rule: "Sort the cards, add up each colour, then sort the colours.",
