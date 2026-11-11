@@ -33,9 +33,9 @@ const Voice = (() => {
   }
 
   // Lit le texte ; options : lang (fr, en), gender (m, f), pitch ({ match, other } pour
-  // remplacer la hauteur par défaut). La promesse est tenue à la fin de la lecture (false si
+  // remplacer la hauteur par défaut), rate (vitesse, multiplie la vitesse normale). La promesse est tenue à la fin de la lecture (false si
   // rien n'est lu : pas de voix dans la langue sur l'appareil).
-  function speak(text, { lang = "fr", gender = "m", pitch = null } = {}) {
+  function speak(text, { lang = "fr", gender = "m", pitch = null, rate = 1 } = {}) {
     if (!ok || !text) return Promise.resolve(false);
     const p = pick(lang, gender);
     if (!p) return Promise.resolve(false);
@@ -43,7 +43,7 @@ const Voice = (() => {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = LOCALE[lang] || "fr-FR";
     u.voice = p.voice;
-    u.rate = RATE[lang] || 1.2;
+    u.rate = (RATE[lang] || 1.2) * rate;
     u.pitch = (pitch || PITCH[gender])[p.match ? "match" : "other"];
     const done = new Promise(resolve => { u.onend = u.onerror = () => { Sound.duck(false); resolve(true); }; });
     u.onstart = () => Sound.duck(true);

@@ -28,6 +28,10 @@ Images des personnages : dépôt organizationMowgAI/Kimind (`img/characters`, `i
 
 La théorie du domaine de l'auteur (bkKiboomGenerale.pl, Prolog) décrit élèves, états, exercices (instances), cartes, personnages et comportements, pour l'ILP. Les données de l'application sont gardées dans le navigateur (`js/store.js`) et exportées en faits au format de cette BK (`js/stats.js`, page Statistiques). Travailler d'abord sur Kimba.
 
+## Parade : modes Gentil, Bébé, Drôle, Méchant
+
+`lang/parade-modes.js` : noms et phrases tirés au hasard, par mode (méchant « pour rire », adapté aux enfants, voix plus grave ; bébé voix aiguë). Étape 1 faite : les 10 animaux en français, à relire par l'auteur. Ensuite : dinosaures, robots, métiers, puis l'anglais. En anglais, voix de femme pour les filles (genderEn) et voix au hasard pour les robots.
+
 ## À rappeler à l'auteur au début de la prochaine session
 
 - Ajouter des indices, par exemple pour la version la plus difficile (KimMinmaxus, niveau Difficile).

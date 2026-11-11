@@ -12,12 +12,23 @@ const Parade = (() => {
   "use strict";
   const $ = id => document.getElementById(id);
   let T = null, lang = "fr";
+  // Les modes (lang/parade-modes.js) : la voix change avec le mode (bébé plus aigu,
+  // méchant plus grave, drôle plus vif). Le mode choisi est gardé dans le navigateur.
+  const MODES = ["gentil", "bebe", "drole", "mechant"];
+  const VOICE = {
+    gentil: {},
+    bebe: { pitch: { match: 1.7, other: 1.9 }, rate: 0.95 },
+    drole: { pitch: { match: 1.3, other: 1.4 }, rate: 1.08 },
+    mechant: { pitch: { match: 0.55, other: 0.45 }, rate: 0.9 },
+  };
+  let mode = "gentil", current = 0;
+  try { if (MODES.includes(localStorage.getItem("kiboom-parade-mode"))) mode = localStorage.getItem("kiboom-parade-mode"); } catch (e) { /* pas de stockage */ }
   let run = 0, paused = false, forward = false, sound = true, skipNow = null, resumeFn = null;
   const wait = ms => new Promise(r => setTimeout(r, ms));
 
   /* ---------- La voix (js/voice.js) ---------- */
   // Une voix de femme ou d'homme selon le personnage (lang/personnages.js, gender).
-  const speak = (text, gender = "m") => (sound ? Voice.speak(text, { lang, gender }) : Promise.resolve(false));
+  const speak = (text, gender = "m", voice = {}) => (sound ? Voice.speak(text, Object.assign({ lang, gender }, voice)) : Promise.resolve(false));
   const stopVoice = Voice.stop;
 
   // Un personnage arrive : son bruit, puis il parle.
@@ -26,13 +37,24 @@ const Parade = (() => {
     if (!sound) return Promise.resolve(false);
     Sound.character(s, v);
     const token = run;
-    return wait(500).then(() => (token === run ? speak(text, genderOf(s, v)) : false));
+    return wait(500).then(() => (token === run ? speak(text, genderOf(s, v), VOICE[mode]) : false));
   }
 
   /* ---------- L'écran de la parade ---------- */
-  const presentation = (s, v) => (window.KIBOO_CHARACTERS[lang] || window.KIBOO_CHARACTERS.fr)[COLORS[s] + "-" + v];
+  const any = list => list[Math.floor(Math.random() * list.length)];
+  // Ce que dit le personnage : un nom et une phrase tirés au hasard dans le mode choisi ;
+  // sinon (personnage pas encore écrit dans ce mode) sa phrase de lang/personnages.js.
+  function presentation(s, v) {
+    const key = COLORS[s] + "-" + v;
+    const all = window.PARADE_MODES || {};
+    const entry = ((all[lang] || {})[mode] || {})[key] || (mode === "gentil" ? null : ((all[lang] || {}).gentil || {})[key]);
+    if (entry) return any(entry.p).replace("{n}", any(entry.n));
+    return (window.KIBOO_CHARACTERS[lang] || window.KIBOO_CHARACTERS.fr)[key];
+  }
   // En anglais, voix de femme pour toutes les filles ; en français, seulement pour les métiers.
-  const genderOf = (s, v) => window.KIBOO_CHARACTERS[lang === "en" ? "genderEn" : "gender"][COLORS[s] + "-" + v] || "m";
+  // En anglais, les robots (neutres) ont au hasard une voix d'homme ou de femme.
+  const genderOf = (s, v) => (lang === "en" && COLORS[s] === "red" ? any(["m", "f"])
+    : window.KIBOO_CHARACTERS[lang === "en" ? "genderEn" : "gender"][COLORS[s] + "-" + v] || "m");
   const cardImage = (s, v) => "assets/cards/" + COLORS[s] + "-" + v + ".webp";
 
   function labels() {
@@ -42,6 +64,9 @@ const Parade = (() => {
     $("parade-sound").setAttribute("aria-pressed", sound);
     $("parade-back").textContent = T.paradeBack;
     $("parade-next").textContent = T.paradeNext + " ▶";
+    const box = $("parade-modes");
+    box.setAttribute("aria-label", T.paradeMode);
+    box.innerHTML = MODES.map(m => `<button type="button" class="parade-mode" data-mode="${m}" aria-pressed="${m === mode}">${T.paradeModes[m]}</button>`).join("");
   }
 
   // Les 40 personnages défilent ; chacun parle (ou reste le temps de lire), puis le suivant arrive.
@@ -50,6 +75,7 @@ const Parade = (() => {
     for (let i = start; i <= 40;) {
       if (me !== run) return;
       forward = false;
+      current = i;
       const s = Math.floor(i / 10), v = (i % 10) + 1;
       const text = i < 40 ? presentation(s, v) : T.paradeEnd;
       const floor = $("parade-floor");
@@ -133,6 +159,15 @@ const Parade = (() => {
       forward = true;
       if (paused) { paused = false; labels(); if (resumeFn) resumeFn(); }
       else { stopVoice(); if (skipNow) skipNow(); }
+    });
+    // Changer de mode : le personnage à l'écran se présente de nouveau, dans le nouveau mode.
+    $("parade-modes").addEventListener("click", e => {
+      const b = e.target.closest("[data-mode]");
+      if (!b || b.dataset.mode === mode) return;
+      mode = b.dataset.mode;
+      try { localStorage.setItem("kiboom-parade-mode", mode); } catch (err) { /* pas de stockage */ }
+      labels();
+      if (current < 40) runParade(current);
     });
     $("parade").addEventListener("keydown", e => { if (e.key === "Escape") close(); });
   }
