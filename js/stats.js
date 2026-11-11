@@ -168,7 +168,7 @@ const Stats = (() => {
   // pyramid_target/2, pyramid_rows/2, pyramid_addition/5, memory_pairs/2, memory_show_time/2,
   // memory_flip/4, balance_question/6, balance_time_limit/2, balance_trap/1,
   // number_line_question/6, calc_target/2, calc_operations/2, calc_solution/2, calc_attempt/5,
-  // kimind_game/6.
+  // tile_turn/5, tile_hand_size/2, tile_opponent_per_turn/2, tile_cards_left/3, kimind_game/6.
   function prolog() {
     const d = Store.data, out = [];
     const line = s => out.push(s);
@@ -207,6 +207,11 @@ const Stats = (() => {
         line("calc_operations(" + I + ", [" + i.ops.map(atom).join(", ") + "]).");
         line("calc_solution(" + I + ", " + atom(i.solution) + ").");
       }
+      if (i.handSize !== undefined) {
+        line("tile_hand_size(" + I + ", " + i.handSize + ").");
+        line("tile_opponent_per_turn(" + I + ", " + i.beaPerTurn + ").");
+        if (i.cardsLeft !== undefined) line("tile_cards_left(" + I + ", " + i.cardsLeft + ", " + i.beaLeft + ").");
+      }
       if (i.pairs !== undefined) {
         line("memory_pairs(" + I + ", " + i.pairs + ").");
         line("memory_show_time(" + I + ", " + i.showTime + ").");
@@ -226,6 +231,8 @@ const Stats = (() => {
         if (t.line) line("number_line_question(" + I + ", try_" + k + ", " + t.line.max + ", " + t.line.target + ", " + t.choice + ", " + t.success + ").");
         // Kicompuzzle : calc_attempt(Instance, Essai, Calcul proposé, Valeur, Réussi).
         if (t.expr) line("calc_attempt(" + I + ", try_" + k + ", " + atom(t.expr) + ", " + t.value + ", " + t.success + ").");
+        // Kipuzzle : tile_turn(Instance, Essai, Cartes posées, A pioché, A fini son tour alors qu'un coup restait).
+        if (t.turn) line("tile_turn(" + I + ", try_" + k + ", " + t.placed + ", " + t.drew + ", " + t.missed + ").");
         if (t.pair) line("memory_flip(" + I + ", try_" + k + ", [" + t.pair.join(", ") + "], " + t.success + ").");
         if (t.cards) line("pyramid_addition(" + I + ", try_" + k + ", [" + t.cards.join(", ") + "], " + t.sum + ", " + t.success + ").");
         if (t.step === 2 || t.answers) {
