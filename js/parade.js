@@ -94,7 +94,8 @@ const Parade = (() => {
         char.querySelector("p").textContent = text;
         char.querySelector(".parade-count").textContent = (i + 1) + " / 40";
         floor.append(char);
-        Sound.music("fam" + s);
+        // La musique de la famille, dans le style du mode et dans une autre tonalité à chaque personnage.
+        Sound.music("fam" + s, { mode, shift: [0, 3, -2, 5, 2][i % 5] });
       } else {
         const end = document.createElement("div");
         end.className = "parade-end";
