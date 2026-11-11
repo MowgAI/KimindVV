@@ -8,7 +8,7 @@ Jeu web (HTML/CSS/JS sans framework) : deviner les couleurs et les valeurs de 4 
 
 ## Les autres jeux de cartes (inspirés des modules de KartOOn)
 
-Un jeu à la fois, en attendant l'avis de l'auteur. Noms choisis par l'auteur :
+Tous les jeux de la liste sont faits ; les règles détaillées (niveaux, progression, aides) ont été choisies par Claude et restent à valider par l'auteur. Noms choisis par l'auteur :
 
 1. Compte avec Archi → **Kimba** (fait)
 2. Ajoute avec Lili → **Kiplus** (fait)
@@ -20,7 +20,7 @@ Un jeu à la fois, en attendant l'avis de l'auteur. Noms choisis par l'auteur :
 8. Le bouche-trou de Ray (calcul à compléter) → **Kicompuzzle** (fait, `js/kicompuzzle.js`)
 9. Les dalles de Béa → **Kipuzzle** (fait, `js/kipuzzle.js`)
 10. Joue avec Flo → pas fait (c'est déjà Kiboo)
-11. La bataille (le personnage s'appelle Poupetta, plus Yavin) → **Kiduel**
+11. La bataille (le personnage s'appelle Poupetta, plus Yavin) → **Kiduel** (fait, `js/kiduel.js`)
 
 Images des personnages : dépôt organizationMowgAI/Kimind (`img/characters`, `img/bubbles`), converties dans `assets/characters/`. Jeux « une réponse par couleur » : `js/colourgame.js`.
 

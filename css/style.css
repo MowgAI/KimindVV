@@ -144,6 +144,25 @@ body.parade-open { overflow: hidden; }
   .other-ctrl { margin-left: 0; }
 }
 
+/* Kiduel */
+.du-objective { font-weight: 600; margin: 4px 0 10px; }
+.du-zone { padding: 16px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.du-hand { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.du-hers .card { --w: 46px; }
+.card.du-card { --w: 76px; border: 0; padding: 0; cursor: pointer; }
+.card.du-card:disabled { cursor: default; }
+.card.du-card.dim { filter: saturate(0.4) brightness(0.8); }
+.card.du-card.hint { animation: blink 0.8s ease-in-out infinite; box-shadow: 0 0 0 4px var(--pick); }
+.du-table { display: flex; gap: 40px; justify-content: center; }
+.du-slot { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.du-who { font-weight: 600; color: var(--felt-ink); }
+.du-empty { width: 76px; aspect-ratio: 145 / 220; border-radius: 8px; border: 3px dashed var(--line); }
+.du-slot .card.played { cursor: default; }
+@media (max-width: 560px) {
+  .card.du-card, .du-empty { --w: 54px; width: 54px; }
+  .du-hers .card { --w: 34px; }
+}
+
 /* Kipuzzle */
 .pz-zone { padding: 12px; margin-bottom: 12px; overflow-x: auto; }
 .pz-grid { --cell: 46px; display: grid; grid-template-columns: repeat(11, var(--cell)); grid-auto-rows: calc(var(--cell) * 1.3); gap: 3px; justify-content: center; }
