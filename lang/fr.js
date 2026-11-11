@@ -26,6 +26,7 @@ LANGS.fr = {
   games: {
     kimba: { name: "Kimba", subtitle: "Compte les couleurs", description: "Combien y a-t-il de cartes de chaque couleur ? Compte-les avec Archi." },
     kiplus: { name: "Kiplus", subtitle: "Additionne les couleurs", description: "Additionne les cartes de chaque couleur avec Lili." },
+    kipharaon: { name: "Kipharaon", subtitle: "La pyramide", description: "Additionne les cartes de la pyramide pour atteindre le nombre cible et vide toute la pyramide, avec Fonzy." },
     kijun: { name: "KiJun", subtitle: "Range et additionne", description: "Range les cartes de chaque couleur, additionne-les, puis range les couleurs, avec Mary." },
   },
   colourGames: {
@@ -44,6 +45,23 @@ LANGS.fr = {
     rule: "Compte les cartes de chaque couleur, puis donne ta réponse pour chaque couleur.",
     box: c => "Nombre de cartes " + { bleu: "bleues", vert: "vertes", rouge: "rouges", jaune: "jaunes" }[c],
     retry: "Presque ! Recompte les couleurs en rouge.",
+  },
+  kipharaon: {
+    rule: "Clique sur les cartes libres (sans carte en dessous) pour atteindre le nombre cible. Vide toute la pyramide !",
+    target: "Cible",
+    sum: (parts, s, target) => parts + " = " + s + (s < target ? " (encore " + (target - s) + ")" : ""),
+    good: "Bravo ! Ces cartes s'en vont.",
+    tooMuch: t => "Trop ! Ta somme dépasse " + t + ". Recommence.",
+    draw: "Piocher une carte bonus",
+    drawn: v => "Voici une carte bonus : " + v + ". Elle est à côté de la pyramide.",
+    noDraw: "Pas de carte bonus utile pour l'instant.",
+    clear: "Effacer ma sélection",
+    left: n => n + (n > 1 ? " cartes restent" : " carte reste") + " dans la pyramide.",
+    done: "Bravo, la pyramide est vide !",
+    doneEasier: "Bravo, la pyramide est vide ! On recommence un peu plus facile.",
+    doneUp: n => "Bravo, la pyramide est vide ! Tu passes au niveau " + n + ".",
+    stuck: "Plus aucune addition possible : pioche une carte bonus !",
+    score: (n, total) => n + " pyramide" + (n > 1 ? "s" : "") + " vidée" + (n > 1 ? "s" : "") + (total > n ? " sur " + total : ""),
   },
   kijun: {
     rule: "Range les cartes, additionne chaque couleur, puis range les couleurs.",

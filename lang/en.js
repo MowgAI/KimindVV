@@ -25,6 +25,7 @@ LANGS.en = {
   games: {
     kimba: { name: "Kimba", subtitle: "Count the colours", description: "How many cards of each colour are there? Count them with Archi." },
     kiplus: { name: "Kiplus", subtitle: "Add up the colours", description: "Add up the cards of each colour with Lili." },
+    kipharaon: { name: "Kipharaon", subtitle: "The pyramid", description: "Add up the cards of the pyramid to reach the target number and clear the whole pyramid, with Fonzy." },
     kijun: { name: "KiJun", subtitle: "Sort and add up", description: "Sort the cards of each colour, add them up, then sort the colours, with Mary." },
   },
   colourGames: {
@@ -43,6 +44,23 @@ LANGS.en = {
     rule: "Count the cards of each colour, then give your answer for each colour.",
     box: c => "Number of " + c + " cards",
     retry: "Almost! Count the colours in red again.",
+  },
+  kipharaon: {
+    rule: "Click the free cards (with no card below them) to reach the target number. Clear the whole pyramid!",
+    target: "Target",
+    sum: (parts, s, target) => parts + " = " + s + (s < target ? " (" + (target - s) + " to go)" : ""),
+    good: "Well done! These cards go away.",
+    tooMuch: t => "Too much! Your sum is over " + t + ". Try again.",
+    draw: "Draw a bonus card",
+    drawn: v => "Here is a bonus card: " + v + ". It's next to the pyramid.",
+    noDraw: "No useful bonus card right now.",
+    clear: "Clear my selection",
+    left: n => n + (n === 1 ? " card is" : " cards are") + " left in the pyramid.",
+    done: "Well done, the pyramid is empty!",
+    doneEasier: "Well done, the pyramid is empty! Let's try something a little easier.",
+    doneUp: n => "Well done, the pyramid is empty! On to level " + n + ".",
+    stuck: "No addition left: draw a bonus card!",
+    score: (n, total) => n + " pyramid" + (n === 1 ? "" : "s") + " cleared" + (total > n ? " out of " + total : ""),
   },
   kijun: {
     rule: "Sort the cards, add up each colour, then sort the colours.",
