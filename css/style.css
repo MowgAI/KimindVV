@@ -109,6 +109,35 @@ body.parade-open { overflow: hidden; }
 @keyframes hop { 0%, 100% { translate: 0 0; rotate: -4deg; } 50% { translate: 0 -18px; rotate: 4deg; } }
 @media (prefers-reduced-motion: reduce) { .parade-char, .parade-big, .parade-end .card { animation: none; } }
 
+/* Les autres jeux (Kimba…) */
+.game-card .game-img { width: 72px; height: 72px; object-fit: contain; align-self: center; }
+.other-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 12px 0; }
+.other-face { width: 72px; height: 72px; object-fit: contain; }
+.other-title { margin: 0; font-size: 1.6rem; }
+.other-rule { margin: 2px 0 0; color: var(--ink-soft); }
+.other-ctrl { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.kimba-cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 16px; margin-bottom: 12px; }
+.kimba-cards .card { --w: 76px; }
+.kimba-panel { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.kimba-answers { display: flex; gap: 12px; flex-wrap: wrap; }
+.kimba-box {
+  font: inherit; font-size: 1.8rem; font-weight: 700; cursor: pointer;
+  width: 64px; height: 76px; border-radius: 12px; border: 5px solid var(--c);
+  background: var(--panel); color: var(--ink);
+}
+.kimba-box.selected { box-shadow: 0 0 0 4px var(--pick); }
+.kimba-box.ok { background: color-mix(in srgb, var(--ok) 18%, var(--panel)); }
+.kimba-box.ko { background: color-mix(in srgb, var(--ko) 22%, var(--panel)); animation: shake 0.4s; }
+.kimba-box:disabled { cursor: default; }
+@keyframes shake { 25% { translate: -4px 0; } 75% { translate: 4px 0; } }
+.kimba-msg { font-weight: 600; }
+.kimba-msg.ok { color: var(--ok); }
+.kimba-msg.ko { color: var(--ko); }
+@media (max-width: 560px) {
+  .kimba-cards .card { --w: 54px; }
+  .other-ctrl { margin-left: 0; }
+}
+
 .lang-wrap { display: flex; align-items: center; gap: 6px; }
 .head-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .menu-title { font-size: 1.3rem; font-weight: 600; margin: 20px 0 12px; }

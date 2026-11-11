@@ -28,6 +28,12 @@ Le jeu s'ouvre sur un menu, avec une carte par choix : « Règles du jeu » (but
 - **KimMinmaxus** (`#kimminmaxus`, variante 2) : comme KiMinus, mais les signes sont cachés (seul le résultat est donné). À chaque tour, le joueur propose aussi un signe entre ses cartes ; le jeu dit si chaque signe est juste, et un signe juste reste en place. La partie est gagnée quand les 4 cartes et les 3 signes sont trouvés.
 - **Kimind 5** (`#kimind5`) : 5 cartes cachées (positions 0 à 4). Une couleur a deux cartes, de valeurs différentes, et l'énoncé dit laquelle ; les trois autres couleurs ont une carte chacune. L'ordre porte sur les 5 cartes (la couleur en double y apparaît deux fois, par exemple `vert < bleu < rouge = jaune < bleu`). Une proposition doit avoir 2 cartes de la couleur en double et 1 de chaque autre, sans deux fois la même carte.
 
+## Les autres jeux de cartes
+
+D'autres jeux, inspirés des modules de KartOOn (NukkAI), avec les cartes de Kiboo et les personnages de KartOOn (images du dépôt Kimind, dans `assets/characters/`). Ils sont décrits dans `js/versions.js` (`GAMES`) et ont chacun leur fichier et leur écran.
+
+- **Kimba** (`#kimba`, `js/kimba.js`, inspiré de « Compte avec Archi ») : des cartes mélangées s'affichent ; pour chaque couleur présente, on dit combien il y a de cartes de cette couleur. 10 niveaux, de 3 cartes en 2 couleurs à 14 cartes en 4 couleurs. Une bonne réponse du premier coup fait monter d'un niveau ; deux erreurs dans le même tour font redescendre d'un niveau, et le jeu montre la bonne réponse.
+
 ## Niveaux
 
 La difficulté dépend du nombre de façons de choisir les valeurs compatibles avec la somme et l'ordre des couleurs (à multiplier par 24 pour les places des couleurs) :

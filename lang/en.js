@@ -21,6 +21,22 @@ LANGS.en = {
   paradeNext: "Next",
   paradeEnd: "That's it! All forty Kiboo characters have said hello. Now, shall we play?",
   menuTitle: "What would you like to do?",
+  gamesTitle: "More card games",
+  games: {
+    kimba: { name: "Kimba", subtitle: "Count the colours", description: "How many cards of each colour are there? Count them with Archi the dinosaur." },
+  },
+  kimba: {
+    name: "Kimba",
+    rule: "Count the cards of each colour, then give your answer for each colour.",
+    howMany: c => "Number of " + c + " cards",
+    check: "Check",
+    next: "Again!",
+    bravo: "Well done, that's right!",
+    bravoUp: n => "Well done, that's right! On to level " + n + ".",
+    retry: "Almost! Count the colours in red again.",
+    solution: "Here is the right answer. Look carefully, and let's try again!",
+    score: (n, total) => n + " right answer" + (n === 1 ? "" : "s") + " out of " + total,
+  },
   menuRules: { name: "Rules", subtitle: "Goal and puzzle", description: "How to play Kimind: the goal, the cards, the puzzle, a round, the game's answer and the end of the game.", action: "Read" },
   menuParade: { name: "The parade", subtitle: "The 40 characters", description: "The card characters march past one by one and introduce themselves, with their family's music.", action: "Watch" },
   versions: {
