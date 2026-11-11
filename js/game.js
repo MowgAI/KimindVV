@@ -304,7 +304,7 @@
     kimind.append(menuCard(T.menuRules, () => $("dlg-intro").showModal(), "extra", T.menuRules.action));
     VERSIONS.forEach(v => kimind.append(menuCard(T.versions[v.id], () => { location.hash = v.id; }, "", T.play)));
     GAMES.forEach(g => games.append(menuCard(Object.assign({ image: g.image }, T.games[g.id]), () => { location.hash = g.id; }, "game-card", T.play)));
-    games.append(menuCard(Object.assign({ image: "assets/cards/red-2.webp" }, T.menuKiboo), () => window.open("https://mowgai.github.io/Kiboo/", "_blank", "noopener"), "game-card extra", T.menuKiboo.action + " ↗"));
+    games.append(menuCard(Object.assign({ image: "assets/cards/red-2.webp" }, T.menuKiboo), () => Home.openKiboo(), "game-card extra", T.menuKiboo.action));
     fun.append(menuCard(T.menuParade, () => Parade.open(T, $("lang").value), "extra", T.menuParade.action));
     perso.append(menuCard(T.menuStats, () => { location.hash = "stats"; }, "extra", T.menuStats.action));
     perso.append(menuCard(T.menuPlayer, () => Stats.askPlayer(), "extra", T.menuPlayer.action));
