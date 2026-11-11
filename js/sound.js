@@ -21,7 +21,7 @@
 const Sound = (() => {
   const AC = window.AudioContext || window.webkitAudioContext;
   let ctx = null, master, musicGain, sfxGain, noiseBuf;
-  let want = null;                    // musique demandée : null, "intro", "game" ou "fam0"…"fam3"
+  let want = null, wantKey = "null||0", wantOpts = {};                    // musique demandée : null, "intro", "game" ou "fam0"…"fam3"
   let loop = null;                    // musique en cours : { timer, track }
 
   // Le son ne peut démarrer qu'après un geste du joueur.
@@ -213,8 +213,31 @@ const Sound = (() => {
     if (c === "h" || c === "x") noise(out, { t, d: 0.04, v: 0.08, hp: 6000 });
   }
 
+  /* Variantes de la parade : la musique de la famille change avec le mode (bébé : berceuse
+     douce et lente ; drôle : rapide et sautillante, avec des « boing » ; méchant : plus grave,
+     plus lourde) et avec `shift` (tonalité en demi-tons, différente à chaque personnage). */
+  const MODE_MUSIC = {
+    gentil: {},
+    bebe: { tempo: 0.7, shift: 12, mWave: "triangle", staccato: 0.95, drums: "h.......", vol: 0.75, heavy: false, sprinkle: null },
+    drole: { tempo: 1.2, staccato: 0.3, mWave: "square", drums: "khshkhsh", sprinkleAdd: ["boing", "boing"] },
+    mechant: { tempo: 0.8, shift: -12, mWave: "sawtooth", mLp: 1400, bWave: "sawtooth", drums: "k..sk..s", heavy: true },
+  };
+  function variant(tr) {
+    const m = MODE_MUSIC[wantOpts.mode] || {}, shift = (m.shift || 0) + (wantOpts.shift || 0);
+    if (!wantOpts.mode && !wantOpts.shift) return tr;
+    const up = n => (n ? n + shift : 0);
+    const v = Object.assign({}, tr, {
+      tempo: tr.tempo * (m.tempo || 1), vol: tr.vol * (m.vol || 1),
+      melody: tr.melody.map(up), bass: tr.bass.map(n => (n ? n + (wantOpts.shift || 0) + Math.min(0, m.shift || 0) : 0)),
+    });
+    for (const k of ["mWave", "staccato", "drums", "mLp", "bWave", "heavy"]) if (k in m) v[k] = m[k];
+    if ("sprinkle" in m) v.sprinkle = m.sprinkle;
+    if (m.sprinkleAdd) { v.sprinkle = (v.sprinkle || []).concat(m.sprinkleAdd); v.every = v.every || 2; }
+    return v;
+  }
+
   function startLoop() {
-    const tr = pick(TRACKS[want] || TRACKS.intro);
+    const tr = variant(pick(TRACKS[want] || TRACKS.intro));
     const eighth = 60 / tr.tempo / 2;
     let step = 0, next = ctx.currentTime + 0.1;
     musicGain.gain.cancelScheduledValues(ctx.currentTime);
@@ -248,9 +271,13 @@ const Sound = (() => {
   }
 
   // style : "intro", "game", "fam0"…"fam3", ou null (silence). Une piste est tirée au hasard à chaque départ.
-  function music(style) {
-    if (want === style) return;
+  // opts (parade) : { mode: "gentil" | "bebe" | "drole" | "mechant", shift: demi-tons }.
+  function music(style, opts = {}) {
+    const key = style + "|" + (opts.mode || "") + "|" + (opts.shift || 0);
+    if (wantKey === key) return;
     want = style;
+    wantKey = key;
+    wantOpts = opts;
     stopLoop();
     if (style && ctx && ctx.state === "running") startLoop();
   }

@@ -5,8 +5,8 @@
    {n} est remplacé par le nom tiré.
    Mêmes textes dans Kiboo (MowgAI/kiboo, lang/parade-modes.js), sauf le mode gentil.
    Clé : couleur-valeur (blue = animaux, green = dinosaures, red = robots, yellow = métiers).
-   Les 40 personnages sont écrits en français ; l'anglais viendra ensuite (en anglais, chaque
-   personnage garde pour l'instant sa phrase habituelle). */
+   Les 40 personnages sont écrits en français et en anglais (jeux de mots adaptés, pas traduits
+   mot à mot). */
 window.PARADE_MODES = {
   fr: {
     gentil: {
@@ -655,6 +655,652 @@ window.PARADE_MODES = {
         "Je suis {n} ! Mon expérience va transformer tes devoirs… en encore plus de devoirs ! Mouahaha !",
         "Je suis {n} ! Je vais inventer une potion pour gagner à tous les coups.",
         "Je suis {n} ! Boum ! Oups. Non, non, c'était exprès."] },
+    },
+  },
+  en: {
+    gentil: {
+      "blue-1": { n: ["Cheddar", "Brie"], p: [
+        "I'm {n}! I'm the one who makes the holes in the cheese.",
+        "I'm {n}! I've hidden a piece of cheese under your card.",
+        "I'm {n}! Shh… I'm having a secret snack."] },
+      "blue-2": { n: ["Feather", "Chirpy"], p: [
+        "I'm {n}! I sing out of tune, but very loudly.",
+        "I'm {n}! Tweet tweet, I sang before the alarm clock rang.",
+        "I'm {n}! Look, I'm doing loop-the-loops over the table."] },
+      "blue-3": { n: ["Yarn", "Whiskers"], p: [
+        "I'm {n}! I sleep all day, and the rest of the time I take naps.",
+        "I'm {n}! My ball of wool has rolled under the sofa again.",
+        "I'm {n}! Sixteen hours of napping a day, that's my record."] },
+      "blue-4": { n: ["Scamp", "Buddy"], p: [
+        "I'm {n}! Throw me a ball, and I'll bring it back… maybe.",
+        "I'm {n}! Throw the ball, I'll bring it back… maybe.",
+        "I'm {n}! I ate a slipper, but shh."] },
+      "blue-5": { n: ["Rosie", "Daisy"], p: [
+        "I'm {n}! Mud is my bubble bath.",
+        "I'm {n}! A muddy puddle? Here I come!",
+        "I'm {n}! Pink from my nose to my curly tail."] },
+      "blue-6": { n: ["Sly", "Clever"], p: [
+        "I'm {n}! I always have a plan… and a backup plan.",
+        "I'm {n}! I always have a plan… and often two.",
+        "I'm {n}! My secret: a fluffy tail and clever ideas."] },
+      "blue-7": { n: ["Snowflake", "Frosty"], p: [
+        "I'm {n}! Even in the snow, my paws never get cold.",
+        "I'm {n}! I love sliding in the snow.",
+        "I'm {n}! My spots are my everyday pyjamas."] },
+      "blue-8": { n: ["Honey", "Teddy"], p: [
+        "I'm {n}! The honey pot? No, I haven't seen it… yum.",
+        "I'm {n}! If you see a bee, tell her I like her.",
+        "I'm {n}! A bear hug? Careful, it squeezes!"] },
+      "blue-9": { n: ["Bamboo", "Panpan"], p: [
+        "I'm {n}! For breakfast, lunch and dinner: bamboo.",
+        "I'm {n}! I eat, I sleep, I eat… and start again.",
+        "I'm {n}! Black and white, and always happy."] },
+      "blue-10": { n: ["Carrot", "Hazel"], p: [
+        "I'm {n}! With my big ears, I can even hear secrets.",
+        "I'm {n}! I jump so high I almost touch the clouds.",
+        "I'm {n}! My big ears hear everything, even your secrets."] },
+      "green-1": { n: ["Zip", "Zippy"], p: [
+        "I'm {n}! Catch me if you can, I run faster than the wind.",
+        "I'm {n}! You'll never catch me, I'm far too fast!",
+        "I'm {n}! I have feathers, but I'd rather run."] },
+      "green-2": { n: ["Rosie", "Rosalie"], p: [
+        "I'm {n}! Three horns, and my hair is always perfect.",
+        "I'm {n}! Three horns and a lovely smile.",
+        "I'm {n}! I put pink everywhere, even on my horns."] },
+      "green-3": { n: ["Spike", "Prickles"], p: [
+        "I'm {n}! Careful when you hug me: it prickles.",
+        "I'm {n}! Careful, don't sit on my back!",
+        "I'm {n}! My spikes are for looking good… and a little for poking."] },
+      "green-4": { n: ["Chomp", "Chompy"], p: [
+        "I'm {n}! I have a hundred teeth, and I brush every one of them every night.",
+        "I'm {n}! I smile all the time, even at the dentist.",
+        "I'm {n}! I'm green, and always keen!"] },
+      "green-5": { n: ["Breeze", "Gusty"], p: [
+        "I'm {n}! From up here I see everything… especially snacks.",
+        "I'm {n}! I fly higher than the mountains.",
+        "I'm {n}! Hold on tight, we're taking off!"] },
+      "green-6": { n: ["Bluey", "Little Blue"], p: [
+        "I'm {n}! I'm small, but my horns grow every day.",
+        "I'm {n}! Small dino, big horns, big heart.",
+        "I'm {n}! I still have a bit of eggshell on my head."] },
+      "green-7": { n: ["Caramel", "Toffee"], p: [
+        "I'm {n}! Why? Because! And why because?",
+        "I'm {n}! I'm curious about everything, even your cards.",
+        "I'm {n}! Orange like a sunset."] },
+      "green-8": { n: ["Ember", "Sparky"], p: [
+        "I'm {n}! I look scary… but only for fun.",
+        "I'm {n}! Grrr! Did I scare you? Just kidding.",
+        "I'm {n}! My frill is my best costume."] },
+      "green-9": { n: ["Sail", "Splash"], p: [
+        "I'm {n}! The best swimmer in prehistory, that's me.",
+        "I'm {n}! I swim faster than a boat.",
+        "I'm {n}! With a sail on my back, I go where the wind blows."] },
+      "green-10": { n: ["Rex", "Big Rex"], p: [
+        "I'm {n}! I'm huge, but I'm scared of mice.",
+        "I'm {n}! The biggest, the strongest… and the hungriest.",
+        "I'm {n}! When I walk, the whole table shakes."] },
+      "red-1": { n: ["Clockwork", "Tick-Tock"], p: [
+        "I'm {n}! Turn my key, and I dance.",
+        "I'm {n}! Turn my key and I dance.",
+        "I'm {n}! Tick, tock, tick, tock… off I go!"] },
+      "red-2": { n: ["Beep", "Beep-Beep"], p: [
+        "I'm {n}! Beep beep, that means hello.",
+        "I'm {n}! Beep beep! I roll and roll and roll.",
+        "I'm {n}! I'm round, so I never fall over: I just roll."] },
+      "red-3": { n: ["Smiley", "Sunny"], p: [
+        "I'm {n}! I smile even when it rains.",
+        "I'm {n}! Smiles are free, so I give lots of them.",
+        "I'm {n}! I'm an egg, but I never crack."] },
+      "red-4": { n: ["Bulb", "Lumo"], p: [
+        "I'm {n}! When I have an idea, I light up.",
+        "I'm {n}! Ding! I've got a brilliant idea.",
+        "I'm {n}! At night, I'm the one who lights up the table."] },
+      "red-5": { n: ["Click", "Flash"], p: [
+        "I'm {n}! Say cheese!",
+        "I'm {n}! I already have a thousand photos of cats."] },
+      "red-6": { n: ["Screen", "Pixel"], p: [
+        "I'm {n}! There's always a cartoon on my face.",
+        "I'm {n}! One big step, and I've crossed the room.",
+        "I'm {n}! My face can show every cartoon."] },
+      "red-7": { n: ["Box", "Strongbox"], p: [
+        "I'm {n}! I keep all your secrets safe and sound.",
+        "I'm {n}! Solid as a safe, and I keep your secrets.",
+        "I'm {n}! I go boom, boom, when I walk."] },
+      "red-8": { n: ["Cosmo", "Astro"], p: [
+        "I'm {n}! I just got back from the Moon, and I brought some cheese.",
+        "I'm {n}! I waved hello to the stars.",
+        "I'm {n}! In space, I met a very friendly alien."] },
+      "red-9": { n: ["Zoom", "Spyglass"], p: [
+        "I'm {n}! I can see you… even when you hide.",
+        "I'm {n}! I can see an ant at the end of the garden.",
+        "I'm {n}! I can even see your cards… but I won't tell."] },
+      "red-10": { n: ["Majesty", "King Bolt"], p: [
+        "I'm {n}! Bow down, I'm the king of the robots.",
+        "I'm {n}! My crown shines brighter than the sun."] },
+      "yellow-1": { n: ["Officer Martin", "Officer Whistle"], p: [
+        "I'm {n}! Stop right there… it's snack time.",
+        "I'm {n}! No cheating at this table, I'm watching.",
+        "I'm {n}! Nee-naw… oh no, that's the fire brigade."] },
+      "yellow-2": { n: ["Fairyline", "Fairy Sparkle"], p: [
+        "I'm {n}! One wave of my wand, and your homework is done. Well… almost.",
+        "I'm {n}! Abracadabra, a magic card for you.",
+        "I'm {n}! One wave of my wand turns 1s into 10s… just pretend."] },
+      "yellow-3": { n: ["Sheriff Lasso", "Cowboy Lasso"], p: [
+        "I'm {n}! My horse is called Biscuit.",
+        "I'm {n}! Yee-haw, saddle up!"] },
+      "yellow-4": { n: ["Lina", "Lina of the Woods"], p: [
+        "I'm {n}! I can recognise any tracks… even your socks.",
+        "I'm {n}! I know every track in the forest.",
+        "I'm {n}! Listen… is that a bird or a squirrel?"] },
+      "yellow-5": { n: ["Leo", "Leo the Striker"], p: [
+        "I'm {n}! I score goals with my eyes closed.",
+        "I'm {n}! Goal! And another one!",
+        "I'm {n}! I can even dribble around the table."] },
+      "yellow-6": { n: ["Ines", "Ines the Sleuth"], p: [
+        "I'm {n}! With my magnifying glass, no clue escapes me.",
+        "I'm {n}! I found a treasure: a lost sock."] },
+      "yellow-7": { n: ["Doctor Sami", "Doctor Plaster"], p: [
+        "I'm {n}! Say “aaah”.",
+        "I'm {n}! Open wide and say “aaah”.",
+        "I'm {n}! A magic kiss, and the ouch flies away."] },
+      "yellow-8": { n: ["Blaze", "Captain Blaze"], p: [
+        "I'm {n}! I put out every fire, except birthday candles.",
+        "I'm {n}! Nee-naw, nee-naw, here I come!",
+        "I'm {n}! My big ladder reaches all the way to the sky."] },
+      "yellow-9": { n: ["Stella", "Commander Stella"], p: [
+        "I'm {n}! I slept on the Moon, it was very quiet.",
+        "I'm {n}! Three, two, one… lift-off!",
+        "I'm {n}! On the Moon, I hop like a kangaroo."] },
+      "yellow-10": { n: ["Professor Flask", "Professor Test-Tube"], p: [
+        "I'm {n}! My experiments make bubbles… and sometimes go boom.",
+        "I'm {n}! Careful, my experiment is going to bubble!",
+        "I'm {n}! I invented rainbow juice."] },
+    },
+    bebe: {
+      "blue-1": { n: ["Cheddy", "Little Cheddar", "Squeaky"], p: [
+        "Me {n}! Yum yum, cheesy… goo goo!",
+        "Hiya, it's {n}! Me teeny tiny, teeny tiny.",
+        "{n} wants a cuddle… and a bit of cheesy!"] },
+      "blue-2": { n: ["Feathy", "Little Feather", "Peep-Peep"], p: [
+        "Peep peep! Me {n}, me no fly yet…",
+        "It's {n}! Tweet… tweet… ooh, a wormy!",
+        "{n} waves with teeny wings!"] },
+      "blue-3": { n: ["Kitty", "Little Yarn", "Purry"], p: [
+        "Mew mew! It's {n}, me want milky!",
+        "{n} caught a tail… ouch, it's mine!",
+        "Me {n}, me go purr purr… nap time."] },
+      "blue-4": { n: ["Doggy", "Little Scamp", "Woofy"], p: [
+        "Woof woof! Me {n}, me love everybody!",
+        "{n} wants the ball! Ball! Ball!",
+        "It's {n}… big lick on your nose!"] },
+      "blue-5": { n: ["Rosie-Posie", "Little Oink", "Piggy"], p: [
+        "Oink oink! It's {n}, me all pink!",
+        "{n} went splash in the puddle… splash again!",
+        "Me {n}, me want a kiss… oink!"] },
+      "blue-6": { n: ["Foxy", "Little Sly", "Fluffy"], p: [
+        "Hiya! It's {n}, me not sly, me super nice!",
+        "{n} hid his teddy… where is it? There!",
+        "Me {n}, my tail all soft… touch!"] },
+      "blue-7": { n: ["Snowy", "Little Snowflake", "Snow-Kitty"], p: [
+        "Brrr! It's {n}, me love the cold snow!",
+        "{n} makes snowballs… poof, on your nose!",
+        "Me {n}, me got spots everywhere, look!"] },
+      "blue-8": { n: ["Teddy-Bear", "Little Honey", "Cubby"], p: [
+        "It's {n}! Me want honey… lots of honey!",
+        "{n} gives a big cuddle… so soft!",
+        "Me {n}, me sleepy… yaaawn."] },
+      "blue-9": { n: ["Panda-Boo", "Little Bamboo", "Bamboo-Boo"], p: [
+        "Hiya! It's {n}, me do roly-polies!",
+        "{n} eats bamboo… crunch crunch… more!",
+        "Me {n}, me all soft, black and white."] },
+      "blue-10": { n: ["Bunny", "Little Carrot", "Hoppy"], p: [
+        "Hop hop! It's {n}, me jump everywhere!",
+        "{n} found a carrot… crunch!",
+        "Me {n}, my ears all long, look!"] },
+      "green-1": { n: ["Zippy-Doo", "Little Zip", "Zippy-Zoo"], p: [
+        "Zoom zoom! It's {n}, me run super fast!",
+        "{n} has teeny feathers… they tickle!",
+        "Me {n}, me fell down… no ouchie! Again!"] },
+      "green-2": { n: ["Rosie-Lou", "Little Rosie", "Pinky"], p: [
+        "Hiya! It's {n}, me all pink, all pretty!",
+        "{n} has three horns… one, two… lots!",
+        "Me {n}, me want a pink bow on my horn!"] },
+      "green-3": { n: ["Spikey", "Little Spike", "Pokey"], p: [
+        "It's {n}! Me got teeny spikes… no touching!",
+        "{n} wants a cuddle… gently, it prickles!",
+        "Me {n}, me nap on my back… ouch!"] },
+      "green-4": { n: ["Chompy-Wompy", "Little Chomp", "Nibbles"], p: [
+        "It's {n}! Me got teeny teeth… cheese!",
+        "{n} nibbles his teddy… gently!",
+        "Me {n}, me do a big smile, look!"] },
+      "green-5": { n: ["Breezy", "Little Breeze", "Flappy"], p: [
+        "It's {n}! Me fly… a bit… bump!",
+        "{n} plays aeroplane! Vroooom!",
+        "Me {n}, me want to fly on your back!"] },
+      "green-6": { n: ["Blue-Blue", "Teeny Bluey", "Baby Bluey"], p: [
+        "Goo goo! It's {n}, me teeny baby dino!",
+        "{n} still has eggshell on his head… peekaboo!",
+        "Me {n}, me do horn bumps… so gentle!"] },
+      "green-7": { n: ["Caramelly", "Little Caramel", "Sweetie"], p: [
+        "It's {n}! Why? Why? Why?",
+        "{n} wants to touch everything… what's that?",
+        "Me {n}, me all orange like a sweetie!"] },
+      "green-8": { n: ["Embie", "Little Ember", "Grrr-Baby"], p: [
+        "Grrr… goo goo! It's {n}, me scary?",
+        "{n} opens his frill… peekaboo!",
+        "Me {n}, me all red, all warm!"] },
+      "green-9": { n: ["Saily", "Little Sail", "Splashy"], p: [
+        "Splash! It's {n}, me swim like a fishy!",
+        "{n} blows bubbles… blub blub blub!",
+        "Me {n}, me want bath time… more bath time!"] },
+      "green-10": { n: ["Rexy", "Little Rex", "Rexie-Wexie"], p: [
+        "Roar roar! It's {n}, me so big… nearly!",
+        "{n} scared of the mousey… mummy!",
+        "Me {n}, me give big hug… careful, it squeezes!"] },
+      "red-1": { n: ["Ticky", "Little Clockwork", "Ticky-Tock"], p: [
+        "Tick tock! It's {n}, me spin spin!",
+        "{n} all wound down… sleepy… turn my key!",
+        "Me {n}, me dance… teeny steps!"] },
+      "red-2": { n: ["Beepy", "Little Beep", "Beep-Boo"], p: [
+        "Beep-beep! Me {n}, me teeny robot… sleepy?",
+        "{n} rolls and rolls… bump! Again!",
+        "It's {n}! Beep? Beep beep! Cuddle?"] },
+      "red-3": { n: ["Smiley-Wiley", "Little Smiley", "Eggy"], p: [
+        "Hee hee! It's {n}, me make smiles!",
+        "{n} is a teeny egg… no cracking!",
+        "Me {n}, me giggle all the time… hee hee hee!"] },
+      "red-4": { n: ["Bulby", "Little Light", "Glowy"], p: [
+        "Ding! It's {n}, me got an idea… oops… forgot!",
+        "{n} goes blink, blink!",
+        "Me {n}, me the night-light for sleepy-time."] },
+      "red-5": { n: ["Clicky", "Little Click", "Flashy"], p: [
+        "Click click! It's {n}, me take photo!",
+        "{n} took a photo… of his foot!",
+        "Me {n}, say… cheese! Hee hee!"] },
+      "red-6": { n: ["Screeny", "Little Screen", "Telly"], p: [
+        "It's {n}! Me want cartoons!",
+        "{n} takes big steps… and bump, on the floor!",
+        "Me {n}, look at my tummy… pictures!"] },
+      "red-7": { n: ["Boxy", "Little Box", "Boxy-Woxy"], p: [
+        "Boom boom! It's {n}, me so strong!",
+        "{n} keeps your teddy… hidden away!",
+        "Me {n}, me got secrets… shh!"] },
+      "red-8": { n: ["Cosmy", "Little Cosmo", "Astro-Baby"], p: [
+        "It's {n}! Me going to the Moon… vroooom!",
+        "{n} saw a star… ooooh!",
+        "Me {n}, me float in space… yippee!"] },
+      "red-9": { n: ["Zoomy", "Little Zoom", "Peeky"], p: [
+        "It's {n}! Me see you… peekaboo!",
+        "{n} makes big eyes… ooooh!",
+        "Me {n}, me play hide and seek… found you!"] },
+      "red-10": { n: ["Baby Majesty", "Little King", "Kingy"], p: [
+        "It's {n}! Me the king… me want my bottle!",
+        "{n} has a teeny crown… it's falling off!",
+        "Me {n}, everybody wave to the king!"] },
+      "yellow-1": { n: ["Baby Martin", "Little Officer", "Marty"], p: [
+        "Nee-naw… no! It's {n}, me the police!",
+        "{n} blows the whistle… toot! Stop!",
+        "Me {n}, me got a teeny cap!"] },
+      "yellow-2": { n: ["Fairy-Wairy", "Little Fairy", "Twinkle"], p: [
+        "Poof! It's {n}, me do magic!",
+        "{n} broke her wand… waaah!",
+        "Me {n}, me turn you into… a kiss!"] },
+      "yellow-3": { n: ["Baby Lasso", "Little Sheriff", "Lassy"], p: [
+        "Yee-haw! It's {n}, me on my horsey!",
+        "{n} throws the lasso… caught teddy!",
+        "Me {n}, me got a great big hat!"] },
+      "yellow-4": { n: ["Lina-Lou", "Little Lina", "Lili"], p: [
+        "Hiya! It's {n}, me follow teeny tracks!",
+        "{n} saw a squirrel… ooooh!",
+        "Me {n}, me hug the tree!"] },
+      "yellow-5": { n: ["Leo-Leo", "Little Leo", "Leoboo"], p: [
+        "Goal! It's {n}, me kick the ball!",
+        "{n} kicked… his own foot!",
+        "Me {n}, me run after the ball!"] },
+      "yellow-6": { n: ["Inesy", "Little Ines", "Nessie"], p: [
+        "It's {n}! Me looking… found it! A pebble!",
+        "{n} looks through the magnifying glass… big nose!",
+        "Me {n}, me found treasure… a sweetie!"] },
+      "yellow-7": { n: ["Baby Sami", "Little Doctor", "Sami-Boo"], p: [
+        "It's {n}! Me make teddy better!",
+        "{n} puts a plaster… on your nose!",
+        "Me {n}, say aaah… hee hee!"] },
+      "yellow-8": { n: ["Blazy", "Little Firefighter", "Nee-Naw"], p: [
+        "Nee-naw! It's {n}, me spray everything!",
+        "{n} got a teeny red fire engine!",
+        "Me {n}, me climb the ladder… right to the top!"] },
+      "yellow-9": { n: ["Stella-Bella", "Little Stella", "Starry"], p: [
+        "It's {n}! Me go to the Moon… nap in the rocket!",
+        "{n} counts: three… two… one… goo goo!",
+        "Me {n}, me want a star for my teddy!"] },
+      "yellow-10": { n: ["Baby Flask", "Little Scientist", "Flasky"], p: [
+        "Boom! It's {n}, me make bubbles!",
+        "{n} mixes everything… yucky!",
+        "Me {n}, me made a potion… of milk!"] },
+    },
+    drole: {
+      "blue-1": { n: ["Cheddar Holey", "Super Cheddar", "Cheddar Twirl"], p: [
+        "I'm {n}! I tried to nibble the Moon: someone told me it was made of cheese.",
+        "I'm {n}! My dream: a cheese house, with a cheese roof and cheese neighbours.",
+        "I'm {n}! What's a mouse's favourite game? Hide and squeak!"] },
+      "blue-2": { n: ["Feather Tra-La-La", "Captain Feather", "Feather Funny-Bones"], p: [
+        "I'm {n}! When I sing in the shower, the snails clap.",
+        "I'm {n}! I took a plane once. Why? No idea, I've got wings!",
+        "I'm {n}! I built my nest in Grandpa's cap. He hasn't noticed yet."] },
+      "blue-3": { n: ["Yarn Purrfect", "Yarn Slippers", "Doctor Yarn"], p: [
+        "I'm {n}! I'm not lazy, I'm just practising for the napping championships.",
+        "I'm {n}! I have nine lives… and I spend them all asleep.",
+        "I'm {n}! Mice? I invite them for tea, and we play cards."] },
+      "blue-4": { n: ["Scamp Crash-Bang", "Scamp Socks", "Super Scamp"], p: [
+        "I'm {n}! I chased my tail for an hour. Still haven't caught it.",
+        "I'm {n}! Sit! Lie down! Roll over! … Oh wait, you're supposed to say that.",
+        "I'm {n}! I wear socks on my ears. It's the latest dog fashion."] },
+      "blue-5": { n: ["Rosie Twirl", "Rosie Bubbles", "Princess Oink-Oink"], p: [
+        "I'm {n}! I take chocolate mud baths. Well… I think it's chocolate.",
+        "I'm {n}! My curly tail opens bottles of apple juice.",
+        "I'm {n}! Oink oink, in pig, means: pass the ketchup."] },
+      "blue-6": { n: ["Sly the Joker", "Sly Peekaboo", "Professor Sly"], p: [
+        "I'm {n}! I had a brilliant plan… but I forgot it.",
+        "I'm {n}! I dressed up as a chicken. Nobody recognised me. Except the chickens.",
+        "I'm {n}! My secret plan: eat an ice cream. Shh, don't tell anyone."] },
+      "blue-7": { n: ["Snowflake Slide", "Snowflake Skates", "Snowflake Achoo"], p: [
+        "I'm {n}! I built a snowman. He ran off with my scarf.",
+        "I'm {n}! Achoo! Even snow leopards catch colds.",
+        "I'm {n}! I counted my spots: forty-two. Or forty-three. I moved."] },
+      "blue-8": { n: ["Honey Big-Hug", "Honey Pyjamas", "Honey Snores"], p: [
+        "I'm {n}! I sleep all winter… and in summer, I take naps.",
+        "I'm {n}! I've got honey stuck everywhere. Even on my ears. Especially on my ears.",
+        "I'm {n}! When I snore, the trees shake. Zzzz… sorry."] },
+      "blue-9": { n: ["Bamboo Roly-Poly", "Bamboo Pyjamas", "Kung-Fu Bamboo"], p: [
+        "I'm {n}! Why am I black and white? I couldn't find my felt-tip pens.",
+        "I'm {n}! I tried a pizza. It tasted like bamboo.",
+        "I'm {n}! I do kung fu… but only after my nap."] },
+      "blue-10": { n: ["Carrot Boing-Boing", "Turbo Carrot", "Carrot Antenna-Ears"], p: [
+        "I'm {n}! My ears pick up the radio. Shh, it's my song!",
+        "I'm {n}! I jumped so high a plane said hello.",
+        "I'm {n}! A rabbit's favourite vegetable? Carrots. What a surprise!"] },
+      "green-1": { n: ["Turbo Zip", "Rocket Zip", "Zip Zigzag"], p: [
+        "I'm {n}! I run so fast I arrive before I've left.",
+        "I'm {n}! I have feathers but I can't fly. I'm still waiting for the instructions.",
+        "I'm {n}! I raced the wind. The wind wants a rematch."] },
+      "green-2": { n: ["Rosie Sparkles", "Rosie Frills", "Rosie Curlers"], p: [
+        "I'm {n}! I put curlers on my horns every night.",
+        "I'm {n}! My mirror says I'm the prettiest. It's a bit of a flatterer.",
+        "I'm {n}! I painted a rainbow… all in pink."] },
+      "green-3": { n: ["Spike Hedgehog", "Spike Cactus", "Spike Picnic"], p: [
+        "I'm {n}! I'm a coat rack, a washing line and a slide. Well, almost.",
+        "I'm {n}! Balloons hate me. Pop!",
+        "I'm {n}! At parties, I hold the snacks: ten sausages on my back!"] },
+      "green-4": { n: ["Chomp Toothbrush", "Chomp Smiles", "Chomp Toothpaste"], p: [
+        "I'm {n}! I need a tube of toothpaste a day. At least.",
+        "I'm {n}! I smile so much my cheeks get cramp.",
+        "I'm {n}! The tooth fairy comes to my house every night. She's exhausted."] },
+      "green-5": { n: ["Breeze Parachute", "Breeze Kite", "Captain Breeze"], p: [
+        "I'm {n}! Birds ask me for flying lessons. I charge in seeds.",
+        "I'm {n}! I fly so high the clouds say excuse me.",
+        "I'm {n}! Once I landed on an aeroplane. The pilot got a big fright."] },
+      "green-6": { n: ["Bluey Eggshell", "Bluey Battering-Ram", "Bluey Blueberry"], p: [
+        "I'm {n}! I still wear my eggshell as a hat. It's very fashionable.",
+        "I'm {n}! I measure my horns every morning. One millimetre more!",
+        "I'm {n}! I bumped into a tree. The tree's fine. Me too, almost."] },
+      "green-7": { n: ["Caramel Why-Why", "Melty Caramel", "Caramel Question-Mark"], p: [
+        "I'm {n}! Why is the sky blue? Why is grass green? Why am I orange?",
+        "I'm {n}! I asked a pebble a question. It still hasn't answered.",
+        "I'm {n}! Careful, in the sun I melt a little."] },
+      "green-8": { n: ["Ember Umbrella", "Ember Fan", "Ember Barbecue"], p: [
+        "I'm {n}! My frill is my umbrella. And my fan. And my hat.",
+        "I'm {n}! I tried to scare a butterfly. It laughed at me.",
+        "I'm {n}! I toast marshmallows with my breath. Well… I try."] },
+      "green-9": { n: ["Sail Rubber-Ring", "Captain Sail", "Sail Windsurf"], p: [
+        "I'm {n}! Fish think I'm a boat. They want a ticket.",
+        "I'm {n}! When it's windy, I move without swimming. Very handy.",
+        "I'm {n}! I learnt to swim before I could walk. I still can't walk straight."] },
+      "green-10": { n: ["Rex Slippers", "Rex Tiny-Arms", "Rex Big-Tummy"], p: [
+        "I'm {n}! With my tiny arms, I can't scratch my nose.",
+        "I'm {n}! I tried to ride a bike. The bike said no.",
+        "I'm {n}! When I sneeze, the table flies away."] },
+      "red-1": { n: ["Clockwork Spinner", "Disco Clockwork", "Clockwork Springy"], p: [
+        "I'm {n}! Turn my key too hard and I'll disco dance all night.",
+        "I'm {n}! I lost my key. I looked everywhere… it was on my back.",
+        "I'm {n}! Tick, tock… oh no, I'm not a clock."] },
+      "red-2": { n: ["Beep Ball", "Beep Bowling", "Beep Bouncy"], p: [
+        "I'm {n}! I'm so round people think I'm a ball.",
+        "I'm {n}! Beep beep means hello. Beep beep beep means: I'm hungry.",
+        "I'm {n}! I rolled to the kitchen. Then to the garden. Then to the seaside. Oops."] },
+      "red-3": { n: ["Smiley Omelette", "Smiley Eggcup", "Smiley Soldiers"], p: [
+        "I'm {n}! I'm an egg, but please don't invite me to breakfast.",
+        "I'm {n}! I smile even when I'm doing the washing-up. And I hate washing-up.",
+        "I'm {n}! Which came first, the egg or the chicken? Me."] },
+      "red-4": { n: ["Genius Bulb", "Bulb Lamppost", "Blinky Bulb"], p: [
+        "I'm {n}! I had a brilliant idea. Then I switched off.",
+        "I'm {n}! Moths are my biggest fans.",
+        "I'm {n}! When I have too many ideas, I blow a fuse."] },
+      "red-5": { n: ["Click Selfie", "Click Paparazzi", "Click Flash"], p: [
+        "I'm {n}! I took a thousand photos of cats. And one of a dog, by mistake.",
+        "I'm {n}! I take selfies with everyone. Even with the bins.",
+        "I'm {n}! Watch the flash! … Too late, you've got red eyes."] },
+      "red-6": { n: ["Screen Remote", "Screen Channel-Hopper", "Screen Pixel"], p: [
+        "I'm {n}! Someone changed my channel while I was asleep.",
+        "I'm {n}! When I take a big step, my cartoon jumps.",
+        "I'm {n}! I've watched every cartoon in the world. Twice."] },
+      "red-7": { n: ["Clumsy Box", "Toy Box", "Box Boom-Boom"], p: [
+        "I'm {n}! I forgot the code to my own safe. Awkward.",
+        "I'm {n}! When I walk, the cups dance on the table.",
+        "I'm {n}! Inside me there's treasure: socks and an old biscuit."] },
+      "red-8": { n: ["Cosmo Rocket", "Cosmo Moonstruck", "Cosmo Comet"], p: [
+        "I'm {n}! In space, I lost a sock. It's still going round the Earth.",
+        "I'm {n}! The aliens asked me for my pancake recipe.",
+        "I'm {n}! There's nobody to talk to on Mars. So I talk to the rocks."] },
+      "red-9": { n: ["Zoom Binoculars", "Zoom Magnifier", "Zoom Telescope"], p: [
+        "I'm {n}! I can see an ant doing its shopping on the other side of town.",
+        "I'm {n}! I looked for my glasses all day. I don't wear any.",
+        "I'm {n}! I can see so far I can see the back of my own head."] },
+      "red-10": { n: ["Majesty Bolt", "Majesty Wonky-Crown", "His Rusty Majesty"], p: [
+        "I'm {n}! My crown is made of tinfoil. Don't tell anyone.",
+        "I'm {n}! I'm king of the robots, but my toaster is the boss.",
+        "I'm {n}! My throne? A kitchen chair with a cushion."] },
+      "yellow-1": { n: ["Officer Whistle", "Officer Croissant", "Officer Fish-Finger"], p: [
+        "I'm {n}! I arrested a sock thief. It was the dog.",
+        "I'm {n}! I direct the traffic… for ants.",
+        "I'm {n}! I lost my whistle. So I go toot with my mouth."] },
+      "yellow-2": { n: ["Fairy Sparkle", "Fairy Oops", "Fairy Muddle"], p: [
+        "I'm {n}! I tried to turn a pumpkin into a coach. I made soup.",
+        "I'm {n}! Abracadabra! … Oops, I turned my cat into a slipper.",
+        "I'm {n}! My wand needs new batteries."] },
+      "yellow-3": { n: ["Sheriff Biscuit", "Sheriff Noodle-Lasso", "Cowboy No-Rush"], p: [
+        "I'm {n}! My lasso caught a cow. Then the cow caught me.",
+        "I'm {n}! My horse is called Biscuit, because he's a bit crunchy.",
+        "I'm {n}! I gallop so fast my hat arrives after me."] },
+      "yellow-4": { n: ["Lina Compass", "Lina Mushroom", "Lina Backpack"], p: [
+        "I'm {n}! I know every animal's tracks. These ones? They're mine.",
+        "I'm {n}! I got lost in the forest. Luckily, the forest knew the way.",
+        "I'm {n}! The owls ask me the time. I never know."] },
+      "yellow-5": { n: ["Leo Ball", "Leo Boots", "Leo Overhead-Kick"], p: [
+        "I'm {n}! I scored a goal… in the kitchen. Mum wasn't happy.",
+        "I'm {n}! My ball is faster than me. It never waits for me.",
+        "I'm {n}! I did a bicycle kick. Without a bicycle."] },
+      "yellow-6": { n: ["Ines Magnifier", "Ines Treasure", "Ines Sherlock"], p: [
+        "I'm {n}! I found a clue: a crumb. The culprit is the snack.",
+        "I'm {n}! I explored the whole house. The most dangerous place: under the bed.",
+        "I'm {n}! With my magnifying glass, ants look like dinosaurs."] },
+      "yellow-7": { n: ["Doctor Plaster", "Doctor Syrup", "Doctor Achoo"], p: [
+        "I'm {n}! My cure for everything: a kiss and a cuddle. Works every time.",
+        "I'm {n}! I treated a dinosaur. He had toothache. In all his teeth.",
+        "I'm {n}! Achoo! Doctors catch colds too."] },
+      "yellow-8": { n: ["Blaze Hosepipe", "Blaze Nee-Naw", "Blaze Watering-Can"], p: [
+        "I'm {n}! I put out Grandpa's barbecue. He wasn't happy.",
+        "I'm {n}! My fire engine goes nee-naw. So do I, when I'm in a hurry.",
+        "I'm {n}! I rescued a cat from a tree. Then the cat rescued me."] },
+      "yellow-9": { n: ["Stella Rocket", "Stella Moon-Crescent", "Stella Dandelion"], p: [
+        "I'm {n}! In space, my hair floats. I look like a dandelion.",
+        "I'm {n}! I took a pizza in the rocket. It went all the way round the Earth.",
+        "I'm {n}! On the Moon, I jumped so high I landed the next day."] },
+      "yellow-10": { n: ["Professor Test-Tube", "Professor Bubbles", "Professor Kaboom"], p: [
+        "I'm {n}! My experiment was supposed to make gold. It made mashed potato.",
+        "I'm {n}! I invented a bedroom-tidying machine. It hid under the bed.",
+        "I'm {n}! Careful, it's going to bubble… lots of bubbles… too many bubbles!"] },
+    },
+    mechant: {
+      "blue-1": { n: ["Cheddar the Terrible", "Cheddar the Nibbler", "Cheddar the Gnawer"], p: [
+        "I'm {n}! I ate ALL the cheese, and I'm not sorry.",
+        "I'm {n}! Your card? I nibbled it. Serves you right!",
+        "I'm {n}! The holes in your socks? That was me. Hee hee hee."] },
+      "blue-2": { n: ["Feather the Screecher", "Feather the Pincher", "Feather the Loudmouth"], p: [
+        "I'm {n}! I sing under your window at six in the morning. On purpose.",
+        "I'm {n}! The crumbs from your snack? Stolen. Tweet tweet!",
+        "I'm {n}! You can't even fly. Pfff."] },
+      "blue-3": { n: ["Yarn the Scratcher", "Yarn the Cheeky", "Yarn the Grump"], p: [
+        "I'm {n}! Your sofa? It's my scratching post now.",
+        "I'm {n}! I knock the glasses off the table. One by one. While looking at you.",
+        "I'm {n}! Move over, that's MY sunny spot."] },
+      "blue-4": { n: ["Scamp the Chewer", "Scamp the Rascal", "Scamp the Terrible"], p: [
+        "I'm {n}! Your homework? I ate it. And I loved it.",
+        "I'm {n}! I'm keeping your ball. Come and get it, if you dare!",
+        "I'm {n}! I dug a hole in the garden. Good luck finding it."] },
+      "blue-5": { n: ["Rosie the Mucky", "Rosie the Muddy", "Rosie the Greedy"], p: [
+        "I'm {n}! I've just rolled in the mud. Fancy a hug? Hee hee.",
+        "I'm {n}! I ate your snack AND mine. Oink!",
+        "I'm {n}! Have a bath? Never in a million years!"] },
+      "blue-6": { n: ["Sly the Sneak", "Sly the Cheat", "Sly the Trickster"], p: [
+        "I'm {n}! I looked at your cards. All of them. Hee hee hee.",
+        "I'm {n}! I always win… especially when I cheat.",
+        "I'm {n}! Trust me… or not."] },
+      "blue-7": { n: ["Snowflake the Icy", "Snowflake the Blizzard", "Snowflake the Frosty"], p: [
+        "I'm {n}! A snowball down your neck? That was me.",
+        "I'm {n}! You're cold? I'm not. Too easy.",
+        "I'm {n}! I watch you from way up high… and laugh."] },
+      "blue-8": { n: ["Honey the Grumpy", "Honey the Greedy-Guts", "Honey the Growler"], p: [
+        "I'm {n}! All the honey is mine. ALL of it. Grrr!",
+        "I'm {n}! Don't wake me up in winter. Or else… grrr.",
+        "I'm {n}! Bees sting me? Didn't even hurt."] },
+      "blue-9": { n: ["Bamboo the Lazy", "Bamboo the Grouch", "Bamboo the Slacker"], p: [
+        "I'm {n}! Play? No. I'm sleeping. Go away.",
+        "I'm {n}! I ate the whole bamboo forest. There's none left for you.",
+        "I'm {n}! My black eyes? They're there to scare you."] },
+      "blue-10": { n: ["Carrot the Boss", "Carrot the Terrible", "Carrot the Queen"], p: [
+        "I'm {n}! The strongest of the animals is me. You don't stand a chance.",
+        "I'm {n}! I heard all your secrets. And I'm going to tell everyone!",
+        "I'm {n}! Your vegetable patch? It's empty. Thanks for the carrots!"] },
+      "green-1": { n: ["Zip the Snatcher", "Zip the Uncatchable", "Zip the Teaser"], p: [
+        "I'm {n}! Catch me! Oh, too slow. As usual.",
+        "I'm {n}! I snatched your card and I'm already far away. Na-na-na-na-na!",
+        "I'm {n}! You run like a tired snail."] },
+      "green-2": { n: ["Rosie the Show-Off", "Rosie the Fussy", "Rosie the Diva"], p: [
+        "I'm {n}! Move, you're blocking my sunshine.",
+        "I'm {n}! Your hair? Hmm… looks like a bird's nest.",
+        "I'm {n}! I don't play with anyone who isn't pink. Sorry. Well, not really."] },
+      "green-3": { n: ["Spike the Prickly", "Spike the Bristly", "Spike the Grumpy"], p: [
+        "I'm {n}! A hug? Go on, try it. Hee hee.",
+        "I'm {n}! I popped all your balloons. Pop, pop, pop!",
+        "I'm {n}! Don't come near me: I prickle AND I sulk."] },
+      "green-4": { n: ["Chomp the Cruncher", "Chomp the Greedy", "Chomp the Terrible"], p: [
+        "I'm {n}! I crunched your pencil. It wasn't very tasty.",
+        "I'm {n}! My smile? It's to show you all my teeth. All of them.",
+        "I'm {n}! Your snack? Chomp! All gone."] },
+      "green-5": { n: ["Breeze the Swiper", "Breeze the Boaster", "Breeze the Dive-Bomber"], p: [
+        "I'm {n}! I fly over you and pinch your hat.",
+        "I'm {n}! From up here, you look tiny. Teeny-weeny. Ha!",
+        "I'm {n}! Your ice cream? Whoosh, I grabbed it in mid-air."] },
+      "green-6": { n: ["Bluey the Brawler", "Bluey the Stubborn", "Bluey the Charger"], p: [
+        "I'm {n}! I'm small, but I charge. Watch your knees!",
+        "I'm {n}! Horn bump! Your card tower is on the floor.",
+        "I'm {n}! No, no and no! I'm not going to bed."] },
+      "green-7": { n: ["Caramel the Nosy", "Caramel the Chatterbox", "Caramel the Sticky"], p: [
+        "I'm {n}! I read your secret diary. Very interesting.",
+        "I'm {n}! Why did you lose? Why? Eh, why?",
+        "I'm {n}! I stick to your fingers, like real caramel. Good luck!"] },
+      "green-8": { n: ["Ember the Terrifying", "Ember the Growler", "Ember the Spitter"], p: [
+        "I'm {n}! GRRR! … Why aren't you running? You should be scared!",
+        "I'm {n}! I open my frill and everybody runs away. Except you. Annoying.",
+        "I'm {n}! I spit… cherry stones. Watch out!"] },
+      "green-9": { n: ["Sail the Splasher", "Sail the Pirate", "Sail the Sharky"], p: [
+        "I'm {n}! Splash! You're soaking wet. Hee hee!",
+        "I'm {n}! You swim like a rock.",
+        "I'm {n}! I'm the pirate of the prehistoric seas. Hand over your cards!"] },
+      "green-10": { n: ["Rex the Tyrant", "Rex the Big Bad", "Rex the Gobbler"], p: [
+        "I'm {n}! I'm the biggest, the strongest, and you… the smallest.",
+        "I'm {n}! Kneel before the king! … Fine, sitting is OK too.",
+        "I'm {n}! I eat three cakes for breakfast. Yours."] },
+      "red-1": { n: ["Clockwork the Creaky", "Clockwork the Wound-Up", "Clockwork the Ticked-Off"], p: [
+        "I'm {n}! I'm all wound up… about you! Grrr, tick tock.",
+        "I'm {n}! I creak on purpose while you sleep. Creeeak!",
+        "I'm {n}! If you don't turn my key, I'll sulk forever."] },
+      "red-2": { n: ["Beep the Grump", "Beep the Wild Roller", "Beep the Crosspatch"], p: [
+        "I'm {n}! Beep beep means: get out of my way.",
+        "I'm {n}! I roll over your toes. On purpose. Beep!",
+        "I'm {n}! Beep beep beep! Translation: you lost."] },
+      "red-3": { n: ["Smiley the Sniggerer", "Smiley the Teaser", "Smiley the Rotten Egg"], p: [
+        "I'm {n}! I'm smiling because you lost. Hee hee hee.",
+        "I'm {n}! My smile? It's for laughing at you.",
+        "I'm {n}! If you crack me, watch out for the smell!"] },
+      "red-4": { n: ["Bulb the Dazzler", "Bulb the Know-It-All", "Bulb the Burnt-Out"], p: [
+        "I'm {n}! I have ALL the good ideas. You have none.",
+        "I'm {n}! I switch on in the middle of the night, right in your eyes. Surprise!",
+        "I'm {n}! Your answer is wrong. Ding! I knew it."] },
+      "red-5": { n: ["Click the Spy", "Click the Snooper", "Click the Prankster"], p: [
+        "I'm {n}! I've got a photo of you in your pyjamas. Shall I show everyone?",
+        "I'm {n}! Click! I caught you picking your nose.",
+        "I'm {n}! All your photos are blurry. I wobble on purpose."] },
+      "red-6": { n: ["Screen the Zapper", "Screen the Scrambler", "Screen the Spoiler"], p: [
+        "I'm {n}! Shall I tell you the end of the cartoon? The hero wins. There, done.",
+        "I'm {n}! I change channels at the best bit. Hee hee.",
+        "I'm {n}! I put snow on the screen while you watch. Pshhhh!"] },
+      "red-7": { n: ["Box the Bruiser", "Box the Gruff", "Box the Padlock"], p: [
+        "I'm {n}! Your toys are inside me. And I've lost the key. Ha!",
+        "I'm {n}! Boom, boom! Out of my way, here I come.",
+        "I'm {n}! I keep your secrets… unless someone gives me a sweet."] },
+      "red-8": { n: ["Cosmo the Invader", "Cosmo the Martian", "Cosmo the Conqueror"], p: [
+        "I'm {n}! I've decided to invade… your bedroom. Surrender!",
+        "I'm {n}! I'm sending you to the Moon. One way!",
+        "I'm {n}! The aliens are my friends. And they don't like you."] },
+      "red-9": { n: ["Zoom the Spy", "Zoom the Telltale", "Zoom the Snoop"], p: [
+        "I'm {n}! I can see all your cards. And I'm telling everyone!",
+        "I'm {n}! I saw you eat a sweet in secret. Shall I tell your mum?",
+        "I'm {n}! Hide wherever you like, I'll always find you. Hee hee."] },
+      "red-10": { n: ["Majesty the Tyrant", "Majesty the Merciless", "Majesty the Big Boss"], p: [
+        "I'm {n}! Bow down! Lower! Even lower!",
+        "I'm {n}! I'm the king, so I always win. That's the law.",
+        "I'm {n}! You'll be my servant. Start by polishing my bolts."] },
+      "yellow-1": { n: ["Officer Martin the Strict", "Inspector Grumpy", "Officer Not-Happy"], p: [
+        "I'm {n}! You! Did you cheat? I've got my eye on you!",
+        "I'm {n}! To jail with you! … OK, jail is your bedroom.",
+        "I'm {n}! Hands up! And give me your snack."] },
+      "yellow-2": { n: ["Fairyline the Wicked", "Fairyline the Naughty", "Fairyline the Prankster"], p: [
+        "I'm {n}! Abracadabra: your chips have turned into broccoli!",
+        "I'm {n}! One wave of my wand, and all your cards are 1s. Ha ha!",
+        "I'm {n}! I'm going to turn you into a toad. But a cute one."] },
+      "yellow-3": { n: ["Sheriff Lasso the Fearsome", "Lasso the Bandit", "Lasso the Gruff"], p: [
+        "I'm {n}! This town ain't big enough for the two of us. Go and play somewhere else!",
+        "I'm {n}! I'll catch you with my lasso, and you'll do the washing-up.",
+        "I'm {n}! Hands up! Give me your sweets."] },
+      "yellow-4": { n: ["Lina the Wild", "Lina the Bramble", "Lina the Tracker"], p: [
+        "I'm {n}! I found the tracks of your smelly socks. Yuck!",
+        "I'm {n}! I know a shortcut… but I won't tell you.",
+        "I'm {n}! You're lost? Too bad for you!"] },
+      "yellow-5": { n: ["Leo the Show-Off", "Leo the Champion", "Leo the Cheat"], p: [
+        "I'm {n}! I'm the best player in the world. You're on the bench.",
+        "I'm {n}! Handball? What handball? The referee didn't see a thing.",
+        "I'm {n}! I scored ten goals. You, zero. So there!"] },
+      "yellow-6": { n: ["Ines the Nosy", "Ines the Relentless", "Ines the Accuser"], p: [
+        "I'm {n}! I found out who ate the biscuits. It was you! Guilty!",
+        "I'm {n}! Nothing gets past me. Especially not your mischief.",
+        "I'm {n}! I found the treasure before you. And I'm keeping it."] },
+      "yellow-7": { n: ["Doctor Sami the Strict", "Doctor Bitter-Syrup", "Doctor Grumpy"], p: [
+        "I'm {n}! Open wide… you've eaten too many sweets! Forbidden!",
+        "I'm {n}! To get better: a spoonful of spinach syrup. Yum… or not.",
+        "I'm {n}! You're not ill, you're pretending. I've caught you out!"] },
+      "yellow-8": { n: ["Blaze the Bossy", "Blaze the Cold-Shower", "Captain Strict"], p: [
+        "I'm {n}! You did something naughty? Cold shower!",
+        "I'm {n}! I don't blow out birthday candles. I hose them.",
+        "I'm {n}! Nee-naw! Out of the way, and fast!"] },
+      "yellow-9": { n: ["Stella the Supersonic", "Stella the Merciless", "Stella the Crazy Rocket"], p: [
+        "I'm {n}! I went to the Moon. You went… to the bakery.",
+        "I'm {n}! I'll take you to space and leave you on Pluto.",
+        "I'm {n}! The stars? They're all mine. Hands off!"] },
+      "yellow-10": { n: ["Professor Flask the Mad", "Professor Explosion", "Professor Diabolical"], p: [
+        "I'm {n}! My experiment will turn your homework… into even more homework! Mwahaha!",
+        "I'm {n}! I'm going to invent a potion that wins every time.",
+        "I'm {n}! Boom! Oops. No, no, I meant to do that."] },
     },
   },
 };
