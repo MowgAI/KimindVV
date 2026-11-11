@@ -35,6 +35,11 @@ LANGS.fr = {
       subtitle: "Variante 1 : des plus et des moins",
       description: "Les valeurs des cartes s'ajoutent ou se retranchent, par exemple carte 0 + carte 1 − carte 2 + carte 3 = 25. Les signes sont donnés.",
     },
+    kimind5: {
+      name: "Kimind 5",
+      subtitle: "5 cartes, une couleur en double",
+      description: "Cinq cartes cachées : une couleur a deux cartes (l'énoncé dit laquelle). L'ordre porte sur les 5 cartes, la couleur en double y apparaît deux fois.",
+    },
     kimminmaxus: {
       name: "KimMinmaxus",
       subtitle: "Variante 2 : les signes sont cachés",
@@ -43,7 +48,7 @@ LANGS.fr = {
   },
   menu: "Menu",
   play: "Jouer",
-  tagline: "Devine les couleurs et les valeurs des 4 cartes cachées.",
+  tagline: n => "Devine les couleurs et les valeurs des " + n + " cartes cachées.",
   colours: { blue: "bleu", green: "vert", red: "rouge", yellow: "jaune" },
   levels: { easy: "Facile", medium: "Moyen", hard: "Difficile" },
   level: "Niveau",
@@ -81,6 +86,17 @@ LANGS.fr = {
   signOf: p => "Signe de la carte " + p,
   signOk: "bon signe",
   signKo: "mauvais signe",
+  doubleColour: "Couleur en double :",
+  fiveColours: c => "Il faut 2 cartes " + { blue: "bleues", green: "vertes", red: "rouges", yellow: "jaunes" }[c] + ", 1 carte de chaque autre couleur, et pas deux fois la même carte.",
+  fiveRules: [
+    "Cinq cartes sont cachées, aux positions 0, 1, 2, 3 et 4.",
+    "Chaque carte a une valeur de 1 à 10 et une couleur : bleu, vert, rouge ou jaune.",
+    "Une couleur a deux cartes (de valeurs différentes) : l'énoncé dit laquelle. Les trois autres couleurs ont une carte chacune.",
+    "Tu connais la somme des 5 valeurs et l'ordre des 5 cartes : la couleur en double y apparaît deux fois, par exemple vert < bleu < rouge = jaune < bleu.",
+    "À chaque tour, propose une carte pour chaque position : 2 cartes de la couleur en double et 1 de chaque autre couleur.",
+    "Pour chaque position, le jeu répond : la carte se retourne si elle est juste ; sinon le cadre est de la couleur de ta carte si la couleur est bonne, gris sinon, avec « Plus » si la vraie valeur est plus grande, « Moins » si elle est plus petite et « Égal » si elle est juste.",
+    "Les cartes trouvées restent en place ; les autres sont à proposer de nouveau. Trouve les cinq cartes en le moins de tours possible !",
+  ],
   incompleteSigns: "Choisis un signe entre chaque carte (clique sur le ?).",
   rulesBody: [
     "Quatre cartes sont cachées, aux positions 0, 1, 2 et 3.",

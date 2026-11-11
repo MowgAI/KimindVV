@@ -53,6 +53,7 @@
   // Solutions complètes : une couleur et une valeur pour chaque position.
   // Avec des signes (variante ±), la somme dépend aussi de la place des couleurs.
   function allSolutions(statement) {
+    if (statement.double) return fiveSolutions(statement);
     if (statement.hiddenSigns) {
       const out = [];
       SIGN_COMBOS.forEach(signs => allSolutions({ sum: statement.sum, order: statement.order, signs })
@@ -90,12 +91,17 @@
     return offer.map(c => Object.assign({}, c, { answer: answer(solution, c.position, c.colour, c.value) }));
   }
 
-  // Une proposition est valable si chaque position cachée a une carte et si les 4 couleurs
-  // (cartes déjà trouvées comprises) sont différentes.
-  function validOffer(offer, foundCards) {
+  // Une proposition est valable si chaque position cachée a une carte et si les couleurs
+  // (cartes déjà trouvées comprises) respectent la répartition : 4 couleurs différentes,
+  // ou, dans Kimind 5 (double), 2 cartes de la couleur en double et 1 de chaque autre,
+  // sans proposer deux fois la même carte.
+  function validOffer(offer, foundCards, double) {
     const cards = offer.concat(foundCards);
-    if (cards.length !== NB_CARDS || cards.some(c => !c.colour || !c.value)) return false;
-    return new Set(cards.map(c => c.colour)).size === NB_CARDS;
+    const n = double ? 5 : NB_CARDS;
+    if (cards.length !== n || cards.some(c => !c.colour || !c.value)) return false;
+    if (!double) return new Set(cards.map(c => c.colour)).size === NB_CARDS;
+    if (new Set(cards.map(c => c.colour + "-" + c.value)).size !== n) return false;
+    return COLOURS.every(col => cards.filter(c => c.colour === col).length === (col === double ? 2 : 1));
   }
 
   function compatible(candidate, play) {
@@ -225,8 +231,84 @@
     throw new Error("Aucune partie trouvée pour le niveau " + level);
   }
 
+  // Kimind 5 : 5 cartes, une couleur (double) a 2 cartes, de valeurs différentes ; l'ordre
+  // porte sur les 5 cartes (la couleur en double y apparaît deux fois).
+  // Les 120 façons de placer 5 cartes distinctes sur les positions 0 à 4.
+  const PERMS5 = (function () {
+    const out = [];
+    (function rec(prefix, rest) {
+      if (!rest.length) { out.push(prefix); return; }
+      rest.forEach((x, i) => rec(prefix.concat(x), rest.slice(0, i).concat(rest.slice(i + 1))));
+    })([], [0, 1, 2, 3, 4]);
+    return out;
+  })();
+
+  // Valeurs des groupes de l'ordre (strictement croissantes) dont la somme pondérée vaut sum.
+  function groupValues(sum, order) {
+    const out = [];
+    (function rec(g, min, acc, total) {
+      if (g === order.length) { if (total === sum) out.push(acc.slice()); return; }
+      for (let v = min; v <= VMAX; v++) {
+        const t = total + v * order[g].length;
+        if (t > sum) break;
+        acc.push(v);
+        rec(g + 1, v + 1, acc, t);
+        acc.pop();
+      }
+    })(0, VMIN, [], 0);
+    return out;
+  }
+
+  function fiveSolutions(statement) {
+    const items = [].concat(...statement.order);
+    const out = [];
+    groupValues(statement.sum, statement.order).forEach(vals => {
+      const cards = [].concat(...statement.order.map((group, g) => group.map(c => ({ colour: c, value: vals[g] }))));
+      PERMS5.forEach(perm => out.push(perm.map(i => cards[i])));
+    });
+    return items.length === 5 ? out : [];
+  }
+
+  // Ordre des 5 cartes : groupes de cartes de même valeur, du plus petit au plus grand.
+  function orderOfCards(cards, rng) {
+    const byValue = {};
+    cards.forEach(c => { (byValue[c.value] = byValue[c.value] || []).push(c.colour); });
+    return Object.keys(byValue).map(Number).sort((a, b) => a - b).map(v => shuffle(byValue[v].slice(), rng));
+  }
+
+  // Niveaux selon le nombre de solutions complètes (couleurs et valeurs à chaque position).
+  const FIVE_LEVELS = {
+    easy:   { min: 1,    max: 600 },
+    medium: { min: 601,  max: 1320 },
+    hard:   { min: 1321, max: Infinity },
+  };
+
+  function fiveLevelOf(nb) {
+    return Object.keys(FIVE_LEVELS).find(k => nb >= FIVE_LEVELS[k].min && nb <= FIVE_LEVELS[k].max);
+  }
+
+  function newFiveGame(level, rng) {
+    rng = rng || Math.random;
+    const randomValue = () => VMIN + Math.floor(rng() * (VMAX - VMIN + 1));
+    for (let tries = 0; tries < 10000; tries++) {
+      const double = COLOURS[Math.floor(rng() * COLOURS.length)];
+      const v1 = randomValue();
+      let v2 = randomValue();
+      while (v2 === v1) v2 = randomValue();
+      const cards = [{ colour: double, value: v1 }, { colour: double, value: v2 }]
+        .concat(COLOURS.filter(c => c !== double).map(c => ({ colour: c, value: randomValue() })));
+      const solution = shuffle(cards, rng);
+      const sum = solution.reduce((t, c) => t + c.value, 0);
+      const statement = { sum, order: orderOfCards(solution, rng), double };
+      const nb = fiveSolutions(statement).length;
+      if (level && fiveLevelOf(nb) !== level) continue;
+      return { statement, solution, nbSolutions: nb, level: fiveLevelOf(nb) };
+    }
+    throw new Error("Aucune partie trouvée pour le niveau " + level);
+  }
+
   const Kimind = { COLOURS, NB_CARDS, VMIN, VMAX, PERMS, LEVELS, SIGNED_LEVELS, orderFromValues, valueSolutions,
-    signedSum, signedLevelOf, newSignedGame, SIGN_COMBOS, HIDDEN_LEVELS, hiddenLevelOf, answerSigns, newHiddenSignsGame, allSolutions, answer, answerRound, validOffer, remaining, levelOf, newGame };
+    signedSum, signedLevelOf, newSignedGame, FIVE_LEVELS, fiveLevelOf, newFiveGame, SIGN_COMBOS, HIDDEN_LEVELS, hiddenLevelOf, answerSigns, newHiddenSignsGame, allSolutions, answer, answerRound, validOffer, remaining, levelOf, newGame };
   if (typeof module !== "undefined" && module.exports) module.exports = Kimind;
   else root.Kimind = Kimind;
 })(this);

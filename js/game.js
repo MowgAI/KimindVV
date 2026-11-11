@@ -57,7 +57,10 @@
 
   // Énoncé : la somme (dans KiMinus, le résultat du calcul ; les signes sont entre les cartes) et l'ordre des couleurs.
   function renderStatement() {
-    const sum = game.statement.sum;
+    const { sum, double } = game.statement;
+    $("tagline").textContent = T.tagline(game.solution.length);
+    $("double-stat").hidden = !double;
+    if (double) { $("lbl-double").textContent = T.doubleColour; $("double").textContent = ""; $("double").append(chip(double)); }
     $("lbl-sum").textContent = withSigns() ? T.signedSum : T.sum;
     $("sum").textContent = sum < 0 ? "−" + -sum : sum;
     const order = $("order");
@@ -84,7 +87,8 @@
     const zone = $("hidden-cards");
     zone.textContent = "";
     zone.classList.toggle("signed", withSigns());
-    for (let p = 0; p < K.NB_CARDS; p++) {
+    zone.classList.toggle("five", game.solution.length === 5);
+    for (let p = 0; p < game.solution.length; p++) {
       if (withSigns() && p) zone.append(el("div", "sign" + (knownSign(p) ? "" : " unknown"), signText(knownSign(p))));
       const slot = el("div", "slot");
       slot.append(el("div", "num", p));
@@ -108,7 +112,8 @@
     const zone = $("offer");
     zone.textContent = "";
     zone.classList.toggle("signed", withSigns());
-    for (let p = 0; p < K.NB_CARDS; p++) {
+    zone.classList.toggle("five", game.solution.length === 5);
+    for (let p = 0; p < game.solution.length; p++) {
       if (withSigns() && p) zone.append(signButton(p));
       const slot = el("div", "slot" + (found[p] ? " found" : "") + (sel === p ? " selected" : ""));
       slot.append(el("div", "num", p));
@@ -127,7 +132,7 @@
 
   function offerCards() {
     const offer = [], fixed = [];
-    for (let p = 0; p < K.NB_CARDS; p++) {
+    for (let p = 0; p < game.solution.length; p++) {
       if (found[p]) fixed.push(game.solution[p]);
       else offer.push({ position: p, colour: draft[p].colour, value: draft[p].value });
     }
@@ -135,7 +140,9 @@
   }
 
   function renderPicker() {
-    const usedByFound = new Set(game.solution.filter((c, p) => found[p]).map(c => c.colour));
+    // Couleur épuisée par les cartes déjà trouvées (2 cartes pour la couleur en double de Kimind 5).
+    const allowed = c => (c === game.statement.double ? 2 : 1);
+    const usedByFound = new Set(K.COLOURS.filter(c => game.solution.filter((card, p) => found[p] && card.colour === c).length >= allowed(c)));
     const cur = sel === null ? {} : draft[sel];
     const colours = $("colours");
     colours.textContent = "";
@@ -162,10 +169,10 @@
     const { offer, fixed } = offerCards();
     const complete = offer.every(c => c.colour && c.value);
     const signsOk = !hiddenSigns() || [1, 2, 3].every(p => signFound[p] || signDraft[p]);
-    const ok = K.validOffer(offer, fixed) && signsOk;
+    const ok = K.validOffer(offer, fixed, game.statement.double) && signsOk;
     $("btn-propose").textContent = T.propose;
     $("btn-propose").disabled = !ok;
-    $("warn").textContent = ok ? "" : !complete ? T.incomplete : !signsOk ? T.incompleteSigns : T.sameColours;
+    $("warn").textContent = ok ? "" : !complete ? T.incomplete : !signsOk ? T.incompleteSigns : game.statement.double ? T.fiveColours(game.statement.double) : T.sameColours;
     $("panel").hidden = won();
     $("offer-zone").hidden = won();
   }
@@ -173,8 +180,8 @@
   // Quand la carte choisie est complète, passe à la suivante qui ne l'est pas.
   function advance() {
     if (!draft[sel].colour || !draft[sel].value) return;
-    for (let i = 1; i < K.NB_CARDS; i++) {
-      const p = (sel + i) % K.NB_CARDS;
+    for (let i = 1; i < game.solution.length; i++) {
+      const p = (sel + i) % game.solution.length;
       if (!found[p] && (!draft[p].colour || !draft[p].value)) { sel = p; return; }
     }
   }
@@ -188,12 +195,12 @@
     rounds.slice().reverse().forEach((round, i) => {
       const li = el("li", "round");
       li.append(el("div", "round-num", T.round(rounds.length - i)));
-      const cls = "mini-row" + (withSigns() ? " signed" : "");
+      const cls = "mini-row" + (withSigns() ? " signed" : "") + (game.solution.length === 5 ? " five" : "");
       const offered = el("div", cls), answers = el("div", cls);
       offered.append(el("span", "mini-lbl", T.proposalTitle));
       answers.append(el("span", "mini-lbl", T.answerTitle));
       const signRound = hiddenSigns() ? signRounds[rounds.length - 1 - i] : [];
-      for (let p = 0; p < K.NB_CARDS; p++) {
+      for (let p = 0; p < game.solution.length; p++) {
         if (withSigns() && p) {
           const sp = signRound.find(sp => sp.position === p);
           if (sp) {
@@ -254,8 +261,8 @@
   function newGame() {
     game = version.newGame($("level").value);
     rounds = [];
-    found = [false, false, false, false];
-    draft = [0, 1, 2, 3].map(() => ({ colour: null, value: null }));
+    found = game.solution.map(() => false);
+    draft = game.solution.map(() => ({ colour: null, value: null }));
     signRounds = [];
     signFound = [true, false, false, false];
     signDraft = [null, null, null, null];
@@ -296,6 +303,7 @@
 
   function renderRules() {
     const lines = T.rulesBody.slice();
+    if (version.id === "kimind5") lines.splice(0, lines.length, ...T.fiveRules);
     if (version.signs === "shown") lines.splice(4, 0, T.signedRule);
     if (version.signs === "hidden") lines.splice(4, 0, T.hiddenSignsRule);
     $("rules-body").textContent = "";
@@ -330,7 +338,6 @@
     $("menu-title").textContent = T.menuTitle;
     $("lbl-menu").textContent = T.menu;
     renderMenu();
-    $("tagline").textContent = T.tagline;
     $("lbl-level").textContent = T.level;
     $("btn-new").textContent = T.newGame;
     $("lbl-rules").textContent = T.rules;

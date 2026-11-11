@@ -34,6 +34,11 @@ LANGS.en = {
       subtitle: "Variant 1: pluses and minuses",
       description: "Card ranks are added or subtracted, for example card 0 + card 1 − card 2 + card 3 = 25. The signs are given.",
     },
+    kimind5: {
+      name: "Kimind 5",
+      subtitle: "5 cards, one colour twice",
+      description: "Five hidden cards: one colour has two cards (the puzzle says which). The order covers all 5 cards, so the doubled colour appears in it twice.",
+    },
     kimminmaxus: {
       name: "KimMinmaxus",
       subtitle: "Variant 2: hidden signs",
@@ -42,7 +47,7 @@ LANGS.en = {
   },
   menu: "Menu",
   play: "Play",
-  tagline: "Guess the colours and ranks of the 4 hidden cards.",
+  tagline: n => "Guess the colours and ranks of the " + n + " hidden cards.",
   colours: { blue: "blue", green: "green", red: "red", yellow: "yellow" },
   levels: { easy: "Easy", medium: "Medium", hard: "Hard" },
   level: "Level",
@@ -80,6 +85,17 @@ LANGS.en = {
   signOf: p => "Sign of card " + p,
   signOk: "right sign",
   signKo: "wrong sign",
+  doubleColour: "Colour with two cards:",
+  fiveColours: c => "You need 2 " + c + " cards, 1 card of each other colour, and no card twice.",
+  fiveRules: [
+    "Five cards are hidden, at positions 0, 1, 2, 3 and 4.",
+    "Each card has a rank from 1 to 10 and a colour: blue, green, red or yellow.",
+    "One colour has two cards (with different ranks): the puzzle says which. The other three colours have one card each.",
+    "You know the sum of the 5 ranks and the order of the 5 cards: the doubled colour appears in it twice, for example green < blue < red = yellow < blue.",
+    "Each round, offer one card for each position: 2 cards of the doubled colour and 1 of each other colour.",
+    "For each position, the game answers: the card turns over if it is right; otherwise the frame has the colour of your card if the colour is right, grey if not, with “More” if the true rank is higher, “Less” if it is lower and “Equal” if it is right.",
+    "Cards you have found stay in place; the others must be offered again. Find the five cards in as few rounds as possible!",
+  ],
   incompleteSigns: "Choose a sign between each pair of cards (click the ?).",
   rulesBody: [
     "Four cards are hidden, at positions 0, 1, 2 and 3.",
