@@ -37,3 +37,4 @@ La théorie du domaine de l'auteur (bkKiboomGenerale.pl, Prolog) décrit élève
 - Ajouter des indices, par exemple pour la version la plus difficile (KimMinmaxus, niveau Difficile).
 - Chercher d'autres variantes de Kimind.
 - Récompenses, comme dans Kiboo : par exemple, Play Kiboo bloqué au départ, et des parties de Kiboo débloquées par des succès dans les exercices. À faire seulement quand l'auteur le demande.
+- Pour la personnalisation, une récompense : quand l'enfant a gagné une carte, il peut lui donner un nom. Ce nom reste en local, pour ce joueur seulement, et la parade et la présentation des personnages l'utilisent. À faire avec la personnalisation et les récompenses.
