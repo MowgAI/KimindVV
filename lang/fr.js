@@ -39,6 +39,7 @@ LANGS.fr = {
   persoTitle: "Personnalisation",
   menuKiboo: { name: "Kiboo", subtitle: "Le petit bridge", description: "Le jeu de cartes de Kiboo, contre des robots qui ont chacun leur caractère. Il s'ouvre dans un autre onglet.", action: "Jouer" },
   menuPlayer: { name: "Qui joue ?", subtitle: "Le joueur", description: "Choisis ton prénom ou ton pseudo : tes résultats sont gardés à ton nom.", action: "Choisir" },
+  homeBtn: "Accueil",
   menuSoon: { name: "Bientôt", subtitle: "Ton profil", description: "Ton profil, des questions pour mieux te connaître, et des jeux qui s'adaptent à toi (d'abord dans Kimba)." },
   games: {
     kimba: { name: "Kimba", subtitle: "Compte les couleurs", description: "Combien y a-t-il de cartes de chaque couleur ? Compte-les avec Archi." },

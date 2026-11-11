@@ -107,12 +107,14 @@ const Home = (() => {
   // Textes (au début et quand la langue change) ; la page ouverte est redessinée.
   function texts(t) {
     T = t;
+    $("btn-home").textContent = "🏠 " + t.homeBtn;
     if (!$("home").hidden) render();
   }
 
   function init(setLang) {
     onLang = setLang;
     $("logo-btn").addEventListener("click", open);
+    $("btn-home").addEventListener("click", open);
     $("home").addEventListener("keydown", e => { if (e.key === "Escape") close(); });
     if (!location.hash) open();
   }

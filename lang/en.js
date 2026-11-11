@@ -38,6 +38,7 @@ LANGS.en = {
   persoTitle: "Personalisation",
   menuKiboo: { name: "Kiboo", subtitle: "Mini-bridge", description: "The Kiboo card game, against robots that each have their own personality. It opens in another tab.", action: "Play" },
   menuPlayer: { name: "Who's playing?", subtitle: "The player", description: "Pick your name or nickname: your results are kept under your name.", action: "Choose" },
+  homeBtn: "Home",
   menuSoon: { name: "Coming soon", subtitle: "Your profile", description: "Your profile, questions to get to know you, and games that adapt to you (first in Kimba)." },
   games: {
     kimba: { name: "Kimba", subtitle: "Count the colours", description: "How many cards of each colour are there? Count them with Archi." },
