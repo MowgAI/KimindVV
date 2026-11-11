@@ -18,7 +18,7 @@ Un jeu à la fois, en attendant l'avis de l'auteur. Noms choisis par l'auteur :
 6. La balance de Nath → **Kibal** (fait, `js/kibal.js`)
 7. La baguette de Galadriel (règle graduée) → **KiPotter** (fait, `js/kipotter.js`)
 8. Le bouche-trou de Ray (calcul à compléter) → **Kicompuzzle** (fait, `js/kicompuzzle.js`)
-9. Les dalles de Béa → **Kipuzzle**
+9. Les dalles de Béa → **Kipuzzle** (fait, `js/kipuzzle.js`)
 10. Joue avec Flo → pas fait (c'est déjà Kiboo)
 11. La bataille (le personnage s'appelle Poupetta, plus Yavin) → **Kiduel**
 

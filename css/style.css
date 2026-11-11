@@ -144,17 +144,39 @@ body.parade-open { overflow: hidden; }
   .other-ctrl { margin-left: 0; }
 }
 
+/* Kipuzzle */
+.pz-zone { padding: 12px; margin-bottom: 12px; overflow-x: auto; }
+.pz-grid { --cell: 46px; display: grid; grid-template-columns: repeat(11, var(--cell)); grid-auto-rows: calc(var(--cell) * 1.3); gap: 3px; justify-content: center; }
+.pz-cell { border: 0; padding: 0; border-radius: 6px; background: rgba(255,255,255,0.35); display: grid; place-items: center; }
+.pz-cell.near { background: rgba(255,255,255,0.75); }
+.pz-cell.valid { background: var(--pick); cursor: pointer; }
+.pz-cell.hint { animation: blink 0.8s ease-in-out infinite; }
+.pz-cell.full { background: transparent; }
+.pz-cell.undo { cursor: pointer; outline: 3px dashed var(--pick); }
+.card.pz-card { --w: calc(var(--cell) * 0.84); }
+.pz-hand { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.card.pz-hand-card { --w: 64px; border: 0; padding: 0; cursor: pointer; }
+.pz-hand-card.chosen { box-shadow: 0 0 0 4px var(--pick); transform: translateY(-6px); }
+.pz-hand-card.hint { animation: blink 0.8s ease-in-out infinite; }
+.pz-hand-lbl { margin: 0 0 6px; color: var(--ink-soft); }
+@keyframes blink { 50% { opacity: 0.4; } }
+@media (max-width: 560px) {
+  .pz-grid { --cell: 29px; gap: 2px; }
+  .card.pz-hand-card { --w: 50px; }
+}
+@media (prefers-reduced-motion: reduce) { .pz-cell.hint, .pz-hand-card.hint { animation: none; outline: 3px solid var(--sun); } }
+
 /* Kicompuzzle */
 .cp-zone { padding: 20px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 28px; align-items: center; }
 .cp-hand { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; min-height: calc(76px * 1.52); }
 .cp-calc { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center; }
-.cp-card { --w: 76px; border: 0; padding: 0; cursor: pointer; }
+.card.cp-card { --w: 76px; border: 0; padding: 0; cursor: pointer; }
 .cp-slot { width: 76px; aspect-ratio: 145 / 220; border-radius: 8px; border: 3px dashed var(--ink-soft); background: var(--panel); opacity: 0.7; }
 .cp-op { font: inherit; font-size: 2rem; font-weight: 700; width: 1.6em; height: 1.6em; border-radius: 12px; border: 3px solid transparent; background: var(--panel); color: var(--ink); }
 .cp-op.choose { cursor: pointer; border-color: var(--pick); }
 .cp-eq { font-size: 2.2rem; font-weight: 700; margin-left: 6px; }
 @media (max-width: 560px) {
-  .cp-card, .cp-slot { --w: 54px; width: 54px; }
+  .card.cp-card, .cp-slot { --w: 54px; width: 54px; }
   .cp-hand { min-height: calc(54px * 1.52); }
   .cp-op { font-size: 1.5rem; }
   .cp-eq { font-size: 1.6rem; }
@@ -170,7 +192,7 @@ body.parade-open { overflow: hidden; }
 .np-marker { position: absolute; top: -26px; transform: translateX(-50%); font-size: 1.8rem; color: var(--pick); line-height: 1; }
 .np-value { position: absolute; top: -26px; left: 50%; transform: translateX(-50%); font-size: 1.1rem; font-weight: 700; color: var(--ink); }
 .np-choices { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-.np-card { --w: 80px; border: 0; padding: 0; cursor: pointer; }
+.card.np-card { --w: 80px; border: 0; padding: 0; cursor: pointer; }
 .np-choice { font-size: 1.6rem; min-width: 3.2em; padding: 10px 20px; }
 .np-card.ok, .np-choice.ok { box-shadow: 0 0 0 4px var(--ok); }
 .np-card.ko, .np-choice.ko { box-shadow: 0 0 0 4px var(--ko); }
@@ -178,7 +200,7 @@ body.parade-open { overflow: hidden; }
 @media (max-width: 560px) {
   .np-zone { padding: 20px 18px 16px; }
   .np-label { font-size: 0.8rem; }
-  .np-card { --w: 64px; }
+  .card.np-card { --w: 64px; }
 }
 
 /* Kibal */
@@ -196,14 +218,14 @@ body.parade-open { overflow: hidden; }
 
 /* KiDory */
 .mem-grid { display: grid; grid-template-columns: repeat(var(--cols), auto); justify-content: center; gap: 10px; padding: 16px; margin-bottom: 12px; }
-.mem-card { --w: 76px; border: 0; padding: 0; cursor: pointer; transition: transform 0.2s; }
+.card.mem-card { --w: 76px; border: 0; padding: 0; cursor: pointer; transition: transform 0.2s; }
 .mem-card:disabled { cursor: default; }
 .mem-card.face { animation: flip-card 0.25s ease-out; }
 .mem-card.found { box-shadow: 0 0 0 3px var(--ok); }
 @keyframes flip-card { from { transform: rotateY(90deg); } to { transform: none; } }
 @media (max-width: 560px) {
   .mem-grid { grid-template-columns: repeat(4, auto); gap: 6px; }
-  .mem-card { --w: 58px; }
+  .card.mem-card { --w: 58px; }
 }
 @media (prefers-reduced-motion: reduce) { .mem-card.face { animation: none; } }
 
