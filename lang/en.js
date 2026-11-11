@@ -25,6 +25,7 @@ LANGS.en = {
   games: {
     kimba: { name: "Kimba", subtitle: "Count the colours", description: "How many cards of each colour are there? Count them with Archi." },
     kiplus: { name: "Kiplus", subtitle: "Add up the colours", description: "Add up the cards of each colour with Lili." },
+    kijun: { name: "KiJun", subtitle: "Sort and add up", description: "Sort the cards of each colour, add them up, then sort the colours, with Mary." },
   },
   colourGames: {
     help: "Help",
@@ -42,6 +43,19 @@ LANGS.en = {
     rule: "Count the cards of each colour, then give your answer for each colour.",
     box: c => "Number of " + c + " cards",
     retry: "Almost! Count the colours in red again.",
+  },
+  kijun: {
+    rule: "Sort the cards, add up each colour, then sort the colours.",
+    stepTitle: n => "Step " + n + ":",
+    dir: { asc: "from smallest to largest", desc: "from largest to smallest" },
+    step1: d => "sort the cards of each colour " + d + " (click the cards in order).",
+    step2: "add up the cards of each colour.",
+    step3: d => "sort the colours " + d.replace("smallest", "smallest sum").replace("largest", "largest sum") + ".",
+    stepOk: "Well done, that's right! On to the next step.",
+    stepShown: "Here is the right answer for this step. On to the next step.",
+    retry: "Almost! Look at what's in red and fix it.",
+    endShown: "Game over! One step was tricky: let's try something a little easier.",
+    score: (n, total) => n + " game" + (n === 1 ? "" : "s") + " won out of " + total,
   },
   kiplus: {
     rule: "Add up the cards of each colour, then type the result for each colour.",

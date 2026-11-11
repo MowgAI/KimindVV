@@ -27,4 +27,5 @@ const VERSIONS = [
 const GAMES = [
   { id: "kimba", image: "assets/characters/archi.webp", screen: "kimba-screen", game: () => Kimba },
   { id: "kiplus", image: "assets/characters/lili.webp", screen: "kiplus-screen", game: () => Kiplus },
+  { id: "kijun", image: "assets/characters/mary.webp", screen: "kijun-screen", game: () => KiJun },
 ];

@@ -26,6 +26,7 @@ LANGS.fr = {
   games: {
     kimba: { name: "Kimba", subtitle: "Compte les couleurs", description: "Combien y a-t-il de cartes de chaque couleur ? Compte-les avec Archi." },
     kiplus: { name: "Kiplus", subtitle: "Additionne les couleurs", description: "Additionne les cartes de chaque couleur avec Lili." },
+    kijun: { name: "KiJun", subtitle: "Range et additionne", description: "Range les cartes de chaque couleur, additionne-les, puis range les couleurs, avec Mary." },
   },
   colourGames: {
     help: "Aide",
@@ -43,6 +44,19 @@ LANGS.fr = {
     rule: "Compte les cartes de chaque couleur, puis donne ta réponse pour chaque couleur.",
     box: c => "Nombre de cartes " + { bleu: "bleues", vert: "vertes", rouge: "rouges", jaune: "jaunes" }[c],
     retry: "Presque ! Recompte les couleurs en rouge.",
+  },
+  kijun: {
+    rule: "Range les cartes, additionne chaque couleur, puis range les couleurs.",
+    stepTitle: n => "Étape " + n + " :",
+    dir: { asc: "de la plus petite à la plus grande", desc: "de la plus grande à la plus petite" },
+    step1: d => "range les cartes de chaque couleur " + d + " (clique sur les cartes dans l'ordre).",
+    step2: "additionne les cartes de chaque couleur.",
+    step3: d => "range les couleurs " + d.replace("la plus petite", "la plus petite somme").replace("la plus grande", "la plus grande somme") + ".",
+    stepOk: "Bravo, c'est juste ! On passe à la suite.",
+    stepShown: "Voici la bonne réponse pour cette étape. On passe à la suite.",
+    retry: "Presque ! Regarde ce qui est en rouge et corrige.",
+    endShown: "Partie finie ! Une étape t'a donné du mal : on recommence un peu plus facile.",
+    score: (n, total) => n + " partie" + (n > 1 ? "s" : "") + " réussie" + (n > 1 ? "s" : "") + " sur " + total,
   },
   kiplus: {
     rule: "Additionne les cartes de chaque couleur, puis tape le résultat pour chaque couleur.",
