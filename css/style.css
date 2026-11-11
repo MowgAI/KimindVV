@@ -535,10 +535,4 @@ dialog li { margin-bottom: 6px; }
   .mini-row.signed .card { --w: 44px; }
 }
 
-/* Kiboo ouvert dans KibooM : barre de retour en haut, l'application dessous. */
-.kiboo-view { position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column; background: #fff; }
-.kiboo-view[hidden] { display: none; }
-.kiboo-bar { display: flex; align-items: center; gap: 12px; padding: 8px 16px; padding-top: max(8px, env(safe-area-inset-top)); background: var(--brand); }
-.kiboo-bar .act { background: #fff; color: var(--brand); }
-.kiboo-name { color: #fff; font-weight: 700; font-size: 1.1rem; }
-#kiboo-frame { flex: 1; width: 100%; border: 0; }
+.rub-note { margin: 0; font-size: 0.85rem; font-weight: 600; color: var(--brand); }
