@@ -16,4 +16,8 @@ const VERSIONS = [
     signs: "hidden",
     newGame: level => Kimind.newHiddenSignsGame(level),
   },
+  {
+    id: "kimind5",
+    newGame: level => Kimind.newFiveGame(level),
+  },
 ];

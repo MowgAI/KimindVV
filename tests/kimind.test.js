@@ -86,4 +86,30 @@ for (const level of Object.keys(K.HIDDEN_LEVELS)) {
   }
 }
 
+// Kimind 5 : 5 cartes, une couleur en double (valeurs différentes), ordre sur les 5 cartes.
+for (const level of Object.keys(K.FIVE_LEVELS)) {
+  for (let i = 0; i < 30; i++) {
+    const g = K.newFiveGame(level);
+    const { sum, order, double } = g.statement;
+    assert.strictEqual(g.level, level);
+    assert.strictEqual(g.solution.length, 5);
+    assert.strictEqual(g.solution.filter(c => c.colour === double).length, 2);
+    assert.strictEqual(new Set(g.solution.map(c => c.colour + "-" + c.value)).size, 5);
+    assert.strictEqual([].concat(...order).filter(c => c === double).length, 2);
+    assert.strictEqual(g.solution.reduce((t, c) => t + c.value, 0), sum);
+    const all = K.allSolutions(g.statement);
+    assert.strictEqual(all.length, g.nbSolutions);
+    assert.ok(all.some(s => JSON.stringify(s) === JSON.stringify(g.solution)));
+    assert.ok(K.validOffer(g.solution, [], double));
+    const rest = K.remaining(g.statement, K.answerRound(g.solution, [0, 1, 2, 3, 4].map(p => ({ position: p, colour: double, value: 5 }))));
+    assert.ok(rest.some(s => JSON.stringify(s) === JSON.stringify(g.solution)));
+  }
+}
+// Répartition des couleurs dans une proposition à 5 cartes.
+const five = [{ colour: "blue", value: 2 }, { colour: "blue", value: 7 }, { colour: "red", value: 3 }, { colour: "green", value: 4 }, { colour: "yellow", value: 1 }];
+assert.ok(K.validOffer(five, [], "blue"));
+assert.ok(!K.validOffer(five, [], "red"));
+assert.ok(!K.validOffer(five.slice(0, 1).concat({ colour: "blue", value: 2 }, five.slice(2)), [], "blue"));
+assert.ok(!K.validOffer(five.slice(0, 4), [], "blue"));
+
 console.log("Tous les tests passent.");

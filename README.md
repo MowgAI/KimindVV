@@ -26,6 +26,7 @@ Le jeu s'ouvre sur un menu, avec une carte par choix : « Règles du jeu » (but
 - **Kimind (version initiale)** : les règles ci-dessus.
 - **KiMinus** (`#kiminus`, variante 1) : les valeurs s'ajoutent ou se retranchent. La carte 0 compte en +, chacune des autres en + ou en −, par exemple `carte 0 + carte 1 − carte 2 + carte 3 = 25` ; le résultat va de −29 à 40. Les signes changent à chaque partie et s'affichent entre les cartes cachées. Le reste des règles ne change pas.
 - **KimMinmaxus** (`#kimminmaxus`, variante 2) : comme KiMinus, mais les signes sont cachés (seul le résultat est donné). À chaque tour, le joueur propose aussi un signe entre ses cartes ; le jeu dit si chaque signe est juste, et un signe juste reste en place. La partie est gagnée quand les 4 cartes et les 3 signes sont trouvés.
+- **Kimind 5** (`#kimind5`) : 5 cartes cachées (positions 0 à 4). Une couleur a deux cartes, de valeurs différentes, et l'énoncé dit laquelle ; les trois autres couleurs ont une carte chacune. L'ordre porte sur les 5 cartes (la couleur en double y apparaît deux fois, par exemple `vert < bleu < rouge = jaune < bleu`). Une proposition doit avoir 2 cartes de la couleur en double et 1 de chaque autre, sans deux fois la même carte.
 
 ## Niveaux
 
@@ -46,6 +47,12 @@ Dans KimMinmaxus, on compte aussi les signes possibles (solutions complètes : c
 - Facile : 1 à 340
 - Moyen : 341 à 850
 - Difficile : 851 et plus
+
+Dans Kimind 5, on compte les solutions complètes (couleurs et valeurs aux 5 positions), avec les mêmes proportions de parties par niveau :
+
+- Facile : 1 à 600
+- Moyen : 601 à 1 320
+- Difficile : 1 321 et plus
 
 ## Lancer
 

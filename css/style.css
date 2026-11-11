@@ -126,6 +126,8 @@ body.parade-open { overflow: hidden; }
 .version.extra { border-style: dashed; }
 
 /* Énoncé */
+/* L'énoncé reste visible en haut de l'écran pendant toute la partie. */
+.play-col .statement { position: sticky; top: 0; z-index: 5; box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
 .statement {
   display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center;
   background: var(--panel); border: 2px solid var(--line); border-radius: 16px;
@@ -159,6 +161,7 @@ body.parade-open { overflow: hidden; }
 /* Cartes cachées */
 .table { background: var(--felt); border-radius: 16px; padding: 12px 8px; margin-bottom: 16px; }
 .slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.slots.five { grid-template-columns: repeat(5, 1fr); gap: 4px; }
 .slot { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .num { color: var(--felt-ink); font-weight: 600; }
 .slot-btn { border: 0; padding: 6px; background: transparent; border-radius: 14px; cursor: pointer; }
@@ -218,6 +221,8 @@ body.parade-open { overflow: hidden; }
 .round-num { font-weight: 600; color: var(--felt-ink); margin-bottom: 4px; }
 .mini-row { display: grid; grid-template-columns: 5.6em repeat(4, minmax(0, 1fr)); gap: 6px; align-items: center; justify-items: center; }
 .mini-row + .mini-row { margin-top: 6px; }
+.mini-row.five { grid-template-columns: 5.6em repeat(5, minmax(0, 1fr)); gap: 4px; }
+.mini-row.five .card { --w: 46px; }
 .mini-lbl { justify-self: start; font-size: 0.8rem; color: var(--felt-ink); }
 .mini-row .card { --w: 52px; }
 .mini-row .frame-lbl { font-size: 10px; padding: 1px 3px; min-width: 80%; }
@@ -263,6 +268,10 @@ dialog li { margin-bottom: 6px; }
   :root { --cw: 64px; }
   .slot-btn { padding: 4px; }
   .mini-row { grid-template-columns: 4.6em repeat(4, minmax(0, 1fr)); }
+  .mini-row.five { grid-template-columns: 4.6em repeat(5, minmax(0, 1fr)); }
+  .mini-row.five .card { --w: 40px; }
+  .slots.five .card { --w: 56px; }
+  .slots.five .slot-btn { padding: 2px; }
   .mini-row .card { --w: 48px; }
   .mini-row.signed { grid-template-columns: 4.6em repeat(7, auto); }
   .slots.signed { gap: 2px; }
