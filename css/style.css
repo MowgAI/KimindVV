@@ -144,6 +144,25 @@ body.parade-open { overflow: hidden; }
   .other-ctrl { margin-left: 0; }
 }
 
+/* Personnalisation : humeurs, joueur, statistiques */
+.mood-bar { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
+.mood-lbl { color: var(--ink-soft); margin-right: 4px; }
+.mood { font-size: 1.6rem; line-height: 1; padding: 4px 6px; border-radius: 12px; border: 2px solid transparent; background: var(--panel); cursor: pointer; }
+.mood.on { border-color: var(--pick); }
+.mood-said { color: var(--ink-soft); margin-left: 6px; }
+#dlg-player input { font: inherit; padding: 6px 10px; border-radius: 10px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); }
+.stats-table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+.stats-table th, .stats-table td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: left; }
+.stats-table th { color: var(--ink-soft); font-weight: 600; }
+#stats-body { overflow-x: auto; }
+#stats-body h3 { margin: 12px 0 6px; }
+.stats-note { color: var(--ink-soft); font-size: 0.85rem; }
+.stats-moods { display: flex; gap: 12px; flex-wrap: wrap; }
+.cg-box { position: relative; }
+.cg-box.revealed { border-style: dashed; }
+.cg-hint { position: absolute; top: -10px; right: -10px; font-size: 1rem; background: var(--pick); color: #fff; border-radius: 50%; width: 1.6em; height: 1.6em; display: grid; place-items: center; }
+.help-choice { border-color: var(--pick); }
+
 .lang-wrap { display: flex; align-items: center; gap: 6px; }
 .head-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .menu-title { font-size: 1.3rem; font-weight: 600; margin: 20px 0 12px; }

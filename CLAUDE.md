@@ -24,6 +24,10 @@ Un jeu à la fois, en attendant l'avis de l'auteur. Noms choisis par l'auteur :
 
 Images des personnages : dépôt organizationMowgAI/Kimind (`img/characters`, `img/bubbles`), converties dans `assets/characters/`. Jeux « une réponse par couleur » : `js/colourgame.js`.
 
+## Personnalisation
+
+La théorie du domaine de l'auteur (bkKiboomGenerale.pl, Prolog) décrit élèves, états, exercices (instances), cartes, personnages et comportements, pour l'ILP. Les données de l'application sont gardées dans le navigateur (`js/store.js`) et exportées en faits au format de cette BK (`js/stats.js`, page Statistiques). Travailler d'abord sur Kimba.
+
 ## À rappeler à l'auteur au début de la prochaine session
 
 - Ajouter des indices, par exemple pour la version la plus difficile (KimMinmaxus, niveau Difficile).

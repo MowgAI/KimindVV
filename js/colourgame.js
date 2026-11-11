@@ -3,6 +3,13 @@
    des cartes dans Kiplus).
    Progression : une bonne réponse du premier coup fait monter d'un niveau ; deux erreurs
    dans le même tour font redescendre d'un niveau, et le jeu montre la bonne réponse.
+   Bouton « Aide », de trois sortes (à choisir sur l'écran, pour comparer) : « choices » : pour
+   la couleur choisie, le pavé ne propose plus que 4 réponses consécutives, dont la bonne
+   (possible_answers de la BK) ; « direction » : les réponses fausses affichent ▲ (la bonne est
+   plus grande) ou ▼ (plus petite) ; « reveal » : la bonne réponse de la couleur choisie
+   s'affiche. Un essai pendant lequel l'aide a servi est noté non autonome.
+   Chaque exercice est enregistré (js/store.js) : cartes, bonne réponse, essais avec leur
+   temps et leur autonomie, aides, abandon, feedback reçu.
    Chaque jeu a son écran (<section id="<id>-screen">), construit ici. */
 function ColourGame(opts) {
   "use strict";
@@ -11,7 +18,7 @@ function ColourGame(opts) {
   // au lieu d'un choix de 1 à 10).
   const { id, levels } = opts;
   const COLOURS = ["blue", "green", "red", "yellow"];
-  let T = null, level = 1, round = null, sel = 0, score = 0, rounds = 0;
+  let T = null, level = 1, round = null, sel = 0, score = 0, rounds = 0, helpType = "choices";
   let screen = null;
   const q = role => screen.querySelector("[data-r=" + role + "]");
 
@@ -23,8 +30,34 @@ function ColourGame(opts) {
   }
 
   const expected = c => opts.answer(round.cards.filter(card => card.colour === c));
+  const cardCode = c => c.colour[0] + c.value;            // r1, b10… comme dans la BK
+
+  // 4 réponses consécutives contenant la bonne, à partir de 1 (possible_answers de la BK).
+  function possibleAnswers(good) {
+    const first = Math.max(1, good - Math.floor(Math.random() * 4));
+    return [first, first + 1, first + 2, first + 3];
+  }
+
+  // Indice de désordre de la disposition (chaos_measure de la BK, de 0 à 250) : 0 pour des
+  // cartes rangées par couleur, 20 pour des cartes mélangées en ligne, 60 + l'angle moyen
+  // pour des cartes posées en désordre.
+  function chaosMeasure(r) {
+    if (!r.scattered) return r.grouped ? 0 : 20;
+    return 60 + Math.round(r.spots.spots.reduce((t, s) => t + Math.abs(s.rot), 0) / r.spots.spots.length);
+  }
+
+  // Un tour laissé en plan (nouveau tour, changement de niveau, retour au menu) est un abandon.
+  function leave() {
+    if (round && !round.done && round.inst) {
+      round.inst.ragequit = true;
+      round.inst.ragequitTry = round.inst.tries.length;
+      round.inst.end = Date.now();
+      Store.save();
+    }
+  }
 
   function newRound() {
+    leave();
     const dealt = opts.deal(levels[level - 1]);
     round = {
       cards: dealt.cards,
@@ -36,9 +69,26 @@ function ColourGame(opts) {
       errors: 0,
       done: false,
       checked: false,
+      helped: {},                 // couleurs pour lesquelles les 4 réponses au choix sont affichées
+      hints: {},                  // couleur → « more » ou « less » (aide plus ou moins)
+      revealed: {},               // couleurs dont la bonne réponse a été montrée
+      helpThisTry: false,
+      tryStart: Date.now(),
     };
+    round.possible = {};
+    round.colours.forEach(c => { round.possible[c] = possibleAnswers(expected(c)); });
     sel = 0;
     render();
+    const correct = {}, possible = {};
+    COLOURS.forEach(c => {
+      correct[c] = round.colours.includes(c) ? expected(c) : 0;
+      possible[c] = round.possible[c] || [0, 0, 0, 0];
+    });
+    round.inst = Store.startInstance({
+      game: id, level, cards: round.cards.map(cardCode), correct, possible,
+      layout: round.scattered ? "scattered" : round.grouped ? "grouped" : "mixed",
+      chaos: chaosMeasure(round),
+    });
   }
 
   // Cartes en désordre : chacune dans une case d'une grille plus grande que nécessaire,
@@ -110,9 +160,11 @@ function ColourGame(opts) {
     round.colours.forEach((c, i) => {
       const a = round.answers[c];
       const wrong = round.checked && a !== expected(c);
-      const b = el("button", "cg-box c-" + c + (sel === i && !round.done ? " selected" : "") + (round.checked ? (wrong ? " ko" : " ok") : ""), a === undefined ? "?" : a);
+      const b = el("button", "cg-box c-" + c + (sel === i && !round.done ? " selected" : "") + (round.checked ? (wrong ? " ko" : " ok") : "") + (round.revealed[c] ? " revealed" : ""), a === undefined ? "?" : a);
       b.type = "button";
-      b.disabled = round.done;
+      b.disabled = round.done || round.revealed[c];
+      const hint = round.hints[c];
+      if (hint && a !== undefined && a !== expected(c)) b.append(el("span", "cg-hint", hint === "more" ? "▲" : "▼"));
       b.setAttribute("aria-label", T[id].box(T.colours[c]));
       b.addEventListener("click", () => { sel = i; round.checked = false; render(); });
       answers.append(b);
@@ -120,8 +172,18 @@ function ColourGame(opts) {
 
     const pad = q("pad");
     pad.textContent = "";
-    const press = fn => () => { fn(round.colours[sel]); round.checked = false; render(); };
-    if (opts.digits) {
+    const press = fn => () => { const c = round.colours[sel]; fn(c); delete round.hints[c]; round.checked = false; render(); };
+    const selColour = round.colours[sel];
+    if (round.helped[selColour]) {
+      // Aide : 4 réponses au choix pour cette couleur.
+      round.possible[selColour].forEach(v => {
+        const b = el("button", "choice value help-choice", v);
+        b.type = "button";
+        b.disabled = round.done;
+        b.addEventListener("click", press(c => { round.answers[c] = v; nextBox(); }));
+        pad.append(b);
+      });
+    } else if (opts.digits) {
       // Pavé de chiffres : la réponse se tape chiffre par chiffre (deux chiffres au plus).
       [1, 2, 3, 4, 5, 6, 7, 8, 9, 0].forEach(d => {
         const b = el("button", "choice value", d);
@@ -154,6 +216,10 @@ function ColourGame(opts) {
     }
 
     const complete = round.colours.every(c => round.answers[c] !== undefined);
+    q("help").hidden = round.done;
+    q("help").disabled = helpType === "choices" ? !!round.helped[selColour]
+      : helpType === "reveal" ? !!round.revealed[selColour] || round.colours.every(c => round.revealed[c])
+      : !round.colours.some(c => round.answers[c] !== undefined && round.answers[c] !== expected(c) && !round.hints[c]);
     q("check").hidden = round.done;
     q("check").disabled = !complete;
     q("next").hidden = !round.done;
@@ -169,6 +235,19 @@ function ColourGame(opts) {
   function check() {
     round.checked = true;
     const good = round.colours.every(c => round.answers[c] === expected(c));
+    // Essai enregistré : réponse pour les 4 couleurs (0 pour une couleur absente), temps de
+    // réponse en secondes, autonomie (pas d'aide demandée pendant cet essai).
+    const answers = {};
+    COLOURS.forEach(c => { answers[c] = round.colours.includes(c) ? round.answers[c] : 0; });
+    round.inst.tries.push({ answers, time: Math.round((Date.now() - round.tryStart) / 100) / 10, autonomous: !round.helpThisTry, success: good });
+    round.inst.feedback = good ? "appreciative" : "informative";
+    round.tryStart = Date.now();
+    round.helpThisTry = false;
+    if (good || round.errors >= 1) {
+      round.inst.success = good;
+      round.inst.end = Date.now();
+    }
+    Store.save();
     if (good) {
       round.done = true;
       rounds++;
@@ -199,6 +278,7 @@ function ColourGame(opts) {
         <div class="other-ctrl">
           <button class="act ghost" type="button" data-r="menu"></button>
           <label class="level-wrap"><span data-r="lbl-level"></span><select data-r="level"></select></label>
+          <label class="level-wrap"><span data-r="lbl-help"></span><select data-r="help-type"></select></label>
         </div>
       </div>
       <div class="table cg-cards" data-r="cards"></div>
@@ -206,6 +286,7 @@ function ColourGame(opts) {
         <div class="cg-answers" data-r="answers"></div>
         <div class="choices cg-pad" data-r="pad"></div>
         <div class="pick-row">
+          <button class="act ghost" type="button" data-r="help"></button>
           <button class="act big" type="button" data-r="check"></button>
           <button class="act big" type="button" data-r="next" hidden></button>
           <span class="cg-msg" data-r="msg" aria-live="polite"></span>
@@ -213,6 +294,26 @@ function ColourGame(opts) {
       </div>
       <p class="status" data-r="score"></p>`;
     q("check").addEventListener("click", check);
+    q("help").addEventListener("click", () => {
+      const c = round.colours[sel];
+      let colours = [c];
+      if (helpType === "choices") round.helped[c] = true;
+      else if (helpType === "reveal") {
+        round.revealed[c] = true;
+        round.answers[c] = expected(c);
+        nextBox();
+      } else {
+        colours = round.colours.filter(x => round.answers[x] !== undefined && round.answers[x] !== expected(x));
+        colours.forEach(x => { round.hints[x] = round.answers[x] < expected(x) ? "more" : "less"; });
+      }
+      round.helpThisTry = true;
+      round.inst.help++;
+      (round.inst.helps = round.inst.helps || []).push({ type: helpType, colours, try: round.inst.tries.length, time: Math.round((Date.now() - round.inst.start) / 100) / 10 });
+      round.checked = false;
+      Store.save();
+      render();
+    });
+    q("help-type").addEventListener("change", () => { helpType = q("help-type").value; if (round) render(); });
     q("next").addEventListener("click", () => { say(""); newRound(); });
     q("level").addEventListener("change", () => { level = Number(q("level").value); say(""); newRound(); });
     q("menu").addEventListener("click", () => { location.hash = ""; });
@@ -226,6 +327,12 @@ function ColourGame(opts) {
     q("lbl-level").textContent = T.level;
     q("menu").textContent = "☰ " + T.menu;
     q("check").textContent = T.colourGames.check;
+    q("help").textContent = "💡 " + T.colourGames.help;
+    q("lbl-help").textContent = T.colourGames.helpType;
+    const h = q("help-type");
+    h.textContent = "";
+    Object.keys(T.colourGames.helpTypes).forEach(k => h.append(new Option(T.colourGames.helpTypes[k], k)));
+    h.value = helpType;
     q("next").textContent = T.colourGames.next;
     const s = q("level");
     s.textContent = "";
@@ -242,7 +349,7 @@ function ColourGame(opts) {
     newRound();
   }
 
-  return { init, start, texts };
+  return { init, start, texts, leave, current: () => (round && round.inst ? round.inst.id : null) };
 }
 
 /* Outils de tirage communs. */
