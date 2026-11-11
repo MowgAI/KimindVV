@@ -13,7 +13,7 @@ Un jeu à la fois, en attendant l'avis de l'auteur. Noms choisis par l'auteur :
 1. Compte avec Archi → **Kimba** (fait)
 2. Ajoute avec Lili → **Kiplus** (fait)
 3. Range avec Mary → **KiJun** (fait, `js/kijun.js`)
-4. La pyramide de Fonzy → **Kipharaon**
+4. La pyramide de Fonzy → **Kipharaon** (fait, `js/kipharaon.js`)
 5. Retiens avec Johnny (mémory) → **KiDory**
 6. La balance de Nath → **Kibal**
 7. La baguette de Galadriel (règle graduée) → **KiPotter**
