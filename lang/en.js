@@ -28,6 +28,7 @@ LANGS.en = {
     kipharaon: { name: "Kipharaon", subtitle: "The pyramid", description: "Add up the cards of the pyramid to reach the target number and clear the whole pyramid, with Fonzy." },
     kidory: { name: "KiDory", subtitle: "Memory", description: "Remember the cards, then find the pairs with the same rank, with Johnny." },
     kibal: { name: "Kibal", subtitle: "The scales", description: "Where are there more cards? Click the right area quickly, with Nath." },
+    kipotter: { name: "KiPotter", subtitle: "The magic ruler", description: "Which number is hiding under the mark on the ruler? Find it with Galadriel." },
     kijun: { name: "KiJun", subtitle: "Sort and add up", description: "Sort the cards of each colour, add them up, then sort the colours, with Mary." },
   },
   colourGames: {
@@ -90,6 +91,12 @@ LANGS.en = {
     endUp: (g, n, lv) => "Well done, " + g + " right answers out of " + n + "! On to level " + lv + ".",
     endDown: (g, n) => g + " right answers out of " + n + ". Let's try something a little easier.",
     score: (n, total) => (total ? n + " game" + (n === 1 ? "" : "s") + " won out of " + total : ""),
+  },
+  kipotter: {
+    rule: "Find the number that matches the mark ◆ on the ruler!",
+    marker: "mark",
+    help: "Remove a wrong answer",
+    bad: v => "No, the mark is on " + v + ".",
   },
   kijun: {
     rule: "Sort the cards, add up each colour, then sort the colours.",

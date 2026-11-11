@@ -31,4 +31,5 @@ const GAMES = [
   { id: "kipharaon", image: "assets/characters/fonzy.webp", screen: "kipharaon-screen", game: () => Kipharaon },
   { id: "kidory", image: "assets/characters/johnny.webp", screen: "kidory-screen", game: () => KiDory },
   { id: "kibal", image: "assets/characters/nath.webp", screen: "kibal-screen", game: () => Kibal },
+  { id: "kipotter", image: "assets/characters/galadriel.webp", screen: "kipotter-screen", game: () => KiPotter },
 ];
