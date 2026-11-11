@@ -27,6 +27,7 @@ LANGS.en = {
     kiplus: { name: "Kiplus", subtitle: "Add up the colours", description: "Add up the cards of each colour with Lili." },
     kipharaon: { name: "Kipharaon", subtitle: "The pyramid", description: "Add up the cards of the pyramid to reach the target number and clear the whole pyramid, with Fonzy." },
     kidory: { name: "KiDory", subtitle: "Memory", description: "Remember the cards, then find the pairs with the same rank, with Johnny." },
+    kibal: { name: "Kibal", subtitle: "The scales", description: "Where are there more cards? Click the right area quickly, with Nath." },
     kijun: { name: "KiJun", subtitle: "Sort and add up", description: "Sort the cards of each colour, add them up, then sort the colours, with Mary." },
   },
   colourGames: {
@@ -76,6 +77,19 @@ LANGS.en = {
     doneUp: (e, n) => "Well done, all the pairs with " + e + (e === 1 ? " mistake" : " mistakes") + "! On to level " + n + ".",
     doneEasier: e => "All the pairs are found (" + e + " mistakes). Let's try something a little easier.",
     score: (n, total) => n + " game" + (n === 1 ? "" : "s") + " finished",
+  },
+  kibal: {
+    rule: "Click as fast as you can on the area with more cards!",
+    zone: n => "Area " + n,
+    progress: (n, total, good) => "Question " + n + " / " + total + " · " + good + (good === 1 ? " right answer" : " right answers"),
+    limit: s => "· " + s + " s per question",
+    good: "Well done!",
+    late: "Too late! Try to be faster.",
+    bad: (more, fewer) => "No: " + more + " cards against " + fewer + ". Count the cards, not their ranks!",
+    end: (g, n) => "Game over: " + g + " right answers out of " + n + ".",
+    endUp: (g, n, lv) => "Well done, " + g + " right answers out of " + n + "! On to level " + lv + ".",
+    endDown: (g, n) => g + " right answers out of " + n + ". Let's try something a little easier.",
+    score: (n, total) => (total ? n + " game" + (n === 1 ? "" : "s") + " won out of " + total : ""),
   },
   kijun: {
     rule: "Sort the cards, add up each colour, then sort the colours.",
