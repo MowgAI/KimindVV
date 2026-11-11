@@ -3,7 +3,7 @@ LANGS.en = {
   langName: "English",
   language: "Language",
   title: "Kimind",
-  introTitle: "Rules",
+  introTitle: "Kimind rules",
   intro: [
     ["Goal", "Find the 4 hidden cards, their colour and their rank, in as few rounds as possible."],
     ["Cards", "The Kiboo cards: 4 colours (blue, green, red, yellow) and ranks from 1 to 10. The 4 hidden cards have different colours: one card of each colour."],
@@ -21,8 +21,16 @@ LANGS.en = {
   paradeNext: "Next",
   paradeEnd: "That's it! All forty Kiboo characters have said hello. Now, shall we play?",
   audio: { sfx: "Sounds", voice: "Voice", hello: "Hello! I'll read the game messages to you." },
+  home: {
+    tagline: "Card games to learn while having fun!",
+    games: "Kimind, Kimba, Kiplus, KiJun, Kipharaon, KiDory, Kibal, KiPotter, Kicompuzzle, Kipuzzle, Kiduel…",
+    play: "Play",
+    parade: "The parade",
+    noShow: "Don't show this page again",
+  },
   menuTitle: "What would you like to do?",
-  gamesTitle: "More card games",
+  kimindTitle: "Kimind: guess the hidden cards",
+  gamesTitle: "More games",
   games: {
     kimba: { name: "Kimba", subtitle: "Count the colours", description: "How many cards of each colour are there? Count them with Archi." },
     kiplus: { name: "Kiplus", subtitle: "Add up the colours", description: "Add up the cards of each colour with Lili." },
@@ -166,7 +174,7 @@ LANGS.en = {
     box: c => "Sum of the " + c + " cards",
     retry: "Almost! Redo the sums in red.",
   },
-  menuRules: { name: "Rules", subtitle: "Goal and puzzle", description: "How to play Kimind: the goal, the cards, the puzzle, a round, the game's answer and the end of the game.", action: "Read" },
+  menuRules: { name: "Kimind rules", subtitle: "Goal and puzzle", description: "How to play Kimind: the goal, the cards, the puzzle, a round, the game's answer and the end of the game.", action: "Read" },
   menuStats: { name: "Statistics", subtitle: "All the games", description: "The player's results in all the games: successes, help, times, moods. Data export for personalisation.", action: "View" },
   stats: {
     title: "Statistics",

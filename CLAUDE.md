@@ -1,6 +1,6 @@
-# Kimind (KimindVV)
+# Kiboom (dépôt KimindVV)
 
-Jeu web (HTML/CSS/JS sans framework) : deviner les couleurs et les valeurs de 4 cartes cachées, avec les cartes de Kiboo (MowgAI/Kiboo). Le Kimind d'origine (Prolog, raisonneur symbolique explicable) est dans organizationMowgAI/Kimind. Voir README.md pour les règles et les versions.
+**Kiboom** est l'ensemble des jeux de cartes de l'application (accueil `js/home.js`, comme celui de Kiboo) ; **Kimind** est l'un d'eux. Jeu web (HTML/CSS/JS sans framework), avec les cartes de Kiboo (MowgAI/Kiboo). Kimind : deviner les couleurs et les valeurs de 4 cartes cachées. Le Kimind d'origine (Prolog, raisonneur symbolique explicable) est dans organizationMowgAI/Kimind. Voir README.md pour les règles et les versions.
 
 - Toujours répondre en français. Avancer pas à pas : l'auteur veut valider avant les changements importants.
 - Versions dans le menu : `js/versions.js` ; moteur : `js/kimind.js` ; affichage : `js/game.js` ; textes : `lang/fr.js`.

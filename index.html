@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Kimind</title>
+<title>Kiboom</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1 class="logo" aria-label="Kimind"><span>K</span><span>i</span><span>m</span><span>i</span><span>n</span><span>d</span></h1>
+    <h1 class="logo"><button class="logo-btn kiboom" id="logo-btn" type="button" aria-label="Kiboom"><span class="kb-k">K</span><span class="kb-i">I</span><span class="kb-b">B</span><span class="kb-eye"></span><span class="kb-eye"></span><span class="kb-m">M</span></button></h1>
     <div class="head-right">
     <div class="head-btns" id="game-btns" hidden>
       <button class="act ghost" id="btn-menu" type="button">☰ <span id="lbl-menu">Menu</span></button>
@@ -33,6 +33,8 @@
 
   <section id="menu-screen">
     <h2 class="menu-title" id="menu-title"></h2>
+    <div class="versions" id="extras"></div>
+    <h2 class="menu-title" id="kimind-title"></h2>
     <div class="versions" id="versions"></div>
     <h2 class="menu-title" id="games-title"></h2>
     <div class="versions" id="games"></div>
@@ -116,6 +118,8 @@
   </div>
 </div>
 
+<div class="home" id="home" hidden></div>
+
 <div class="parade" id="parade" hidden>
   <h2 class="parade-title" id="parade-title"></h2>
   <div class="parade-floor" id="parade-floor" aria-live="polite"></div>
@@ -159,6 +163,7 @@
 <script src="js/voice.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/parade.js"></script>
+<script src="js/home.js"></script>
 <script src="js/colourgame.js"></script>
 <script src="js/kijun.js"></script>
 <script src="js/kipharaon.js"></script>
