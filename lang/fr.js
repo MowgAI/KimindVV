@@ -30,6 +30,7 @@ LANGS.fr = {
     kidory: { name: "KiDory", subtitle: "Le mémory", description: "Retiens les cartes, puis retrouve les paires de même valeur, avec Johnny." },
     kibal: { name: "Kibal", subtitle: "La balance", description: "Où y a-t-il le plus de cartes ? Clique vite sur la bonne zone, avec Nath." },
     kipotter: { name: "KiPotter", subtitle: "La règle magique", description: "Quel nombre se cache sous le repère de la règle ? Trouve-le avec Galadriel." },
+    kicompuzzle: { name: "Kicompuzzle", subtitle: "Le calcul à trous", description: "Pose les bonnes cartes et choisis les opérations pour arriver au total, avec Ray." },
     kijun: { name: "KiJun", subtitle: "Range et additionne", description: "Range les cartes de chaque couleur, additionne-les, puis range les couleurs, avec Mary." },
   },
   colourGames: {
@@ -98,6 +99,12 @@ LANGS.fr = {
     marker: "repère",
     help: "Enlever une mauvaise réponse",
     bad: v => "Non, le repère est sur " + v + ".",
+  },
+  kicompuzzle: {
+    rule: "Pose des cartes dans les trous et choisis les opérations (clique dessus pour les changer) pour arriver au total ! × se calcule avant + et −.",
+    op: o => "opération " + o + " (clique pour changer)",
+    wrong: (v, t) => "Ton calcul fait " + v + ", il faut " + t + ". Essaie encore !",
+    solution: v => "Ton calcul faisait " + v + ". Voici une solution.",
   },
   kijun: {
     rule: "Range les cartes, additionne chaque couleur, puis range les couleurs.",

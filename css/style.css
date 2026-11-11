@@ -144,6 +144,22 @@ body.parade-open { overflow: hidden; }
   .other-ctrl { margin-left: 0; }
 }
 
+/* Kicompuzzle */
+.cp-zone { padding: 20px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 28px; align-items: center; }
+.cp-hand { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; min-height: calc(76px * 1.52); }
+.cp-calc { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center; }
+.cp-card { --w: 76px; border: 0; padding: 0; cursor: pointer; }
+.cp-slot { width: 76px; aspect-ratio: 145 / 220; border-radius: 8px; border: 3px dashed var(--ink-soft); background: var(--panel); opacity: 0.7; }
+.cp-op { font: inherit; font-size: 2rem; font-weight: 700; width: 1.6em; height: 1.6em; border-radius: 12px; border: 3px solid transparent; background: var(--panel); color: var(--ink); }
+.cp-op.choose { cursor: pointer; border-color: var(--pick); }
+.cp-eq { font-size: 2.2rem; font-weight: 700; margin-left: 6px; }
+@media (max-width: 560px) {
+  .cp-card, .cp-slot { --w: 54px; width: 54px; }
+  .cp-hand { min-height: calc(54px * 1.52); }
+  .cp-op { font-size: 1.5rem; }
+  .cp-eq { font-size: 1.6rem; }
+}
+
 /* KiPotter */
 .np-zone { padding: 24px 40px 20px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 56px; }
 .np-line { position: relative; height: 60px; margin-top: 40px; }
