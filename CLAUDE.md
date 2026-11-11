@@ -5,6 +5,7 @@
 - Toujours répondre en français. Avancer pas à pas : l'auteur veut valider avant les changements importants.
 - Versions dans le menu : `js/versions.js` ; moteur : `js/kimind.js` ; affichage : `js/game.js` ; textes : `lang/fr.js`.
 - Tests du moteur : `node tests/kimind.test.js`.
+- À chaque changement de JS ou de CSS : augmenter le numéro `?v=` dans `index.html` (sinon le navigateur garde les anciens fichiers en cache).
 
 ## Les autres jeux de cartes (inspirés des modules de KartOOn)
 
