@@ -166,7 +166,7 @@ const Stats = (() => {
   // propres à l'application : game/2, level/2, chaos_measure/2, layout/2, help_used/4,
   // instance_success/2, kijun_try/4, kijun_direction/3, kijun_colour_order/2,
   // pyramid_target/2, pyramid_rows/2, pyramid_addition/5, memory_pairs/2, memory_show_time/2,
-  // memory_flip/4, kimind_game/6.
+  // memory_flip/4, balance_question/6, balance_time_limit/2, balance_trap/1, kimind_game/6.
   function prolog() {
     const d = Store.data, out = [];
     const line = s => out.push(s);
@@ -196,6 +196,10 @@ const Stats = (() => {
         line("pyramid_rows(" + I + ", " + i.rows + ").");
       }
       // KiDory : nombre de paires et temps pendant lequel les cartes sont montrées.
+      if (i.questions !== undefined) {
+        line("balance_time_limit(" + I + ", " + i.limit + ").");
+        if (i.trap) line("balance_trap(" + I + ").");
+      }
       if (i.pairs !== undefined) {
         line("memory_pairs(" + I + ", " + i.pairs + ").");
         line("memory_show_time(" + I + ", " + i.showTime + ").");
@@ -208,6 +212,9 @@ const Stats = (() => {
       i.tries.forEach((t, k) => {
         // Essai d'une étape de KiJun : kijun_try(Instance, Essai, Étape, Réussi).
         if (t.step) line("kijun_try(" + I + ", try_" + k + ", step" + t.step + ", " + t.success + ").");
+        // Kibal : balance_question(Instance, Essai, Cartes zone 1, Cartes zone 2, Zone choisie, Réussi) ;
+        // zone choisie : 1, 2, ou none si le temps est écoulé.
+        if (t.balance) line("balance_question(" + I + ", try_" + k + ", " + t.balance[0] + ", " + t.balance[1] + ", " + (t.choice === null ? "none" : t.choice + 1) + ", " + t.success + ").");
         if (t.pair) line("memory_flip(" + I + ", try_" + k + ", [" + t.pair.join(", ") + "], " + t.success + ").");
         if (t.cards) line("pyramid_addition(" + I + ", try_" + k + ", [" + t.cards.join(", ") + "], " + t.sum + ", " + t.success + ").");
         if (t.step === 2 || t.answers) {

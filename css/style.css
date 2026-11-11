@@ -144,6 +144,19 @@ body.parade-open { overflow: hidden; }
   .other-ctrl { margin-left: 0; }
 }
 
+/* Kibal */
+.bal-zones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.bal-zone { --bw: 58px; position: relative; height: calc(var(--rows, 3) * var(--bw) * 1.75 + var(--bw) * 1.2); border: 3px solid transparent; cursor: pointer; padding: 0; font: inherit; }
+.bal-area { position: absolute; inset: calc(var(--bw) * 0.75) calc(var(--bw) * 0.7); }
+.bal-zone:hover:not(:disabled) { border-color: var(--pick); }
+.bal-zone:disabled { cursor: default; }
+.bal-zone.ok { border-color: var(--ok); }
+.bal-zone.ko { border-color: var(--ko); }
+.bal-zone .card { --w: var(--bw); position: absolute; pointer-events: none; }
+@media (max-width: 560px) {
+  .bal-zone { --bw: 34px; }
+}
+
 /* KiDory */
 .mem-grid { display: grid; grid-template-columns: repeat(var(--cols), auto); justify-content: center; gap: 10px; padding: 16px; margin-bottom: 12px; }
 .mem-card { --w: 76px; border: 0; padding: 0; cursor: pointer; transition: transform 0.2s; }

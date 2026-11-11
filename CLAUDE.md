@@ -15,7 +15,7 @@ Un jeu à la fois, en attendant l'avis de l'auteur. Noms choisis par l'auteur :
 3. Range avec Mary → **KiJun** (fait, `js/kijun.js`)
 4. La pyramide de Fonzy → **Kipharaon** (fait, `js/kipharaon.js`)
 5. Retiens avec Johnny (mémory) → **KiDory** (fait, `js/kidory.js`)
-6. La balance de Nath → **Kibal**
+6. La balance de Nath → **Kibal** (fait, `js/kibal.js`)
 7. La baguette de Galadriel (règle graduée) → **KiPotter**
 8. Le bouche-trou de Ray (calcul à compléter) → **Kicompuzzle**
 9. Les dalles de Béa → **Kipuzzle**
