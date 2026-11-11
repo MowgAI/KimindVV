@@ -1,4 +1,10 @@
-# Kimind
+# Kiboom
+
+**Kiboom** est un ensemble de jeux de cartes pour apprendre en s'amusant, avec les cartes de [Kiboo](https://github.com/MowgAI/Kiboo) : **Kimind** (et ses variantes KiMinus, KimMinmaxus, Kimind 5) et dix autres jeux inspirés des modules de KartOOn (Kimba, Kiplus, KiJun, Kipharaon, KiDory, Kibal, KiPotter, Kicompuzzle, Kipuzzle, Kiduel). Le dépôt s'appelle KimindVV.
+
+L'application s'ouvre sur un **accueil**, comme celui de Kiboo (`js/home.js`) : le logo KIBOOM se forme lettre par lettre (le « KIB » et les yeux de Kiboo, le M aux couleurs de Kimind), les personnages des jeux sautillent autour ; boutons Jouer et La parade, choix de la langue, case « Ne plus afficher l'accueil » ; un clic sur le logo de l'en-tête rouvre l'accueil.
+
+## Kimind
 
 Devine les couleurs et les valeurs de 4 cartes cachées, avec les cartes de [Kiboo](https://github.com/MowgAI/Kiboo).
 

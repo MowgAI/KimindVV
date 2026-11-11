@@ -59,6 +59,13 @@ body {
 
 header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .logo { font-size: 2.4rem; font-weight: 700; margin: 0; line-height: 1; }
+/* Logo KIBOOM : le « KIB » et les yeux de Kiboo, le M aux couleurs de Kimind. */
+.logo-btn { border: 0; padding: 0; background: none; cursor: pointer; font: inherit; color: inherit; }
+.kiboom { display: inline-flex; align-items: center; gap: 0.02em; }
+.kiboom span { -webkit-text-stroke: 0.05em #1C2440; paint-order: stroke fill; }
+.kb-k { color: #E5383B; } .kb-i { color: #5EC4F0; } .kb-b { color: #F2B705; } .kb-m { color: var(--c-green); }
+.kiboom .kb-eye { width: 0.62em; height: 0.62em; border-radius: 50%; flex: none; -webkit-text-stroke: 0;
+  background: radial-gradient(circle at 50% 55%, #1C2440 0 24%, #FFFFFF 26%); box-shadow: 0 0 0 0.06em #1C2440; }
 .logo span:nth-child(4n+1) { color: var(--c-blue); }
 .logo span:nth-child(4n+2) { color: var(--c-green); }
 .logo span:nth-child(4n+3) { color: var(--c-red); }
@@ -290,6 +297,36 @@ body.parade-open { overflow: hidden; }
   .kj-zone .card, .kj-slot { --w: 48px; width: 48px; }
   .kj-pool, .kj-slots { min-height: calc(48px * 1.52); }
   .kj-line { gap: 6px; }
+}
+
+/* Accueil de Kiboom (js/home.js), comme celui de Kiboo */
+body.home-open { overflow: hidden; }
+.home { position: fixed; inset: 0; z-index: 20; overflow: auto;
+  background: radial-gradient(ellipse at 50% 40%, #4E3A70 0%, #3B2A55 75%); color: #F3EDFB; }
+.home-center { position: relative; z-index: 2; min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 24px 16px 90px; text-align: center; }
+.home-logo { margin: 0; font-size: clamp(3.6rem, 15vw, 8rem); font-weight: 700; line-height: 1; }
+.home-logo span { opacity: 0; animation: logo-pop 0.55s cubic-bezier(.3, 1.6, .5, 1) forwards; }
+.home-logo span:nth-child(1) { animation-delay: 0.05s; } .home-logo span:nth-child(2) { animation-delay: 0.2s; }
+.home-logo span:nth-child(3) { animation-delay: 0.35s; } .home-logo span:nth-child(4) { animation-delay: 0.5s; }
+.home-logo span:nth-child(5) { animation-delay: 0.65s; } .home-logo span:nth-child(6) { animation-delay: 0.8s; }
+@keyframes logo-pop { from { opacity: 0; transform: translateY(-60px) scale(0.3) rotate(-20deg); } to { opacity: 1; transform: none; } }
+.home-tagline { margin: 0; font-size: clamp(1.1rem, 3.5vw, 1.6rem); font-weight: 600; }
+.home-games { margin: 0; max-width: 620px; color: #BFAEDB; }
+.home-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.home .act.ghost { background: transparent; color: #F3EDFB; border-color: #F3EDFB; }
+.home-play { font-size: 1.3rem; padding: 12px 28px; }
+.home-off { color: #BFAEDB; font-size: 0.9rem; }
+.home-langs { position: absolute; top: 12px; left: 12px; z-index: 3; display: flex; gap: 4px; }
+.home-langs button { font: inherit; font-weight: 600; cursor: pointer; padding: 3px 10px; border-radius: 999px; border: 2px solid rgba(255,255,255,0.35); background: transparent; color: #F3EDFB; }
+.home-langs button[aria-pressed="true"] { background: #F3EDFB; color: #3B2A55; }
+.home-hop { position: absolute; z-index: 1; width: clamp(54px, 9vw, 110px); opacity: 0; animation: hop-in 0.5s ease-out forwards, hop 1.4s ease-in-out infinite; }
+@keyframes hop-in { from { opacity: 0; transform: scale(0.2); } to { opacity: 1; transform: scale(1); } }
+.home-run { position: absolute; bottom: 10px; left: -150px; z-index: 1; width: 80px; animation: run-across 8s linear 1.5s infinite, hop 0.5s ease-in-out infinite; }
+@keyframes run-across { from { left: -150px; } to { left: calc(100% + 50px); } }
+@media (max-width: 560px) { .home-hop { width: 48px; } }
+@media (prefers-reduced-motion: reduce) {
+  .home-logo span, .home-hop { animation: none; opacity: 1; }
+  .home-run { display: none; }
 }
 
 /* Personnalisation : humeurs, joueur, statistiques */

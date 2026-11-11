@@ -4,7 +4,7 @@ LANGS.fr = {
   langName: "Français",
   language: "Langue",
   title: "Kimind",
-  introTitle: "Règles du jeu",
+  introTitle: "Règles de Kimind",
   intro: [
     ["Le but", "Trouver les 4 cartes cachées, leur couleur et leur valeur, en le moins de tours possible."],
     ["Les cartes", "Les cartes de Kiboo : 4 couleurs (bleu, vert, rouge, jaune) et des valeurs de 1 à 10. Les 4 cartes cachées ont des couleurs différentes : une carte de chaque couleur."],
@@ -22,8 +22,16 @@ LANGS.fr = {
   paradeNext: "Suivant",
   paradeEnd: "Et voilà ! Les quarante personnages de Kiboo t'ont dit bonjour. Maintenant, on joue ?",
   audio: { sfx: "Bruitages", voice: "Voix", hello: "Bonjour ! Je vais te lire les messages du jeu." },
+  home: {
+    tagline: "Des jeux de cartes pour apprendre en s'amusant !",
+    games: "Kimind, Kimba, Kiplus, KiJun, Kipharaon, KiDory, Kibal, KiPotter, Kicompuzzle, Kipuzzle, Kiduel…",
+    play: "Jouer",
+    parade: "La parade",
+    noShow: "Ne plus afficher l'accueil",
+  },
   menuTitle: "Que veux-tu faire ?",
-  gamesTitle: "Les autres jeux de cartes",
+  kimindTitle: "Kimind : devine les cartes cachées",
+  gamesTitle: "Les autres jeux",
   games: {
     kimba: { name: "Kimba", subtitle: "Compte les couleurs", description: "Combien y a-t-il de cartes de chaque couleur ? Compte-les avec Archi." },
     kiplus: { name: "Kiplus", subtitle: "Additionne les couleurs", description: "Additionne les cartes de chaque couleur avec Lili." },
@@ -167,7 +175,7 @@ LANGS.fr = {
     box: c => "Somme des cartes " + { bleu: "bleues", vert: "vertes", rouge: "rouges", jaune: "jaunes" }[c],
     retry: "Presque ! Refais les additions en rouge.",
   },
-  menuRules: { name: "Règles du jeu", subtitle: "Le but et l'énoncé", description: "Comment se joue Kimind : le but, les cartes, l'énoncé, un tour, la réponse du jeu et la fin de la partie.", action: "Lire" },
+  menuRules: { name: "Règles de Kimind", subtitle: "Le but et l'énoncé", description: "Comment se joue Kimind : le but, les cartes, l'énoncé, un tour, la réponse du jeu et la fin de la partie.", action: "Lire" },
   menuStats: { name: "Statistiques", subtitle: "Tous les jeux", description: "Les résultats du joueur dans tous les jeux : réussites, aides, temps, humeurs. Export des données pour la personnalisation.", action: "Voir" },
   stats: {
     title: "Statistiques",

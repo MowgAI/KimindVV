@@ -286,16 +286,17 @@
 
   // Menu : une carte par version ; l'adresse (#initiale…) garde la version choisie.
   function renderMenu() {
-    const list = $("versions");
+    const extras = $("extras"), list = $("versions");
+    extras.textContent = "";
     list.textContent = "";
-    // D'abord les règles du jeu et la parade, puis les versions.
+    // D'abord les règles de Kimind, la parade et les statistiques, puis les versions de Kimind.
     [[T.menuRules, () => $("dlg-intro").showModal()], [T.menuParade, () => Parade.open(T, $("lang").value)],
       [T.menuStats, () => { location.hash = "stats"; }]].forEach(([t, open]) => {
       const b = el("button", "version extra");
       b.type = "button";
       b.append(el("span", "version-name", t.name), el("span", "version-sub", t.subtitle), el("span", "version-desc", t.description), el("span", "act ghost version-play", t.action));
       b.addEventListener("click", open);
-      list.append(b);
+      extras.append(b);
     });
     VERSIONS.forEach(v => {
       const b = el("button", "version");
@@ -376,6 +377,8 @@
     T.intro.forEach(([term, text]) => intro.append(el("dt", "", term), el("dd", "", text)));
     $("btn-intro-close").textContent = T.close;
     $("menu-title").textContent = T.menuTitle;
+    $("kimind-title").textContent = T.kimindTitle;
+    Home.texts(T);
     $("games-title").textContent = T.gamesTitle;
     GameAudio.texts(T);
     Stats.texts(T);
@@ -422,6 +425,7 @@
     $("show-possible").addEventListener("change", renderStatus);
     window.addEventListener("hashchange", route);
     route();
+    Home.init(l => { $("lang").value = l; setLang(l); });
   }
 
   init();
