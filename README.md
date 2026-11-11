@@ -46,6 +46,15 @@ D'autres jeux, inspirés des modules de KartOOn (NukkAI), avec les cartes de Kib
 
 Pour Kimba et Kiplus (`js/colourgame.js`), une bonne réponse du premier coup fait monter d'un niveau ; deux erreurs dans le même tour font redescendre d'un niveau, et le jeu montre la bonne réponse.
 
+## Bruitages et voix
+
+Deux boutons en haut de la page, **éteints par défaut** et gardés dans le navigateur (`js/audio.js`) :
+
+- **Bruitages** (sons repris de Kiboo, `js/sound.js`) : une carte posée ou retournée, une bonne ou une mauvaise réponse, une petite fanfare en fin de partie ;
+- **Voix** : une voix de garçon (voix d'homme, plus aiguë) lit les messages des jeux, en français ou en anglais (`js/voice.js`, voix du navigateur : elle dépend de l'appareil).
+
+Les jeux n'ont rien à faire de particulier : `js/audio.js` écoute leurs messages (`.cg-msg`) et l'apparition de leur bouton « Encore ! ».
+
 ## Personnalisation et statistiques
 
 Pour la personnalisation (théorie du domaine de Kiboom), l'application enregistre ce que fait l'enfant, **dans le navigateur seulement** (`js/store.js`, rien ne part sur Internet) :
@@ -100,7 +109,9 @@ python3 -m http.server 8000
 - `js/kimind.js` : moteur (tirage des parties, solutions possibles, réponses aux tours) ; utilisable sous Node
 - `js/game.js` : menu, état de la partie et affichage
 - `lang/fr.js`, `lang/en.js` : tous les textes en français et en anglais (mêmes clés ; noms et descriptions des versions, présentation du jeu)
-- `js/parade.js` : la parade des 40 personnages (voix du navigateur)
+- `js/parade.js` : la parade des 40 personnages
+- `js/voice.js` : la voix (synthèse vocale du navigateur, voix de femme ou d'homme)
+- `js/audio.js` : bruitages et voix des jeux, en option
 - `js/sound.js` : musiques et bruits des personnages, repris tel quel de Kiboo
 - `lang/personnages.js` : ce que dit chaque personnage dans la parade (noms de Kiboo) et son genre, pour la voix
 - `assets/cards/` : images des 40 cartes de Kiboo (WebP)

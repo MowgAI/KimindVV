@@ -377,6 +377,7 @@
     $("btn-intro-close").textContent = T.close;
     $("menu-title").textContent = T.menuTitle;
     $("games-title").textContent = T.gamesTitle;
+    GameAudio.texts(T);
     Stats.texts(T);
     GAMES.forEach(g => g.game().texts(T));
     $("lbl-menu").textContent = T.menu;
@@ -408,6 +409,7 @@
     setLang($("lang").value);
     $("btn-menu").addEventListener("click", () => { location.hash = ""; });
     Parade.init();
+    GameAudio.init(() => $("lang").value);
     Stats.init(() => {
       const other = GAMES.find(g => g.id === location.hash.slice(1));
       return { game: location.hash.slice(1) || null, instance: other ? other.game().current() : null };

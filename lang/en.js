@@ -20,6 +20,7 @@ LANGS.en = {
   paradeBack: "Menu",
   paradeNext: "Next",
   paradeEnd: "That's it! All forty Kiboo characters have said hello. Now, shall we play?",
+  audio: { sfx: "Sounds", voice: "Voice", hello: "Hello! I'll read the game messages to you." },
   menuTitle: "What would you like to do?",
   gamesTitle: "More card games",
   games: {

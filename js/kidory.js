@@ -62,7 +62,7 @@ const KiDory = (() => {
     let left = lv.show;
     const tick = () => {
       left--;
-      if (left > 0) { say(T.kidory.memorize(left), null); timer = setTimeout(tick, 1000); return; }
+      if (left > 0) { say(T.kidory.memorize(left), null, true); timer = setTimeout(tick, 1000); return; }
       round.phase = "play";
       round.tryStart = Date.now();
       say(T.kidory.play, null);
@@ -71,8 +71,9 @@ const KiDory = (() => {
     timer = setTimeout(tick, 1000);
   }
 
-  function say(text, good) {
+  function say(text, good, quiet) {
     const m = q("msg");
+    m.dataset.quiet = quiet ? "1" : "";
     m.textContent = text;
     m.className = "cg-msg" + (good === true ? " ok" : good === false ? " ko" : "");
   }
