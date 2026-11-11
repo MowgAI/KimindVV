@@ -290,11 +290,27 @@
       b.addEventListener("click", () => { location.hash = v.id; });
       list.append(b);
     });
+    const games = $("games");
+    games.textContent = "";
+    GAMES.forEach(g => {
+      const b = el("button", "version game-card");
+      b.type = "button";
+      const t = T.games[g.id];
+      const img = el("img", "game-img");
+      img.src = g.image;
+      img.alt = "";
+      b.append(img, el("span", "version-name", t.name), el("span", "version-sub", t.subtitle), el("span", "version-desc", t.description), el("span", "act version-play", T.play));
+      b.addEventListener("click", () => { location.hash = g.id; });
+      games.append(b);
+    });
   }
 
   function route() {
     version = VERSIONS.find(v => v.id === location.hash.slice(1));
-    $("menu-screen").hidden = !!version;
+    const other = GAMES.find(g => g.id === location.hash.slice(1));
+    GAMES.forEach(g => { $(g.screen).hidden = g !== other; });
+    if (other) other.game().start(T);
+    $("menu-screen").hidden = !!version || !!other;
     $("game-screen").hidden = !version;
     $("game-btns").hidden = !version;
     if (version) { renderRules(); newGame(); }
@@ -336,6 +352,8 @@
     T.intro.forEach(([term, text]) => intro.append(el("dt", "", term), el("dd", "", text)));
     $("btn-intro-close").textContent = T.close;
     $("menu-title").textContent = T.menuTitle;
+    $("games-title").textContent = T.gamesTitle;
+    GAMES.forEach(g => g.game().texts(T));
     $("lbl-menu").textContent = T.menu;
     renderMenu();
     $("lbl-level").textContent = T.level;
@@ -364,6 +382,7 @@
     setLang($("lang").value);
     $("btn-menu").addEventListener("click", () => { location.hash = ""; });
     Parade.init();
+    GAMES.forEach(g => g.game().init());
     $("level").addEventListener("change", newGame);
     $("btn-new").addEventListener("click", newGame);
     $("btn-propose").addEventListener("click", propose);

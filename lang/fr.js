@@ -22,6 +22,22 @@ LANGS.fr = {
   paradeNext: "Suivant",
   paradeEnd: "Et voilà ! Les quarante personnages de Kiboo t'ont dit bonjour. Maintenant, on joue ?",
   menuTitle: "Que veux-tu faire ?",
+  gamesTitle: "Les autres jeux de cartes",
+  games: {
+    kimba: { name: "Kimba", subtitle: "Compte les couleurs", description: "Combien y a-t-il de cartes de chaque couleur ? Compte-les avec Archi le dinosaure." },
+  },
+  kimba: {
+    name: "Kimba",
+    rule: "Compte les cartes de chaque couleur, puis donne ta réponse pour chaque couleur.",
+    howMany: c => "Nombre de cartes " + { bleu: "bleues", vert: "vertes", rouge: "rouges", jaune: "jaunes" }[c],
+    check: "Vérifier",
+    next: "Encore !",
+    bravo: "Bravo, c'est juste !",
+    bravoUp: n => "Bravo, c'est juste ! Tu passes au niveau " + n + ".",
+    retry: "Presque ! Recompte les couleurs en rouge.",
+    solution: "Voici la bonne réponse. Regarde bien, et on recommence !",
+    score: (n, total) => n + " bonne" + (n > 1 ? "s" : "") + " réponse" + (n > 1 ? "s" : "") + " sur " + total,
+  },
   menuRules: { name: "Règles du jeu", subtitle: "Le but et l'énoncé", description: "Comment se joue Kimind : le but, les cartes, l'énoncé, un tour, la réponse du jeu et la fin de la partie.", action: "Lire" },
   menuParade: { name: "La parade", subtitle: "Les 40 personnages", description: "Les personnages des cartes défilent un par un et se présentent, avec la musique de leur famille.", action: "Voir" },
   versions: {
