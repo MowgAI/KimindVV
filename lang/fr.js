@@ -20,6 +20,8 @@ LANGS.fr = {
   paradeSound: "Son",
   paradeBack: "Menu",
   paradeNext: "Suivant",
+  paradeMode: "Mode de la parade",
+  paradeModes: { gentil: "😊 Gentil", bebe: "👶 Bébé", drole: "🤪 Drôle", mechant: "😈 Méchant" },
   paradeEnd: "Et voilà ! Les quarante personnages de Kiboo t'ont dit bonjour. Maintenant, on joue ?",
   audio: { sfx: "Bruitages", voice: "Voix", hello: "Bonjour ! Je vais te lire les messages du jeu." },
   home: {

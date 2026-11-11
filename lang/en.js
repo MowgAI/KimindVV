@@ -19,6 +19,8 @@ LANGS.en = {
   paradeSound: "Sound",
   paradeBack: "Menu",
   paradeNext: "Next",
+  paradeMode: "Parade mode",
+  paradeModes: { gentil: "😊 Kind", bebe: "👶 Baby", drole: "🤪 Funny", mechant: "😈 Naughty" },
   paradeEnd: "That's it! All forty Kiboo characters have said hello. Now, shall we play?",
   audio: { sfx: "Sounds", voice: "Voice", hello: "Hello! I'll read the game messages to you." },
   home: {
