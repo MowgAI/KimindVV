@@ -22,15 +22,34 @@
       <button class="act" id="btn-new" type="button">Nouvelle partie</button>
       <button class="act ghost" id="btn-rules" type="button" aria-haspopup="dialog">📖 <span id="lbl-rules">Règles du jeu</span></button>
     </div>
+    <button class="act ghost" id="player-btn" type="button"></button>
     <label class="lang-wrap"><span aria-hidden="true">🌐</span><select id="lang"></select></label>
     </div>
   </header>
+
+  <div class="mood-bar" id="mood-bar" hidden></div>
 
   <section id="menu-screen">
     <h2 class="menu-title" id="menu-title"></h2>
     <div class="versions" id="versions"></div>
     <h2 class="menu-title" id="games-title"></h2>
     <div class="versions" id="games"></div>
+  </section>
+
+  <section id="stats-screen" class="game-other" hidden>
+    <div class="other-head">
+      <h2 class="other-title" id="stats-title"></h2>
+      <div class="other-ctrl">
+        <button class="act ghost" id="stats-menu" type="button"></button>
+        <label class="level-wrap"><span id="lbl-stats-player"></span><select id="stats-player"></select></label>
+      </div>
+    </div>
+    <div class="panel" id="stats-body"></div>
+    <p class="pick-row">
+      <button class="act" id="stats-export-pl" type="button"></button>
+      <button class="act ghost" id="stats-export-json" type="button"></button>
+      <button class="act ghost" id="stats-clear" type="button"></button>
+    </p>
   </section>
 
   <section id="kimba-screen" class="game-other" hidden></section>
@@ -98,6 +117,16 @@
   </div>
 </div>
 
+<dialog id="dlg-player">
+  <h2 id="player-title"></h2>
+  <p id="player-hint"></p>
+  <div class="pick-row" id="player-list"></div>
+  <form class="pick-row" id="player-form">
+    <input id="player-name" type="text" maxlength="30" autocomplete="off">
+    <button class="act" id="player-ok" type="submit"></button>
+  </form>
+</dialog>
+
 <dialog id="dlg-intro" class="intro">
   <h2 id="intro-title"></h2>
   <dl id="intro"></dl>
@@ -113,11 +142,13 @@
 <script src="lang/fr.js"></script>
 <script src="lang/en.js"></script>
 <script src="js/versions.js"></script>
+<script src="js/store.js"></script>
 <script src="lang/personnages.js"></script>
 <script src="js/kimind.js"></script>
 <script src="js/sound.js"></script>
 <script src="js/parade.js"></script>
 <script src="js/colourgame.js"></script>
+<script src="js/stats.js"></script>
 <script src="js/game.js"></script>
 </body>
 </html>

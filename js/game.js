@@ -255,11 +255,25 @@
     draft = draft.map(() => ({ colour: null, value: null }));
     const first = found.indexOf(false);
     sel = first >= 0 ? first : null;
+    if (won()) recordKimind(true);
     render();
   }
 
+  // Partie de Kimind enregistrée pour les statistiques : gagnée, ou abandonnée après au
+  // moins un tour (nouvelle partie, changement de niveau ou de version, retour au menu).
+  function recordKimind(won) {
+    if (!game || game.recorded || (!won && !rounds.length)) return;
+    game.recorded = true;
+    Store.addKimind({ version: version ? version.id : game.version, level: game.levelName, rounds: rounds.length, won,
+      duration: Math.round((Date.now() - game.start) / 1000), nbSolutions: game.nbSolutions });
+  }
+
   function newGame() {
+    recordKimind(false);
     game = version.newGame($("level").value);
+    game.start = Date.now();
+    game.version = version.id;
+    game.levelName = $("level").value;
     rounds = [];
     found = game.solution.map(() => false);
     draft = game.solution.map(() => ({ colour: null, value: null }));
@@ -275,7 +289,8 @@
     const list = $("versions");
     list.textContent = "";
     // D'abord les règles du jeu et la parade, puis les versions.
-    [[T.menuRules, () => $("dlg-intro").showModal()], [T.menuParade, () => Parade.open(T, $("lang").value)]].forEach(([t, open]) => {
+    [[T.menuRules, () => $("dlg-intro").showModal()], [T.menuParade, () => Parade.open(T, $("lang").value)],
+      [T.menuStats, () => { location.hash = "stats"; }]].forEach(([t, open]) => {
       const b = el("button", "version extra");
       b.type = "button";
       b.append(el("span", "version-name", t.name), el("span", "version-sub", t.subtitle), el("span", "version-desc", t.description), el("span", "act ghost version-play", t.action));
@@ -305,14 +320,23 @@
     });
   }
 
+  // Écran à montrer d'après l'adresse : menu, version de Kimind, autre jeu ou statistiques.
+  // Il faut un joueur pour jouer (son prénom est demandé la première fois).
   function route() {
-    version = VERSIONS.find(v => v.id === location.hash.slice(1));
-    const other = GAMES.find(g => g.id === location.hash.slice(1));
-    GAMES.forEach(g => { $(g.screen).hidden = g !== other; });
+    const hash = location.hash.slice(1);
+    const nextVersion = VERSIONS.find(v => v.id === hash);
+    const other = GAMES.find(g => g.id === hash);
+    if ((nextVersion || other) && !Store.player) { Stats.askPlayer(route); return; }
+    if (version) recordKimind(false);
+    version = nextVersion;
+    GAMES.forEach(g => { if (g !== other) g.game().leave(); $(g.screen).hidden = g !== other; });
     if (other) other.game().start(T);
-    $("menu-screen").hidden = !!version || !!other;
+    $("stats-screen").hidden = hash !== "stats";
+    if (hash === "stats") Stats.openStats();
+    $("menu-screen").hidden = !!version || !!other || hash === "stats";
     $("game-screen").hidden = !version;
     $("game-btns").hidden = !version;
+    $("mood-bar").hidden = !version && !other;
     if (version) { renderRules(); newGame(); }
     window.scrollTo(0, 0);
   }
@@ -353,6 +377,7 @@
     $("btn-intro-close").textContent = T.close;
     $("menu-title").textContent = T.menuTitle;
     $("games-title").textContent = T.gamesTitle;
+    Stats.texts(T);
     GAMES.forEach(g => g.game().texts(T));
     $("lbl-menu").textContent = T.menu;
     renderMenu();
@@ -383,6 +408,11 @@
     setLang($("lang").value);
     $("btn-menu").addEventListener("click", () => { location.hash = ""; });
     Parade.init();
+    Stats.init(() => {
+      const other = GAMES.find(g => g.id === location.hash.slice(1));
+      return { game: location.hash.slice(1) || null, instance: other ? other.game().current() : null };
+    });
+    window.addEventListener("beforeunload", () => { GAMES.forEach(g => g.game().leave()); recordKimind(false); });
     $("level").addEventListener("change", newGame);
     $("btn-new").addEventListener("click", newGame);
     $("btn-propose").addEventListener("click", propose);

@@ -37,6 +37,18 @@ D'autres jeux, inspirés des modules de KartOOn (NukkAI), avec les cartes de Kib
 
 Pour ces deux jeux (`js/colourgame.js`), une bonne réponse du premier coup fait monter d'un niveau ; deux erreurs dans le même tour font redescendre d'un niveau, et le jeu montre la bonne réponse.
 
+## Personnalisation et statistiques
+
+Pour la personnalisation (théorie du domaine de Kiboom), l'application enregistre ce que fait l'enfant, **dans le navigateur seulement** (`js/store.js`, rien ne part sur Internet) :
+
+- **le joueur** : un prénom ou un pseudo, demandé au premier jeu (bouton 👤 en haut pour changer de joueur) ;
+- **les humeurs** : pendant les jeux, l'enfant peut cliquer sur 😌 calme, 😴 fatigué, 🧐 concentré, 😀 content ou 😞 pas content ;
+- **les exercices de Kimba et Kiplus** : cartes, bonne réponse, 4 réponses possibles par couleur, essais (réponses, temps, autonomie), aides demandées, abandon, feedback reçu, disposition des cartes ;
+- **l'aide** (bouton 💡 dans Kimba et Kiplus), de trois sortes à choisir pour les comparer : 4 réponses au choix pour la couleur choisie, « plus ou moins » (▲ ou ▼ sur les réponses fausses), ou une partie de la réponse (la bonne réponse d'une couleur) ;
+- **les parties de Kimind** : version, niveau, nombre de tours, gagnée ou abandonnée, durée.
+
+La carte **Statistiques** du menu (`js/stats.js`) montre, par joueur, les résultats de tous les jeux (réussite, sans aide, aides, abandons, temps moyen, niveau atteint), l'effet de chaque sorte d'aide et les humeurs. Elle exporte les données en **faits Prolog au format de la BK** (`student/1`, `instance_student/2`, `list_of_cards/2`, `correct_answer/3`, `possible_answers/3`, `students_answer/4`, `autonomous_during_try/3`, `response_time/3`, `ragequit_during_try/2`, `click_on_button_help/1`, `type_of_feedback_received/2`, `emotional_state/3`, `physical_state/3`, `cognitive_state/3`…), avec en plus `game/2`, `level/2`, `chaos_measure/2` (0 rangé, 20 mélangé, 60 + angle moyen en désordre), `layout/2`, `help_used/4` et `kimind_game/6` ; et en JSON. Le fichier exporté se charge avec `bkKiboomGenerale.pl` dans SWI-Prolog.
+
 ## Niveaux
 
 La difficulté dépend du nombre de façons de choisir les valeurs compatibles avec la somme et l'ordre des couleurs (à multiplier par 24 pour les places des couleurs) :
