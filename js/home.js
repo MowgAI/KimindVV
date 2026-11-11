@@ -47,7 +47,8 @@ const Home = (() => {
               <div class="rub-robots">${[["red", 2, "kind"], ["red", 9, "wise"], ["red", 6, "sneaky"], ["red", 10, "unbeatable"]].map(([c, v, k]) =>
                 `<span class="rub-robot">${card(c, v)}<span class="rub-chip ${k}">${H.kiboo.robots[k]}</span></span>`).join("")}</div>
               <p class="rub-text">${H.kiboo.text}</p>
-              <button class="act" type="button" data-a="kiboo">${H.kiboo.go}</button>
+              <p class="rub-note">${H.kiboo.tab}</p>
+              <a class="act" href="${KIBOO_URL}" target="_blank" rel="noopener">${H.kiboo.go} ↗</a>
             </div>
           </section>
           <section class="rub">
@@ -86,26 +87,10 @@ const Home = (() => {
         </div>
       </div>`;
     box.querySelectorAll("[data-go]").forEach(b => { b.onclick = () => { close(); location.hash = ""; setTimeout(() => $(b.dataset.go).scrollIntoView({ behavior: "smooth" }), 50); }; });
-    box.querySelector("[data-a=kiboo]").onclick = () => openKiboo();
     box.querySelector("[data-a=parade]").onclick = () => { close(); Parade.open(T, $("lang").value); };
     box.querySelector("[data-a=stats]").onclick = () => { close(); location.hash = "stats"; };
     box.querySelector("[data-a=player]").onclick = () => Stats.askPlayer();
     box.querySelectorAll("[data-lang]").forEach(b => { b.onclick = () => onLang(b.dataset.lang); });
-  }
-
-  // Kiboo est une autre application : elle s'ouvre ici, dans un cadre, sous une barre
-  // « Retour à KibooM » toujours visible (Kiboo n'a pas de bouton pour revenir).
-  function openKiboo() {
-    close();
-    const f = $("kiboo-frame");
-    if (!f.src) f.src = KIBOO_URL;
-    $("kiboo-view").hidden = false;
-    document.body.classList.add("home-open");
-  }
-
-  function closeKiboo() {
-    $("kiboo-view").hidden = true;
-    open();
   }
 
   function open() {
@@ -124,7 +109,6 @@ const Home = (() => {
   function texts(t) {
     T = t;
     $("btn-home").textContent = "🏠 " + t.homeBtn;
-    $("kiboo-back").textContent = "🏠 " + t.home.kiboo.back;
     if (!$("home").hidden) render();
   }
 
@@ -132,10 +116,9 @@ const Home = (() => {
     onLang = setLang;
     $("logo-btn").addEventListener("click", open);
     $("btn-home").addEventListener("click", open);
-    $("kiboo-back").addEventListener("click", closeKiboo);
     $("home").addEventListener("keydown", e => { if (e.key === "Escape") close(); });
     if (!location.hash) open();
   }
 
-  return { init, texts, open, close, openKiboo, logoHTML };
+  return { init, texts, open, close, logoHTML };
 })();
