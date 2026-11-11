@@ -21,6 +21,7 @@ LANGS.fr = {
   paradeBack: "Menu",
   paradeNext: "Suivant",
   paradeEnd: "Et voilà ! Les quarante personnages de Kiboo t'ont dit bonjour. Maintenant, on joue ?",
+  audio: { sfx: "Bruitages", voice: "Voix", hello: "Bonjour ! Je vais te lire les messages du jeu." },
   menuTitle: "Que veux-tu faire ?",
   gamesTitle: "Les autres jeux de cartes",
   games: {
