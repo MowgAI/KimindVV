@@ -165,7 +165,8 @@ const Stats = (() => {
   // Faits Prolog au format de la BK de Kiboom (bkKiboomGenerale.pl), plus quelques faits
   // propres à l'application : game/2, level/2, chaos_measure/2, layout/2, help_used/4,
   // instance_success/2, kijun_try/4, kijun_direction/3, kijun_colour_order/2,
-  // pyramid_target/2, pyramid_rows/2, pyramid_addition/5, kimind_game/6.
+  // pyramid_target/2, pyramid_rows/2, pyramid_addition/5, memory_pairs/2, memory_show_time/2,
+  // memory_flip/4, kimind_game/6.
   function prolog() {
     const d = Store.data, out = [];
     const line = s => out.push(s);
@@ -187,12 +188,17 @@ const Stats = (() => {
       line("chaos_measure(" + I + ", " + i.chaos + ").");
       // KiJun : correct_answer donne la somme de chaque couleur (étape 2) ; les sens demandés
       // et l'ordre des couleurs attendu sont dans kijun_direction/3 et kijun_colour_order/2.
-      Object.keys(COLOUR_NAMES).forEach(c => line("correct_answer(" + I + ", " + c + ", " + i.correct[c] + ")."));
+      if (i.correct) Object.keys(COLOUR_NAMES).forEach(c => line("correct_answer(" + I + ", " + c + ", " + i.correct[c] + ")."));
       if (i.possible) Object.keys(COLOUR_NAMES).forEach(c => line("possible_answers(" + I + ", " + c + ", [" + i.possible[c].join(", ") + "])."));
       // Kipharaon : nombre cible et rangées de la pyramide ; chaque addition proposée.
       if (i.target !== undefined) {
         line("pyramid_target(" + I + ", " + i.target + ").");
         line("pyramid_rows(" + I + ", " + i.rows + ").");
+      }
+      // KiDory : nombre de paires et temps pendant lequel les cartes sont montrées.
+      if (i.pairs !== undefined) {
+        line("memory_pairs(" + I + ", " + i.pairs + ").");
+        line("memory_show_time(" + I + ", " + i.showTime + ").");
       }
       if (i.dir1) {
         line("kijun_direction(" + I + ", step1, " + (i.dir1 === "asc" ? "increasing" : "decreasing") + ").");
@@ -202,6 +208,7 @@ const Stats = (() => {
       i.tries.forEach((t, k) => {
         // Essai d'une étape de KiJun : kijun_try(Instance, Essai, Étape, Réussi).
         if (t.step) line("kijun_try(" + I + ", try_" + k + ", step" + t.step + ", " + t.success + ").");
+        if (t.pair) line("memory_flip(" + I + ", try_" + k + ", [" + t.pair.join(", ") + "], " + t.success + ").");
         if (t.cards) line("pyramid_addition(" + I + ", try_" + k + ", [" + t.cards.join(", ") + "], " + t.sum + ", " + t.success + ").");
         if (t.step === 2 || t.answers) {
           const a = t.answers || t.answer;
