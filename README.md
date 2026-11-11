@@ -1,8 +1,8 @@
-# Kiboom
+# KibooM
 
-**Kiboom** est un ensemble de jeux de cartes pour apprendre en s'amusant, avec les cartes de [Kiboo](https://github.com/MowgAI/Kiboo) : **Kimind** (et ses variantes KiMinus, KimMinmaxus, Kimind 5) et dix autres jeux inspirés des modules de KartOOn (Kimba, Kiplus, KiJun, Kipharaon, KiDory, Kibal, KiPotter, Kicompuzzle, Kipuzzle, Kiduel). Le dépôt s'appelle KimindVV.
+**KibooM** est une appli pour apprendre les maths en s'amusant, qui s'adaptera à l'utilisateur (adaptation pas encore faite) : un ensemble de jeux de cartes avec les cartes de [Kiboo](https://github.com/MowgAI/Kiboo) : **Kimind** (et ses variantes KiMinus, KimMinmaxus, Kimind 5) et dix autres jeux inspirés des modules de KartOOn (Kimba, Kiplus, KiJun, Kipharaon, KiDory, Kibal, KiPotter, Kicompuzzle, Kipuzzle, Kiduel). Le dépôt s'appelle KimindVV.
 
-L'application s'ouvre sur un **accueil**, comme celui de Kiboo (`js/home.js`) : le logo KIBOOM se forme lettre par lettre (le « KIB » et les yeux de Kiboo, le M aux couleurs de Kimind), les personnages des jeux sautillent autour ; boutons Jouer et La parade, choix de la langue, case « Ne plus afficher l'accueil » ; un clic sur le logo de l'en-tête rouvre l'accueil.
+L'application s'ouvre sur une **page de lancement** aux couleurs de la présentation NukkAI (`js/home.js`) : fond blanc à lignes ondulées violettes, logo KIBOOM (K rouge, I turquoise, B jaune, deux O en yeux, M orange), la phrase « KibooM est une appli pour apprendre les maths en s'amusant, qui s'adapte à toi », et cinq rubriques : **Play Kiboo** (lien vers l'application Kiboo, nouvel onglet), **Kimind**, **Les KiJeux** (les dix autres jeux), **Amusement** (la parade) et **Personnalisation** (statistiques, joueur ; profil et questionnaires à venir, d'abord sur Kimba). Choix FR/EN en haut ; un clic sur le logo de l'en-tête rouvre la page. Le menu reprend les mêmes rubriques.
 
 ## Kimind
 

@@ -285,41 +285,32 @@
   }
 
   // Menu : une carte par version ; l'adresse (#initiale…) garde la version choisie.
-  function renderMenu() {
-    const extras = $("extras"), list = $("versions");
-    extras.textContent = "";
-    list.textContent = "";
-    // D'abord les règles de Kimind, la parade et les statistiques, puis les versions de Kimind.
-    [[T.menuRules, () => $("dlg-intro").showModal()], [T.menuParade, () => Parade.open(T, $("lang").value)],
-      [T.menuStats, () => { location.hash = "stats"; }]].forEach(([t, open]) => {
-      const b = el("button", "version extra");
-      b.type = "button";
-      b.append(el("span", "version-name", t.name), el("span", "version-sub", t.subtitle), el("span", "version-desc", t.description), el("span", "act ghost version-play", t.action));
-      b.addEventListener("click", open);
-      extras.append(b);
-    });
-    VERSIONS.forEach(v => {
-      const b = el("button", "version");
-      b.type = "button";
-      const t = T.versions[v.id];
-      b.append(el("span", "version-name", t.name), el("span", "version-sub", t.subtitle), el("span", "version-desc", t.description), el("span", "act version-play", T.play));
-      b.addEventListener("click", () => { location.hash = v.id; });
-      list.append(b);
-    });
-    const games = $("games");
-    games.textContent = "";
-    GAMES.forEach(g => {
-      const b = el("button", "version game-card");
-      b.type = "button";
-      const t = T.games[g.id];
-      const img = el("img", "game-img");
-      img.src = g.image;
-      img.alt = "";
-      b.append(img, el("span", "version-name", t.name), el("span", "version-sub", t.subtitle), el("span", "version-desc", t.description), el("span", "act version-play", T.play));
-      b.addEventListener("click", () => { location.hash = g.id; });
-      games.append(b);
-    });
+  // Menu en quatre parties, comme les rubriques de la page de lancement : Kimind (règles et
+  // versions), Les KiJeux (les autres jeux, et Kiboo, qui est une autre application),
+  // Amusement (la parade) et Personnalisation (statistiques, joueur, bientôt le profil).
+  function menuCard(t, open, cls, action) {
+    const b = el("button", "version" + (cls ? " " + cls : ""));
+    b.type = "button";
+    if (t.image) { const img = el("img", "game-img"); img.src = t.image; img.alt = ""; b.append(img); }
+    b.append(el("span", "version-name", t.name), el("span", "version-sub", t.subtitle), el("span", "version-desc", t.description));
+    if (action) b.append(el("span", "act version-play" + (cls === "extra" ? " ghost" : ""), action));
+    if (open) b.addEventListener("click", open); else b.disabled = true;
+    return b;
   }
+
+  function renderMenu() {
+    const box = id => { const e = $(id); e.textContent = ""; return e; };
+    const kimind = box("versions"), games = box("games"), fun = box("fun"), perso = box("perso");
+    kimind.append(menuCard(T.menuRules, () => $("dlg-intro").showModal(), "extra", T.menuRules.action));
+    VERSIONS.forEach(v => kimind.append(menuCard(T.versions[v.id], () => { location.hash = v.id; }, "", T.play)));
+    GAMES.forEach(g => games.append(menuCard(Object.assign({ image: g.image }, T.games[g.id]), () => { location.hash = g.id; }, "game-card", T.play)));
+    games.append(menuCard(Object.assign({ image: "assets/cards/red-2.webp" }, T.menuKiboo), () => window.open("https://mowgai.github.io/Kiboo/", "_blank", "noopener"), "game-card extra", T.menuKiboo.action + " ↗"));
+    fun.append(menuCard(T.menuParade, () => Parade.open(T, $("lang").value), "extra", T.menuParade.action));
+    perso.append(menuCard(T.menuStats, () => { location.hash = "stats"; }, "extra", T.menuStats.action));
+    perso.append(menuCard(T.menuPlayer, () => Stats.askPlayer(), "extra", T.menuPlayer.action));
+    perso.append(menuCard(T.menuSoon, null, "extra soon"));
+  }
+
 
   // Écran à montrer d'après l'adresse : menu, version de Kimind, autre jeu ou statistiques.
   // Il faut un joueur pour jouer (son prénom est demandé la première fois).
@@ -376,8 +367,9 @@
     intro.textContent = "";
     T.intro.forEach(([term, text]) => intro.append(el("dt", "", term), el("dd", "", text)));
     $("btn-intro-close").textContent = T.close;
-    $("menu-title").textContent = T.menuTitle;
     $("kimind-title").textContent = T.kimindTitle;
+    $("fun-title").textContent = T.funTitle;
+    $("perso-title").textContent = T.persoTitle;
     Home.texts(T);
     $("games-title").textContent = T.gamesTitle;
     GameAudio.texts(T);
