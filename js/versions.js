@@ -26,4 +26,5 @@ const VERSIONS = [
    Leur nom et leur description sont dans lang/fr.js et lang/en.js (games). */
 const GAMES = [
   { id: "kimba", image: "assets/characters/archi.webp", screen: "kimba-screen", game: () => Kimba },
+  { id: "kiplus", image: "assets/characters/lili.webp", screen: "kiplus-screen", game: () => Kiplus },
 ];

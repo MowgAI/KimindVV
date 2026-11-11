@@ -116,25 +116,31 @@ body.parade-open { overflow: hidden; }
 .other-title { margin: 0; font-size: 1.6rem; }
 .other-rule { margin: 2px 0 0; color: var(--ink-soft); }
 .other-ctrl { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.kimba-cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 16px; margin-bottom: 12px; }
-.kimba-cards .card { --w: 76px; }
-.kimba-panel { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
-.kimba-answers { display: flex; gap: 12px; flex-wrap: wrap; }
-.kimba-box {
+.cg-cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 16px; margin-bottom: 12px; }
+.cg-cards .card { --w: 76px; }
+.cg-cards.grouped { flex-direction: column; align-items: center; }
+.cg-cards.scattered { display: block; position: relative; --scat-w: 76px; --cell-h: 150px; }
+.cg-area { position: absolute; inset: calc(var(--scat-w) * 0.8) calc(var(--scat-w) * 0.75); }
+.cg-cards.scattered .card { position: absolute; --w: var(--scat-w); }
+.cg-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.cg-panel { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.cg-answers { display: flex; gap: 12px; flex-wrap: wrap; }
+.cg-box {
   font: inherit; font-size: 1.8rem; font-weight: 700; cursor: pointer;
   width: 64px; height: 76px; border-radius: 12px; border: 5px solid var(--c);
   background: var(--panel); color: var(--ink);
 }
-.kimba-box.selected { box-shadow: 0 0 0 4px var(--pick); }
-.kimba-box.ok { background: color-mix(in srgb, var(--ok) 18%, var(--panel)); }
-.kimba-box.ko { background: color-mix(in srgb, var(--ko) 22%, var(--panel)); animation: shake 0.4s; }
-.kimba-box:disabled { cursor: default; }
+.cg-box.selected { box-shadow: 0 0 0 4px var(--pick); }
+.cg-box.ok { background: color-mix(in srgb, var(--ok) 18%, var(--panel)); }
+.cg-box.ko { background: color-mix(in srgb, var(--ko) 22%, var(--panel)); animation: shake 0.4s; }
+.cg-box:disabled { cursor: default; }
 @keyframes shake { 25% { translate: -4px 0; } 75% { translate: 4px 0; } }
-.kimba-msg { font-weight: 600; }
-.kimba-msg.ok { color: var(--ok); }
-.kimba-msg.ko { color: var(--ko); }
+.cg-msg { font-weight: 600; }
+.cg-msg.ok { color: var(--ok); }
+.cg-msg.ko { color: var(--ko); }
 @media (max-width: 560px) {
-  .kimba-cards .card { --w: 54px; }
+  .cg-cards .card { --w: 54px; }
+  .cg-cards.scattered { --scat-w: 48px; --cell-h: 84px; }
   .other-ctrl { margin-left: 0; }
 }
 

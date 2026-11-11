@@ -376,13 +376,13 @@
   }
 
   function init() {
+    GAMES.forEach(g => g.game().init());       // écrans des autres jeux, avant leurs textes
     Object.keys(LANGS).forEach(l => $("lang").append(new Option(LANGS[l].langName, l)));
     $("lang").value = savedLang();
     $("lang").addEventListener("change", () => setLang($("lang").value));
     setLang($("lang").value);
     $("btn-menu").addEventListener("click", () => { location.hash = ""; });
     Parade.init();
-    GAMES.forEach(g => g.game().init());
     $("level").addEventListener("change", newGame);
     $("btn-new").addEventListener("click", newGame);
     $("btn-propose").addEventListener("click", propose);

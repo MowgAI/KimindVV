@@ -24,18 +24,26 @@ LANGS.en = {
   gamesTitle: "More card games",
   games: {
     kimba: { name: "Kimba", subtitle: "Count the colours", description: "How many cards of each colour are there? Count them with Archi the dinosaur." },
+    kiplus: { name: "Kiplus", subtitle: "Add up the colours", description: "Add up the cards of each colour with Lili the mouse." },
   },
-  kimba: {
-    name: "Kimba",
-    rule: "Count the cards of each colour, then give your answer for each colour.",
-    howMany: c => "Number of " + c + " cards",
+  colourGames: {
     check: "Check",
     next: "Again!",
+    erase: "Erase",
     bravo: "Well done, that's right!",
     bravoUp: n => "Well done, that's right! On to level " + n + ".",
-    retry: "Almost! Count the colours in red again.",
     solution: "Here is the right answer. Look carefully, and let's try again!",
     score: (n, total) => n + " right answer" + (n === 1 ? "" : "s") + " out of " + total,
+  },
+  kimba: {
+    rule: "Count the cards of each colour, then give your answer for each colour.",
+    box: c => "Number of " + c + " cards",
+    retry: "Almost! Count the colours in red again.",
+  },
+  kiplus: {
+    rule: "Add up the cards of each colour, then type the result for each colour.",
+    box: c => "Sum of the " + c + " cards",
+    retry: "Almost! Redo the sums in red.",
   },
   menuRules: { name: "Rules", subtitle: "Goal and puzzle", description: "How to play Kimind: the goal, the cards, the puzzle, a round, the game's answer and the end of the game.", action: "Read" },
   menuParade: { name: "The parade", subtitle: "The 40 characters", description: "The card characters march past one by one and introduce themselves, with their family's music.", action: "Watch" },

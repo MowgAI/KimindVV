@@ -30,9 +30,12 @@ Le jeu s'ouvre sur un menu, avec une carte par choix : « Règles du jeu » (but
 
 ## Les autres jeux de cartes
 
-D'autres jeux, inspirés des modules de KartOOn (NukkAI), avec les cartes de Kiboo et les personnages de KartOOn (images du dépôt Kimind, dans `assets/characters/`). Ils sont décrits dans `js/versions.js` (`GAMES`) et ont chacun leur fichier et leur écran.
+D'autres jeux, inspirés des modules de KartOOn (NukkAI), avec les cartes de Kiboo et les personnages de KartOOn (images du dépôt Kimind, dans `assets/characters/`). Ils sont décrits dans `js/versions.js` (`GAMES`) et ont chacun leur écran.
 
-- **Kimba** (`#kimba`, `js/kimba.js`, inspiré de « Compte avec Archi ») : des cartes mélangées s'affichent ; pour chaque couleur présente, on dit combien il y a de cartes de cette couleur. 10 niveaux, de 3 cartes en 2 couleurs à 14 cartes en 4 couleurs. Une bonne réponse du premier coup fait monter d'un niveau ; deux erreurs dans le même tour font redescendre d'un niveau, et le jeu montre la bonne réponse.
+- **Kimba** (`#kimba`, inspiré de « Compte avec Archi ») : des cartes mélangées s'affichent ; pour chaque couleur présente, on dit combien il y a de cartes de cette couleur. 10 niveaux, de 3 cartes en 2 couleurs à 14 cartes en 4 couleurs ; aux niveaux 7 à 10, les cartes sont posées en désordre.
+- **Kiplus** (`#kiplus`, inspiré de « Ajoute avec Lili ») : on additionne les cartes de chaque couleur et on tape le résultat (pavé de chiffres). 10 niveaux, de 2 petites cartes d'une couleur à 4 couleurs de 4 cartes ; les cartes sont rangées par couleur, puis mélangées, puis posées en désordre aux niveaux 8 à 10.
+
+Pour ces deux jeux (`js/colourgame.js`), une bonne réponse du premier coup fait monter d'un niveau ; deux erreurs dans le même tour font redescendre d'un niveau, et le jeu montre la bonne réponse.
 
 ## Niveaux
 
