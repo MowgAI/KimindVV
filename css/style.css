@@ -144,6 +144,27 @@ body.parade-open { overflow: hidden; }
   .other-ctrl { margin-left: 0; }
 }
 
+/* KiPotter */
+.np-zone { padding: 24px 40px 20px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 56px; }
+.np-line { position: relative; height: 60px; margin-top: 40px; }
+.np-bar { position: absolute; left: 0; right: 0; top: 20px; height: 4px; background: var(--ink); border-radius: 2px; }
+.np-tick { position: absolute; top: 12px; width: 2px; height: 20px; background: var(--ink); transform: translateX(-50%); }
+.np-tick.major { top: 6px; height: 32px; width: 3px; }
+.np-label { position: absolute; top: 42px; transform: translateX(-50%); font-weight: 600; color: var(--ink); }
+.np-marker { position: absolute; top: -26px; transform: translateX(-50%); font-size: 1.8rem; color: var(--pick); line-height: 1; }
+.np-value { position: absolute; top: -26px; left: 50%; transform: translateX(-50%); font-size: 1.1rem; font-weight: 700; color: var(--ink); }
+.np-choices { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.np-card { --w: 80px; border: 0; padding: 0; cursor: pointer; }
+.np-choice { font-size: 1.6rem; min-width: 3.2em; padding: 10px 20px; }
+.np-card.ok, .np-choice.ok { box-shadow: 0 0 0 4px var(--ok); }
+.np-card.ko, .np-choice.ko { box-shadow: 0 0 0 4px var(--ko); }
+.np-card.dim, .np-choice.dim { opacity: 0.4; }
+@media (max-width: 560px) {
+  .np-zone { padding: 20px 18px 16px; }
+  .np-label { font-size: 0.8rem; }
+  .np-card { --w: 64px; }
+}
+
 /* Kibal */
 .bal-zones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
 .bal-zone { --bw: 58px; position: relative; height: calc(var(--rows, 3) * var(--bw) * 1.75 + var(--bw) * 1.2); border: 3px solid transparent; cursor: pointer; padding: 0; font: inherit; }

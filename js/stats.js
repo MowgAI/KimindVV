@@ -166,7 +166,8 @@ const Stats = (() => {
   // propres à l'application : game/2, level/2, chaos_measure/2, layout/2, help_used/4,
   // instance_success/2, kijun_try/4, kijun_direction/3, kijun_colour_order/2,
   // pyramid_target/2, pyramid_rows/2, pyramid_addition/5, memory_pairs/2, memory_show_time/2,
-  // memory_flip/4, balance_question/6, balance_time_limit/2, balance_trap/1, kimind_game/6.
+  // memory_flip/4, balance_question/6, balance_time_limit/2, balance_trap/1,
+  // number_line_question/6, kimind_game/6.
   function prolog() {
     const d = Store.data, out = [];
     const line = s => out.push(s);
@@ -215,6 +216,8 @@ const Stats = (() => {
         // Kibal : balance_question(Instance, Essai, Cartes zone 1, Cartes zone 2, Zone choisie, Réussi) ;
         // zone choisie : 1, 2, ou none si le temps est écoulé.
         if (t.balance) line("balance_question(" + I + ", try_" + k + ", " + t.balance[0] + ", " + t.balance[1] + ", " + (t.choice === null ? "none" : t.choice + 1) + ", " + t.success + ").");
+        // KiPotter : number_line_question(Instance, Essai, Fin de la règle, Repère, Réponse, Réussi).
+        if (t.line) line("number_line_question(" + I + ", try_" + k + ", " + t.line.max + ", " + t.line.target + ", " + t.choice + ", " + t.success + ").");
         if (t.pair) line("memory_flip(" + I + ", try_" + k + ", [" + t.pair.join(", ") + "], " + t.success + ").");
         if (t.cards) line("pyramid_addition(" + I + ", try_" + k + ", [" + t.cards.join(", ") + "], " + t.sum + ", " + t.success + ").");
         if (t.step === 2 || t.answers) {

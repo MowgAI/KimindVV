@@ -29,6 +29,7 @@ LANGS.fr = {
     kipharaon: { name: "Kipharaon", subtitle: "La pyramide", description: "Additionne les cartes de la pyramide pour atteindre le nombre cible et vide toute la pyramide, avec Fonzy." },
     kidory: { name: "KiDory", subtitle: "Le mémory", description: "Retiens les cartes, puis retrouve les paires de même valeur, avec Johnny." },
     kibal: { name: "Kibal", subtitle: "La balance", description: "Où y a-t-il le plus de cartes ? Clique vite sur la bonne zone, avec Nath." },
+    kipotter: { name: "KiPotter", subtitle: "La règle magique", description: "Quel nombre se cache sous le repère de la règle ? Trouve-le avec Galadriel." },
     kijun: { name: "KiJun", subtitle: "Range et additionne", description: "Range les cartes de chaque couleur, additionne-les, puis range les couleurs, avec Mary." },
   },
   colourGames: {
@@ -91,6 +92,12 @@ LANGS.fr = {
     endUp: (g, n, lv) => "Bravo, " + g + " bonnes réponses sur " + n + " ! Tu passes au niveau " + lv + ".",
     endDown: (g, n) => g + " bonnes réponses sur " + n + ". On recommence un peu plus facile.",
     score: (n, total) => (total ? n + " partie" + (n > 1 ? "s" : "") + " réussie" + (n > 1 ? "s" : "") + " sur " + total : ""),
+  },
+  kipotter: {
+    rule: "Trouve le nombre qui correspond au repère ◆ placé sur la règle !",
+    marker: "repère",
+    help: "Enlever une mauvaise réponse",
+    bad: v => "Non, le repère est sur " + v + ".",
   },
   kijun: {
     rule: "Range les cartes, additionne chaque couleur, puis range les couleurs.",
