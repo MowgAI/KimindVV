@@ -31,7 +31,8 @@ const Parade = (() => {
 
   /* ---------- L'écran de la parade ---------- */
   const presentation = (s, v) => (window.KIBOO_CHARACTERS[lang] || window.KIBOO_CHARACTERS.fr)[COLORS[s] + "-" + v];
-  const genderOf = (s, v) => window.KIBOO_CHARACTERS.gender[COLORS[s] + "-" + v] || "m";
+  // En anglais, voix de femme pour toutes les filles ; en français, seulement pour les métiers.
+  const genderOf = (s, v) => window.KIBOO_CHARACTERS[lang === "en" ? "genderEn" : "gender"][COLORS[s] + "-" + v] || "m";
   const cardImage = (s, v) => "assets/cards/" + COLORS[s] + "-" + v + ".webp";
 
   function labels() {

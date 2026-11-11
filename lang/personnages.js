@@ -4,8 +4,20 @@
    seulement son nom et une petite phrase drôle, lue à voix haute.
    gender : voix de femme (f) ou d'homme (m) ; la voix de femme est réservée aux
    personnages féminins de la famille des métiers (jaune), tous les autres ont la voix d'homme.
+   genderEn : en anglais, voix de femme pour tous les personnages filles, quelle que soit
+   leur famille (genre repris de Kiboo, lang/parade.js) ; garçons et neutres : voix d'homme.
    Clé : couleur-valeur (blue = animaux, green = dinosaures, red = robots, yellow = métiers). */
 window.KIBOO_CHARACTERS = {
+  genderEn: {
+    "blue-1": "f", "blue-2": "m", "blue-3": "m", "blue-4": "m", "blue-5": "f",
+    "blue-6": "m", "blue-7": "m", "blue-8": "m", "blue-9": "m", "blue-10": "f",
+    "green-1": "m", "green-2": "f", "green-3": "m", "green-4": "m", "green-5": "m",
+    "green-6": "m", "green-7": "f", "green-8": "m", "green-9": "f", "green-10": "m",
+    "red-1": "m", "red-2": "m", "red-3": "m", "red-4": "m", "red-5": "m",
+    "red-6": "m", "red-7": "m", "red-8": "m", "red-9": "m", "red-10": "m",
+    "yellow-1": "m", "yellow-2": "f", "yellow-3": "m", "yellow-4": "f", "yellow-5": "m",
+    "yellow-6": "f", "yellow-7": "m", "yellow-8": "f", "yellow-9": "f", "yellow-10": "f",
+  },
   gender: {
     "blue-1": "m", "blue-2": "m", "blue-3": "m", "blue-4": "m", "blue-5": "m",
     "blue-6": "m", "blue-7": "m", "blue-8": "m", "blue-9": "m", "blue-10": "m",
