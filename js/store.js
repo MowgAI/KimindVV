@@ -64,19 +64,28 @@ const Store = (() => {
     save();
   }
 
+  // Avatar du joueur : le personnage auquel il s'identifie (Ego KibooM), ex. « green-7 ».
+  function setAvatar(key) {
+    if (!player) return;
+    data.avatars = data.avatars || {};
+    data.avatars[player] = key;
+    save();
+  }
+
   function addKimind(game) {
     data.kimind.push(Object.assign({ player, time: Date.now() }, game));
     save();
   }
 
   function clear() {
-    data = { players: data.players, instances: [], kimind: [], states: [] };
+    data = { players: data.players, instances: [], kimind: [], states: [], ego: data.ego || [], avatars: data.avatars || {} };
     save();
   }
 
   return {
     get player() { return player; },
     get data() { return data; },
-    playerId, setPlayer, startInstance, addState, addKimind, save, clear,
+    get avatar() { return (data.avatars || {})[player] || null; },
+    playerId, setPlayer, setAvatar, startInstance, addState, addKimind, save, clear,
   };
 })();

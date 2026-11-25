@@ -47,7 +47,14 @@ const Stats = (() => {
 
   /* ---------- Le joueur ---------- */
   function renderPlayer() {
-    $("player-btn").textContent = "👤 " + (Store.player || T.stats.noPlayer);
+    // L'avatar du joueur (personnage choisi dans Ego KibooM) à la place du 👤.
+    const btn = $("player-btn"), av = Store.avatar;
+    btn.textContent = "";
+    if (av) {
+      const img = el("span", "card face player-avatar");
+      img.style.backgroundImage = "url(assets/cards/" + av + ".webp)";
+      btn.append(img, document.createTextNode(" " + Store.player));
+    } else btn.textContent = "👤 " + (Store.player || T.stats.noPlayer);
   }
 
   // Demande le prénom (ou pseudo) ; `then` est appelé une fois le joueur choisi.
@@ -268,22 +275,50 @@ const Stats = (() => {
     line("");
     // Parties de Kimind : kimind_game(Joueur, Version, Niveau, Tours, Gagnée, Durée en secondes).
     d.kimind.forEach(g => line("kimind_game(" + atom(Store.playerId(g.player || "joueur")) + ", " + atom(g.version) + ", " + g.level + ", " + g.rounds + ", " + g.won + ", " + g.duration + ")."));
-    // Ego KibooM (BK individuelle) : un passage du questionnaire = un profil daté. On garde tous
-    // les passages : la BK individuelle se met à jour et on voit son évolution.
-    // ego_profile(Profil, Joueur, Version, Date), ego_answer(Profil, Question, Réponse),
-    // ego_identifies_with(Profil, Couleur, Valeur), ego_trait(Profil, Caractéristique, Valeur −1..1),
-    // learner_type(Profil, Type, Pourcentage).
+    // Ego KibooM (BK individuelle) : un passage d'un chapitre = un profil daté. On garde tous les
+    // passages : la BK individuelle se met à jour et on voit son évolution. Réponse « skip » :
+    // l'enfant a préféré ne pas répondre.
+    // Tous : ego_profile(Profil, Joueur, Version, Date).
+    // Qui je suis : student_age/2, birth_month/2, birth_date_estimate/2, school_class/2, gender/2,
+    //   home_language/2 (sur le joueur, d'après le dernier passage) ; ego_answer/3.
+    // Personnalité : personality_answer(Profil, Phrase, 0..3 | skip), personality_trait(Profil, Trait, 0..1).
+    // Style : ego_answer/3, ego_identifies_with(Profil, Couleur, Valeur), ego_trait(Profil, Caractéristique,
+    //   −1..1), learner_type(Profil, Type, %), ego_self_assessment(Profil, agree | partly | disagree | skip),
+    //   ego_goal(Profil, Défi, accepted | declined) ; avatar(Joueur, Couleur, Valeur).
     if ((d.ego || []).length) {
       line("");
-      line("% Ego KibooM : profils d'apprenant (questionnaire), types achiever / explorer / architect / spectateur.");
+      line("% Ego KibooM : BK individuelle (qui je suis, personnalité, style de joueur).");
     }
+    const kindOf = r => r.kind || "style";
     (d.ego || []).forEach(r => {
-      const P = atom(r.id), S = atom(Store.playerId(r.player || "joueur"));
+      const P = atom(r.id), S = atom(Store.playerId(r.player || "joueur")), K = kindOf(r);
       line("ego_profile(" + P + ", " + S + ", " + atom(r.version) + ", " + atom(new Date(r.time).toISOString()) + ").");
-      r.answers.forEach((a, qi) => line("ego_answer(" + P + ", " + atom(EGO.questions[qi].id) + ", " + atom(a) + ")."));
-      if (r.character) { const [c, v] = r.character.split("-"); line("ego_identifies_with(" + P + ", " + c + ", " + v + ")."); }
-      Object.entries(r.traits).forEach(([k, v]) => line("ego_trait(" + P + ", " + atom(k) + ", " + (Math.round(v * 100) / 100) + ")."));
-      Object.entries(r.percents).forEach(([k, v]) => line("learner_type(" + P + ", " + k + ", " + v + ")."));
+      if (K === "identity") {
+        Object.entries(r.answers).forEach(([q, a]) => line("ego_answer(" + P + ", " + atom(q) + ", " + (Array.isArray(a) ? "[" + a.map(atom).join(", ") + "]" : atom(a)) + ")."));
+      } else if (K === "personality") {
+        r.answers.forEach((a, i) => line("personality_answer(" + P + ", " + atom(EGO.personality[i].id) + ", " + (a === "skip" ? "skip" : a) + ")."));
+        Object.entries(r.traits).forEach(([k, v]) => { if (v !== null) line("personality_trait(" + P + ", " + k + ", " + v + ")."); });
+      } else {
+        r.answers.forEach((a, qi) => line("ego_answer(" + P + ", " + atom(EGO.questions[qi].id) + ", " + atom(a) + ")."));
+        if (r.character) { const [c, v] = r.character.split("-"); line("ego_identifies_with(" + P + ", " + c + ", " + v + ")."); }
+        Object.entries(r.traits).forEach(([k, v]) => line("ego_trait(" + P + ", " + atom(k) + ", " + (Math.round(v * 100) / 100) + ")."));
+        Object.entries(r.percents).forEach(([k, v]) => line("learner_type(" + P + ", " + k + ", " + v + ")."));
+        if (r.selfAssessment) line("ego_self_assessment(" + P + ", " + atom(r.selfAssessment) + ").");
+        Object.entries(r.goals || {}).forEach(([g, v]) => line("ego_goal(" + P + ", " + g + ", " + v + ")."));
+      }
+    });
+    // Données fixes du joueur, d'après son dernier passage de « Qui je suis ».
+    d.players.forEach(p => {
+      const r = (d.ego || []).filter(x => x.player === p && kindOf(x) === "identity").slice(-1)[0];
+      const S = atom(Store.playerId(p)), a = r ? r.answers : {}, ok = v => v !== undefined && v !== "skip";
+      if (ok(a.age)) line("student_age(" + S + ", " + (a.age === "13+" ? 13 : a.age) + ").");
+      if (ok(a.birth_month)) line("birth_month(" + S + ", " + a.birth_month + ").");
+      if (r && r.birth) line("birth_date_estimate(" + S + ", " + atom(r.birth) + ").");
+      if (ok(a.school_class)) line("school_class(" + S + ", " + atom(a.school_class) + ").");
+      if (ok(a.gender)) line("gender(" + S + ", " + a.gender + ").");
+      if (Array.isArray(a.home_language)) a.home_language.forEach(l => line("home_language(" + S + ", " + l + ")."));
+      const av = (d.avatars || {})[p];
+      if (av) { const [c, v] = av.split("-"); line("avatar(" + S + ", " + c + ", " + v + ")."); }
     });
     return out.join("\n") + "\n";
   }
@@ -322,5 +357,5 @@ const Stats = (() => {
     $("stats-clear").addEventListener("click", () => { if (confirm(T.stats.clearConfirm)) { Store.clear(); openStats(); } });
   }
 
-  return { init, texts, openStats, ensurePlayer, askPlayer, prolog, MOODS };
+  return { init, texts, openStats, ensurePlayer, askPlayer, prolog, renderPlayer, MOODS };
 })();

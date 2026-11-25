@@ -163,4 +163,97 @@ window.EGO = {
         { id: "parade", icon: "🎪", t: { sidequests: 1, presentation: 0.5 }, fr: "la parade, la musique, les images", en: "the parade, the music, the pictures" },
       ] },
   ],
+
+  /* ---------- Chapitre 1 : qui je suis (données fixes) ----------
+     Seulement ce qui sert : pas de religion, groupe ethnique, situation des parents, etc. */
+  identity: [
+    { id: "age", fr: "Quel âge as-tu ?", en: "How old are you?",
+      options: ["4", "5", "6", "7", "8", "9", "10", "11", "12", "13+"].map(a => ({ id: a, fr: a + (a === "13+" ? " ans" : " ans"), en: a })) },
+    { id: "birth_month", fr: "Ton anniversaire, c'est en quel mois ?", en: "Which month is your birthday?",
+      options: ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"]
+        .map((m, i) => ({ id: String(i + 1), fr: m, en: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][i] })) },
+    { id: "school_class", fr: "En quelle classe es-tu ?", en: "Which class are you in?",
+      options: [
+        { id: "maternelle", fr: "Maternelle", en: "Nursery / Reception" }, { id: "cp", fr: "CP", en: "Year 1" },
+        { id: "ce1", fr: "CE1", en: "Year 2" }, { id: "ce2", fr: "CE2", en: "Year 3" }, { id: "cm1", fr: "CM1", en: "Year 4" },
+        { id: "cm2", fr: "CM2", en: "Year 5" }, { id: "college", fr: "6e et plus", en: "Year 6 and up" }] },
+    { id: "gender", fr: "Tu es…", en: "You are…",
+      options: [{ id: "girl", icon: "👧", fr: "une fille", en: "a girl" }, { id: "boy", icon: "👦", fr: "un garçon", en: "a boy" },
+        { id: "undisclosed", icon: "🤐", fr: "je préfère ne pas dire", en: "I'd rather not say" }] },
+    { id: "home_language", multi: true, fr: "Quelle(s) langue(s) parles-tu à la maison ?", en: "Which language(s) do you speak at home?",
+      options: [{ id: "fr", icon: "🇫🇷", fr: "français", en: "French" }, { id: "en", icon: "🇬🇧", fr: "anglais", en: "English" },
+        { id: "it", icon: "🇮🇹", fr: "italien", en: "Italian" }, { id: "other", icon: "🌍", fr: "une autre langue", en: "another language" }] },
+  ],
+
+  /* ---------- Chapitre 2 : ma personnalité ----------
+     Traits stables (BK Sciences Co) : les cinq grands traits, les traits liés au jeu et des traits
+     plus fins. Chaque phrase : « C'est comme toi ? » (0 pas du tout … 3 énormément) ; rev = phrase
+     inversée. Dans la constellation, chaque trait est une étoile au nom positif (star) ; inv : l'étoile
+     brille quand le trait est faible (neuroticisme → Sérénité, agressivité → Fair-play). */
+  scale: [
+    { v: 0, icon: "😶", fr: "pas du tout", en: "not at all" }, { v: 1, icon: "🙂", fr: "un peu", en: "a little" },
+    { v: 2, icon: "😊", fr: "beaucoup", en: "a lot" }, { v: 3, icon: "🤩", fr: "énormément", en: "totally" }],
+  personalityTraits: {
+    openness:          { icon: "🔭", fr: "Curiosité", en: "Curiosity" },
+    conscientiousness: { icon: "🗂️", fr: "Organisation", en: "Organisation" },
+    extraversion:      { icon: "🎉", fr: "Sociabilité", en: "Sociability" },
+    agreeableness:     { icon: "🤗", fr: "Gentillesse", en: "Kindness" },
+    neuroticism:       { icon: "🧘", fr: "Sérénité", en: "Serenity", inv: true },
+    emotivity:         { icon: "💗", fr: "Sensibilité", en: "Sensitivity" },
+    aggressiveness:    { icon: "🤝", fr: "Fair-play", en: "Fair play", inv: true },
+    discipline:        { icon: "📏", fr: "Respect des règles", en: "Following rules" },
+    creativity:        { icon: "🎨", fr: "Créativité", en: "Creativity" },
+    experience:        { icon: "🎲", fr: "Expérience du jeu", en: "Game experience" },
+    risk_aversion:     { icon: "🛡️", fr: "Prudence", en: "Caution" },
+    individualism:     { icon: "🦅", fr: "Indépendance", en: "Independence" },
+    altruism:          { icon: "🎁", fr: "Générosité", en: "Generosity" },
+  },
+  personality: [
+    { id: "p_stories", trait: "openness", fr: "J'aime inventer des histoires.", en: "I like making up stories." },
+    { id: "p_learn", trait: "openness", fr: "J'aime apprendre des choses nouvelles.", en: "I like learning new things." },
+    { id: "p_finish", trait: "conscientiousness", fr: "Je finis ce que je commence.", en: "I finish what I start." },
+    { id: "p_careful", trait: "conscientiousness", fr: "Je fais attention à bien faire.", en: "I take care to do things well." },
+    { id: "p_friends", trait: "extraversion", fr: "J'aime jouer avec plein d'amis.", en: "I like playing with lots of friends." },
+    { id: "p_alone", trait: "extraversion", rev: true, fr: "Je préfère jouer seul, au calme.", en: "I prefer playing alone, quietly." },
+    { id: "p_share", trait: "agreeableness", fr: "J'aime aider et partager.", en: "I like helping and sharing." },
+    { id: "p_argue", trait: "agreeableness", rev: true, fr: "Je me dispute souvent.", en: "I often argue." },
+    { id: "p_worry", trait: "neuroticism", fr: "Je m'inquiète souvent.", en: "I often worry." },
+    { id: "p_calm", trait: "neuroticism", rev: true, fr: "Je reste calme quand ça ne va pas.", en: "I stay calm when things go wrong." },
+    { id: "p_cry", trait: "emotivity", fr: "Quand je perds, j'ai envie de pleurer.", en: "When I lose, I feel like crying." },
+    { id: "p_angry", trait: "aggressiveness", fr: "Quand je perds, je me fâche.", en: "When I lose, I get cross." },
+    { id: "p_rules", trait: "discipline", fr: "Je respecte les règles, même quand je perds.", en: "I follow the rules, even when I'm losing." },
+    { id: "p_invent", trait: "creativity", fr: "J'invente mes propres règles.", en: "I make up my own rules." },
+    { id: "p_games", trait: "experience", fr: "Je joue souvent à des jeux.", en: "I often play games." },
+    { id: "p_sure", trait: "risk_aversion", fr: "Je préfère être sûr plutôt que tenter ma chance.", en: "I'd rather be sure than take a chance." },
+    { id: "p_solo", trait: "individualism", fr: "Je préfère gagner seul qu'en équipe.", en: "I'd rather win alone than as a team." },
+    { id: "p_others", trait: "altruism", fr: "Je suis content quand les autres gagnent aussi.", en: "I'm happy when others win too." },
+  ],
+
+  /* ---------- Chapitre 3 : les défis (seulement ce qui peut changer) ----------
+     Proposés un par un, si KibooM a remarqué la caractéristique : src « style » (caractéristique du
+     questionnaire de style, entre −1 et 1) ou « personality » (trait entre 0 et 1) ; below / above :
+     seuil. Formulations positives et un peu taquines. */
+  challenges: [
+    { id: "reflect_more", icon: "⚡", src: "style", trait: "reflect", below: -0.2,
+      fr: "Tu réponds plus vite que ton ombre ! Tu veux essayer de réfléchir un peu avant ?",
+      en: "You answer faster than your shadow! Want to try thinking a little first?" },
+    { id: "persist_more", icon: "🏃", src: "style", trait: "persist", below: -0.2,
+      fr: "Quand c'est raté, hop, tu files vers un autre jeu ! Et si tu tentais de persévérer ?",
+      en: "When it goes wrong, whoosh, you're off to another game! What if you tried sticking at it?" },
+    { id: "stay_calm", icon: "🌋", src: "personality", trait: "aggressiveness", above: 0.5,
+      fr: "Quand tu perds, ça bout un peu dans ta tête… Tu veux devenir maître zen ?",
+      en: "When you lose, things bubble up a bit in your head… Want to become a zen master?" },
+    { id: "act_more", icon: "🐌", src: "style", trait: "act", below: -0.2,
+      fr: "Toi, tu observes beaucoup… Et si tu osais te lancer plus souvent ?",
+      en: "You watch a lot… What if you dared to jump in more often?" },
+    { id: "try_new", icon: "🏠", src: "style", trait: "novelty", below: -0.2,
+      fr: "Toujours les mêmes jeux, hein ? Prêt pour une aventure inconnue ?",
+      en: "Always the same games, eh? Ready for an unknown adventure?" },
+    { id: "ask_help", icon: "🙋", src: "style", trait: "help", below: -0.2,
+      fr: "Tu fais tout tout seul, comme un grand… Et si tu demandais un coup de main quand tu bloques ?",
+      en: "You do everything all by yourself… What if you asked for a hand when you're stuck?" },
+    { id: "check_progress", icon: "📈", src: "style", trait: "stats", below: -0.2,
+      fr: "Tes résultats ? Même pas un coup d'œil ! Tu veux voir tes progrès de temps en temps ?",
+      en: "Your results? Not even a glance! Want to check your progress now and then?" },
+  ],
 };
