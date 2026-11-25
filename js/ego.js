@@ -127,7 +127,7 @@ const Ego = (() => {
     if (!T) return;
     $("ego-title").textContent = "🪞 " + E().title;
     $("ego-menu").textContent = "☰ " + T.menu;
-    ({ hub, quiz, family: familyStep, character: characterStep, result, challenge, done }[step] || hub)();
+    ({ hub, quiz, family: familyStep, character: characterStep, result, challenge, done, avatarFamily, avatarCharacter }[step] || hub)();
     window.scrollTo(0, 0);
   }
 
@@ -154,7 +154,8 @@ const Ego = (() => {
     const avatar = Store.avatar;
     box().innerHTML = `<div class="ego-hub-head">
         ${avatar ? `<span class="card face ego-hub-avatar" style="background-image:url(${cardImg(avatar)})" role="img" aria-label="${esc(charName(avatar))}"></span>` : `<span class="ego-mirror" aria-hidden="true">🪞</span>`}
-        <div><p class="ego-lead">${CHAPTERS.some(c => last(c)) ? "" : E().welcome.replace("{name}", esc(Store.player || "")) + " "}${E().intro}</p><p class="ego-sub">${E().hubHint}</p></div>
+        <div><p class="ego-lead">${CHAPTERS.some(c => last(c)) ? "" : E().welcome.replace("{name}", esc(Store.player || "")) + " "}${E().intro}</p><p class="ego-sub">${E().hubHint}</p>
+          <button class="act ghost ego-change-avatar" type="button" data-a="avatar">🖼️ ${avatar ? E().changeAvatar : E().chooseAvatar}</button></div>
       </div>
       <div class="ego-chapters">${CHAPTERS.map((ch, i) => {
         const r = last(ch), open = unlocked(ch), d = loadDraft(ch), C = E().chapters[ch];
@@ -173,6 +174,7 @@ const Ego = (() => {
         </section>`;
       }).join("")}</div>
       <p class="ego-change">🌱 ${E().mayChange}</p>`;
+    on("[data-a=avatar]", () => { step = "avatarFamily"; render(); });
     box().querySelectorAll("[data-start]").forEach(b => { b.onclick = () => begin(b.dataset.start, null); });
     box().querySelectorAll("[data-resume]").forEach(b => { b.onclick = () => begin(b.dataset.resume, loadDraft(b.dataset.resume)); });
     box().querySelectorAll("[data-see]").forEach(b => { b.onclick = () => { chapter = b.dataset.see; current = last(chapter); step = "result"; render(); }; });
@@ -281,6 +283,32 @@ const Ego = (() => {
     speak(E().whoCharacter);
     box().querySelectorAll("[data-k]").forEach(b => { b.onclick = () => finish(b.dataset.k); });
     wireFoot(() => { family = null; step = "family"; saveDraft(); render(); }, () => finish(null));
+  }
+
+  // Changer d'avatar à tout moment, depuis l'accueil d'Ego (sans refaire le questionnaire) :
+  // d'abord la famille, puis le personnage.
+  function avatarFamily() {
+    box().innerHTML = `<div class="ego-q"><h3 class="ego-question">${E().avatarFamily}</h3></div>
+      <div class="ego-families">${FAMILIES.map(f => `<button class="ego-fam" type="button" data-f="${f}">
+        <span class="card face ego-fam-card" style="background-image:url(${cardImg(f + "-10")})"></span>
+        <span>${E().families[f]}</span></button>`).join("")}</div>
+      <div class="ego-nav"><button class="act ghost" type="button" data-a="back">← ${E().back}</button></div>`;
+    speak(E().avatarFamily);
+    box().querySelectorAll("[data-f]").forEach(b => { b.onclick = () => { family = b.dataset.f; step = "avatarCharacter"; render(); }; });
+    on("[data-a=back]", () => { step = "hub"; render(); });
+  }
+  function avatarCharacter() {
+    const keys = Array.from({ length: 10 }, (_, i) => family + "-" + (i + 1)), now = Store.avatar;
+    box().innerHTML = `<div class="ego-q"><h3 class="ego-question">${E().avatarCharacter}</h3></div>
+      <div class="ego-chars">${keys.map(k => `<button class="ego-char${k === now ? " current" : ""}" type="button" data-k="${k}">
+        <span class="card face ego-char-card" style="background-image:url(${cardImg(k)})"></span>
+        <span class="ego-char-name">${esc(charName(k))}</span></button>`).join("")}</div>
+      <div class="ego-nav"><button class="act ghost" type="button" data-a="back">← ${E().back}</button></div>`;
+    speak(E().avatarCharacter);
+    box().querySelectorAll("[data-k]").forEach(b => {
+      b.onclick = () => { Store.setAvatar(b.dataset.k); Stats.renderPlayer(); step = "hub"; render(); };
+    });
+    on("[data-a=back]", () => { step = "avatarFamily"; render(); });
   }
 
   // Fin d'un chapitre : on calcule et on garde le résultat (un enregistrement par passage : la BK

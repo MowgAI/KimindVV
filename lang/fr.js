@@ -47,7 +47,8 @@ LANGS.fr = {
   menuEgo: { name: "Ego KibooM", subtitle: "Comment KibooM te voit", description: "Trois chapitres pour que KibooM te connaisse : qui tu es, ta personnalité, ton style de joueur. Ton personnage devient ton avatar !", action: "Commencer" },
   ego: {
     title: "Ego KibooM",
-    welcome: "Bienvenue, {name} !", several: "Tu peux choisir plusieurs réponses.",
+    welcome: "Bienvenue, {name} !", chooseAvatar: "Choisir mon avatar", changeAvatar: "Changer d'avatar",
+    avatarFamily: "Ton avatar : choisis d'abord une famille.", avatarCharacter: "Quel personnage veux-tu comme avatar ?", several: "Tu peux choisir plusieurs réponses.",
     intro: "KibooM aimerait mieux te connaître, pour t'aider à apprendre à ta façon.",
     hubHint: "Trois chapitres, dans l'ordre. Il n'y a pas de bonne ou de mauvaise réponse, tu prends ton temps, et tu peux toujours passer une question.",
     chapters: {
