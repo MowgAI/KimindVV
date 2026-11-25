@@ -268,6 +268,23 @@ const Stats = (() => {
     line("");
     // Parties de Kimind : kimind_game(Joueur, Version, Niveau, Tours, Gagnée, Durée en secondes).
     d.kimind.forEach(g => line("kimind_game(" + atom(Store.playerId(g.player || "joueur")) + ", " + atom(g.version) + ", " + g.level + ", " + g.rounds + ", " + g.won + ", " + g.duration + ")."));
+    // Ego KibooM (BK individuelle) : un passage du questionnaire = un profil daté. On garde tous
+    // les passages : la BK individuelle se met à jour et on voit son évolution.
+    // ego_profile(Profil, Joueur, Version, Date), ego_answer(Profil, Question, Réponse),
+    // ego_identifies_with(Profil, Couleur, Valeur), ego_trait(Profil, Caractéristique, Valeur −1..1),
+    // learner_type(Profil, Type, Pourcentage).
+    if ((d.ego || []).length) {
+      line("");
+      line("% Ego KibooM : profils d'apprenant (questionnaire), types achiever / explorer / architect / spectateur.");
+    }
+    (d.ego || []).forEach(r => {
+      const P = atom(r.id), S = atom(Store.playerId(r.player || "joueur"));
+      line("ego_profile(" + P + ", " + S + ", " + atom(r.version) + ", " + atom(new Date(r.time).toISOString()) + ").");
+      r.answers.forEach((a, qi) => line("ego_answer(" + P + ", " + atom(EGO.questions[qi].id) + ", " + atom(a) + ")."));
+      if (r.character) { const [c, v] = r.character.split("-"); line("ego_identifies_with(" + P + ", " + c + ", " + v + ")."); }
+      Object.entries(r.traits).forEach(([k, v]) => line("ego_trait(" + P + ", " + atom(k) + ", " + (Math.round(v * 100) / 100) + ")."));
+      Object.entries(r.percents).forEach(([k, v]) => line("learner_type(" + P + ", " + k + ", " + v + ")."));
+    });
     return out.join("\n") + "\n";
   }
 

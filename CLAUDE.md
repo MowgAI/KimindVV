@@ -33,6 +33,10 @@ La théorie du domaine de l'auteur (bkKiboomGenerale.pl, Prolog) décrit élève
 
 `lang/parade-modes.js` : noms et phrases tirés au hasard, par mode (méchant « pour rire », adapté aux enfants, voix plus grave ; bébé voix aiguë). Les 40 personnages sont écrits en français et en anglais (jeux de mots adaptés). La musique suit le mode et change de tonalité à chaque personnage (js/sound.js, MODE_MUSIC). Mêmes textes dans Kiboo (MowgAI/kiboo, lang/parade-modes.js, sans le mode gentil) : les changer dans les deux dépôts. Pour modifier Kiboo, toujours repartir de la dernière version de sa branche main (une nouvelle branche par changement), jamais d'une ancienne branche. Dans Kiboo, un nom donné par le joueur à sa carte remplace le nom tiré au hasard, dans tous les modes. En anglais, voix de femme pour les filles (genderEn) et voix au hasard pour les robots.
 
+## Ego KibooM (BK individuelle)
+
+Rubrique Personnalisation et menu (#ego) : `js/ego.js`, contenu séparé dans `lang/ego.js` (pour d'autres publics plus tard : plus grands, adultes, personnes âgées, enfants autistes). D'après « BK Sciences Co » et les slides « Learner types » : 4 types (Achiever, Explorer, Architect, Spectateur ; garder ces noms, ne pas dire « champion »), chacun un mélange de caractéristiques (EGO.types[…].profile). Étape 1 faite : 10 questions en images puis l'enfant choisit le personnage auquel il s'identifie (famille puis personnage) ; résultat : anneau des pourcentages avec son personnage au centre, ce que KibooM a remarqué, « pour le moment, ça peut changer ». Pour l'enfant seulement (pas d'écran parents pour l'instant). Liée au joueur (pseudo unique : un pseudo au même identifiant reprend le joueur existant). Export : ego_profile/4, ego_answer/3, ego_identifies_with/3, ego_trait/3, learner_type/3. Ensuite : étape 2 (petits jeux d'observation, règles (1)–(12) du document), étape 3 (mise à jour avec les traces des jeux).
+
 ## Récompenses partagées avec Kiboo (règle donnée par Kiboo, à appliquer quand l'auteur dira quand donner une récompense)
 
 Même site (mowgai.github.io), donc même localStorage que Kiboo :

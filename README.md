@@ -4,6 +4,8 @@
 
 L'application s'ouvre sur une **page de lancement** aux couleurs de la présentation NukkAI (`js/home.js`) : fond blanc à lignes ondulées violettes, logo KIBOOM (K rouge, I turquoise, B jaune, deux O en yeux, M orange), la phrase « KibooM est une appli pour apprendre les maths en s'amusant, qui s'adapte à toi », et cinq rubriques : **Play Kiboo** (lien vers l'application Kiboo, qui s'ouvre dans un autre onglet : un message dit de revenir sur l'onglet KibooM), **Kimind**, **Les KiJeux** (les dix autres jeux), **Amusement** (la parade) et **Personnalisation** (statistiques, joueur ; profil et questionnaires à venir, d'abord sur Kimba). Choix FR/EN en haut ; un clic sur le logo de l'en-tête rouvre la page. Le menu reprend les mêmes rubriques.
 
+**Ego KibooM** (rubrique Personnalisation, `js/ego.js`, contenu dans `lang/ego.js`) : la BK individuelle de l'enfant. Un questionnaire de 10 questions en images, puis le choix du personnage des cartes auquel il s'identifie ; KibooM montre les pourcentages de quatre types d'apprenants (Achiever, Explorer, Architect, Spectateur) sur un diagramme en anneau, avec le personnage au centre, en rappelant que c'est son avis pour le moment. Les résultats restent dans le navigateur et sont exportés en faits Prolog.
+
 ## Kimind
 
 Devine les couleurs et les valeurs de 4 cartes cachées, avec les cartes de [Kiboo](https://github.com/MowgAI/Kiboo).
