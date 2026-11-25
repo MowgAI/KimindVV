@@ -46,7 +46,8 @@ LANGS.en = {
   menuEgo: { name: "Ego KibooM", subtitle: "How KibooM sees you", description: "Three chapters so KibooM can get to know you: who you are, your personality, your player style. Your character becomes your avatar!", action: "Start" },
   ego: {
     title: "Ego KibooM",
-    welcome: "Welcome, {name}!", several: "You can pick more than one answer.",
+    welcome: "Welcome, {name}!", chooseAvatar: "Choose my avatar", changeAvatar: "Change avatar",
+    avatarFamily: "Your avatar: first, pick a family.", avatarCharacter: "Which character do you want as your avatar?", several: "You can pick more than one answer.",
     intro: "KibooM would like to get to know you better, to help you learn your way.",
     hubHint: "Three chapters, in order. There are no right or wrong answers, take your time, and you can always skip a question.",
     chapters: {

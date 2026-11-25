@@ -83,7 +83,12 @@ const Stats = (() => {
       dlg.close();
       renderPlayer();
       playerChanged();
-      if (isNew) { if (typeof Home !== "undefined") Home.close(); location.hash = "ego"; return; }
+      if (isNew) {
+        if (typeof Home !== "undefined") Home.close();
+        // Déjà sur Ego (#ego) : pas de changement d'adresse, on redessine l'écran nous-mêmes.
+        if (location.hash === "#ego") window.dispatchEvent(new Event("hashchange")); else location.hash = "ego";
+        return;
+      }
       if (then) then();
     };
     dlg.showModal();

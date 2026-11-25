@@ -656,3 +656,5 @@ dialog li { margin-bottom: 6px; }
 }
 @media (prefers-reduced-motion: reduce) { .ego-star, .ego-ch-big { animation: none; } }
 .ego-multi span { color: var(--ink-soft); font-weight: 600; margin-right: 8px; }
+.ego-change-avatar { margin-top: 8px; }
+.ego-char.current { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); }
