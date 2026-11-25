@@ -63,9 +63,13 @@ const Ego = (() => {
   // Style : caractéristiques de l'enfant, entre −1 et 1 (2 points = le maximum).
   function traitsOf(ans) {
     const t = {};
-    ans.forEach((optId, qi) => {
-      const opt = EGO.questions[qi].options.find(o => o.id === optId);
-      if (opt) Object.entries(opt.t).forEach(([k, v]) => { t[k] = (t[k] || 0) + v; });
+    // Plusieurs réponses à une question : elles se partagent le poids d'une réponse.
+    ans.forEach((a, qi) => {
+      const ids = Array.isArray(a) ? a : [a];
+      ids.forEach(optId => {
+        const opt = EGO.questions[qi].options.find(o => o.id === optId);
+        if (opt) Object.entries(opt.t).forEach(([k, v]) => { t[k] = (t[k] || 0) + v / ids.length; });
+      });
     });
     Object.keys(t).forEach(k => { t[k] = Math.max(-1, Math.min(1, t[k] / 2)); });
     return t;
@@ -150,7 +154,7 @@ const Ego = (() => {
     const avatar = Store.avatar;
     box().innerHTML = `<div class="ego-hub-head">
         ${avatar ? `<span class="card face ego-hub-avatar" style="background-image:url(${cardImg(avatar)})" role="img" aria-label="${esc(charName(avatar))}"></span>` : `<span class="ego-mirror" aria-hidden="true">🪞</span>`}
-        <div><p class="ego-lead">${E().intro}</p><p class="ego-sub">${E().hubHint}</p></div>
+        <div><p class="ego-lead">${CHAPTERS.some(c => last(c)) ? "" : E().welcome.replace("{name}", esc(Store.player || "")) + " "}${E().intro}</p><p class="ego-sub">${E().hubHint}</p></div>
       </div>
       <div class="ego-chapters">${CHAPTERS.map((ch, i) => {
         const r = last(ch), open = unlocked(ch), d = loadDraft(ch), C = E().chapters[ch];
@@ -206,6 +210,8 @@ const Ego = (() => {
     const all = items(chapter), qi = answeredCount();
     if (qi >= all.length) return chapter === "style" ? (step = "family", familyStep()) : finish();
     const L = lang(), total = all.length + (chapter === "style" ? 1 : 0), q = all[qi];
+    // Plusieurs réponses possibles : les questions du style de joueur, et celles marquées multi.
+    const multi = !!q.multi || chapter === "style";
     let title, opts, said;
     if (chapter === "personality") {
       title = `<span class="ego-asks">${E().likeYou}</span>${q[L]}`;
@@ -222,7 +228,7 @@ const Ego = (() => {
         <button class="act ghost ego-listen" type="button" data-a="listen" aria-label="${E().listen}">🔊</button></div>
       <div class="ego-options${kind}">${opts.map(o => `<button class="ego-opt" type="button" data-o="${o.id}" aria-pressed="false">
         ${o.icon ? `<span class="ego-opt-icon" aria-hidden="true">${o.icon}</span>` : ""}<span>${o.label}</span></button>`).join("")}</div>
-      ${q.multi ? `<p class="ego-multi"><button class="act" type="button" data-a="ok" disabled>${E().ok}</button></p>` : ""}
+      ${multi ? `<p class="ego-multi"><span>${E().several}</span> <button class="act" type="button" data-a="ok" disabled>${E().ok}</button></p>` : ""}
       ${foot(qi > 0, true)}`;
     on("[data-a=listen]", () => Voice.speak(said, { lang: L }));
     speak(said);
@@ -233,7 +239,7 @@ const Ego = (() => {
     };
     box().querySelectorAll("[data-o]").forEach(b => {
       b.onclick = () => {
-        if (q.multi) {
+        if (multi) {
           b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true");
           b.classList.toggle("picked", b.getAttribute("aria-pressed") === "true");
           box().querySelector("[data-a=ok]").disabled = !box().querySelector("[data-o][aria-pressed=true]");
@@ -464,7 +470,11 @@ const Ego = (() => {
   function start(texts) { T = texts; step = "hub"; render(); }
   function leave() { if (typeof Voice !== "undefined") Voice.stop(); }
   function texts(t) { T = t; if (!$("ego-screen").hidden) render(); }
-  function init() { $("ego-menu").addEventListener("click", () => { location.hash = ""; }); }
+  function init() {
+    $("ego-menu").addEventListener("click", () => { location.hash = ""; });
+    // Autre joueur : autre BK individuelle ; on revient à l'accueil d'Ego, avec ses chapitres à lui.
+    window.addEventListener("kiboom-player", () => { if (!$("ego-screen").hidden && T) { leave(); step = "hub"; render(); } });
+  }
 
   return { init, texts, start, leave, traitsOf, percentsOf, personalityOf, challengesFor };
 })();
