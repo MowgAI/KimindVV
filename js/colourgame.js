@@ -239,7 +239,10 @@ function ColourGame(opts) {
     // réponse en secondes, autonomie (pas d'aide demandée pendant cet essai).
     const answers = {};
     COLOURS.forEach(c => { answers[c] = round.colours.includes(c) ? round.answers[c] : 0; });
-    round.inst.tries.push({ answers, time: Math.round((Date.now() - round.tryStart) / 100) / 10, autonomous: !round.helpThisTry, success: good });
+    // Écart avec la bonne réponse (somme des écarts) et couleurs ratées : pour l'enquête (js/enquete.js).
+    const wrong = round.colours.filter(c => round.answers[c] !== expected(c));
+    const gap = round.colours.reduce((t, c) => t + Math.abs((round.answers[c] || 0) - expected(c)), 0);
+    round.inst.tries.push({ answers, time: Math.round((Date.now() - round.tryStart) / 100) / 10, autonomous: !round.helpThisTry, success: good, gap, wrong });
     round.inst.feedback = good ? "appreciative" : "informative";
     round.tryStart = Date.now();
     round.helpThisTry = false;
@@ -266,6 +269,7 @@ function ColourGame(opts) {
       sel = round.colours.findIndex(c => round.answers[c] !== expected(c));
     }
     render();
+    if (round.done && typeof Enquete !== "undefined") Enquete.offer(id, q("enquete"));
   }
 
   // Construit l'écran du jeu (une seule fois).
@@ -292,7 +296,8 @@ function ColourGame(opts) {
           <span class="cg-msg" data-r="msg" aria-live="polite"></span>
         </div>
       </div>
-      <p class="status" data-r="score"></p>`;
+      <p class="status" data-r="score"></p>
+      <div data-r="enquete"></div>`;
     q("check").addEventListener("click", check);
     q("help").addEventListener("click", () => {
       const c = round.colours[sel];
@@ -347,6 +352,7 @@ function ColourGame(opts) {
     rounds = 0;
     say("");
     newRound();
+    if (typeof Enquete !== "undefined") Enquete.offer(id, q("enquete"));
   }
 
   return { init, start, texts, leave, current: () => (round && round.inst ? round.inst.id : null) };

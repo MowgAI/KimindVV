@@ -687,3 +687,23 @@ dialog.coach::backdrop { background: rgba(20, 16, 50, 0.45); }
 .version.for-you { border-color: var(--brand); border-style: solid; }
 @media (max-width: 560px) { .home-foryou { flex-wrap: wrap; } .home-foryou .act { width: 100%; } }
 @media (prefers-reduced-motion: reduce) { .card.coach-card { animation: none; } }
+
+/* L'enquête de KibooM (js/enquete.js). */
+#enquete-body { max-width: 860px; margin: 0 auto; }
+.enq-head { display: flex; align-items: center; gap: 14px; margin: 6px 0 12px; }
+.card.enq-avatar { --w: 70px; display: block; flex: none; }
+.enq-loupe { font-size: 3rem; }
+.enq-lead { font-size: 1.15rem; font-weight: 600; margin: 0; }
+.enq-clues { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.enq-clue { background: var(--panel); border: 3px solid var(--brand-soft); border-radius: 20px; padding: 12px 16px; }
+.enq-clue:first-child { border-color: var(--brand); }
+.enq-clue h3 { margin: 0 0 6px; font-size: 1.1rem; }
+.enq-clue p { margin: 4px 0; }
+.enq-why { color: var(--ink-soft); }
+.enq-best { font-size: 0.8rem; background: var(--brand); color: #fff; border-radius: 999px; padding: 2px 10px; vertical-align: middle; }
+.enq-none { font-size: 1.1rem; background: var(--panel); border-radius: 18px; padding: 14px; }
+.enq-offer { display: flex; align-items: center; gap: 12px; background: var(--panel); border: 3px solid var(--brand); border-radius: 18px; padding: 10px 14px; margin: 10px 0; }
+.enq-offer span { font-size: 2rem; }
+.enq-offer p { margin: 0; flex: 1; font-weight: 600; }
+.enq-research pre { white-space: pre-wrap; font-size: 0.85rem; background: rgba(0,0,0,0.04); padding: 8px; border-radius: 8px; }
+#stats-research { margin-top: 12px; }
