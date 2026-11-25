@@ -625,7 +625,7 @@ dialog li { margin-bottom: 6px; }
 .ego-options.scale { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .ego-options.scale .ego-opt { flex-direction: column; text-align: center; justify-content: center; }
 .ego-options.many { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
-.ego-options.many .ego-opt { justify-content: center; min-height: 64px; text-align: center; }
+.ego-options.many .ego-opt { flex-direction: column; justify-content: center; gap: 6px; min-height: 64px; text-align: center; padding: 12px 8px; }
 .ego-opt[aria-pressed="true"] { border-color: var(--brand); background: var(--brand); color: #fff; }
 .ego-multi { text-align: center; margin: 14px 0 0; }
 .ego-skip { margin: 0 auto; }
@@ -668,3 +668,22 @@ dialog li { margin-bottom: 6px; }
 .ego-portrait-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .ego-portrait-list li { line-height: 1.45; }
 .ego-portrait-note { margin: 12px 0 0; color: var(--ink-soft); font-style: italic; }
+
+/* Le conseil de KibooM (js/coach.js) : l'avatar parle dans une bulle ; « Pour toi » sur l'accueil. */
+dialog.coach { max-width: 520px; border: 0; border-radius: 24px; padding: 20px; background: var(--panel); color: var(--ink); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+dialog.coach::backdrop { background: rgba(20, 16, 50, 0.45); }
+.coach-row { display: flex; gap: 14px; align-items: flex-start; }
+.card.coach-card { --w: 84px; display: block; flex: none; animation: hop 1.2s ease-in-out infinite; }
+.coach-mirror { font-size: 3rem; }
+.coach-bubble { position: relative; margin: 0; background: var(--bg, #fff); border: 3px solid var(--brand-soft); border-radius: 18px; padding: 12px 14px; font-size: 1.1rem; line-height: 1.45; }
+.coach-btns { justify-content: center; margin-top: 14px; flex-wrap: wrap; }
+#coach-break { text-align: center; }
+#coach-break h2 { margin: 0 0 10px; }
+.coach-timer { font-size: 2.4rem; font-weight: 700; margin: 10px 0 0; min-height: 1em; }
+.home-foryou { display: flex; align-items: center; gap: 12px; text-align: left; max-width: 760px; margin: 6px auto 0; background: #fff; border: 3px solid var(--brand); border-radius: 22px; padding: 10px 14px; }
+.home-foryou p { margin: 0; flex: 1; color: #222; }
+.card.home-foryou-av { --w: 48px; flex: none; }
+.home-foryou-icon { font-size: 2rem; }
+.version.for-you { border-color: var(--brand); border-style: solid; }
+@media (max-width: 560px) { .home-foryou { flex-wrap: wrap; } .home-foryou .act { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .card.coach-card { animation: none; } }

@@ -29,6 +29,16 @@ const Home = (() => {
 
   const card = (c, v) => `<span class="card face home-mini" style="background-image:url(assets/cards/${c}-${v}.webp)"></span>`;
 
+  // « Pour toi » : l'exercice recommandé à ce joueur (js/coach.js).
+  function forYou() {
+    const r = typeof Coach !== "undefined" ? Coach.recommendation() : null;
+    if (!r) return "";
+    const av = Store.avatar;
+    return `<div class="home-foryou">${av ? `<span class="card face home-foryou-av" style="background-image:url(assets/cards/${av}.webp)"></span>` : `<span class="home-foryou-icon">🎯</span>`}
+      <p><b>${T.coach.forYou}, ${String(Store.player).replace(/[&<>"]/g, "")} :</b> ${r.text}</p>
+      <button class="act" type="button" data-foryou="${r.hash}">${T.coach.go}</button></div>`;
+  }
+
   function render() {
     const H = T.home;
     const box = $("home");
@@ -40,6 +50,7 @@ const Home = (() => {
         <p class="home-pitch">${H.pitch}</p>
         <p class="home-soon">${H.soon}</p>
         <p class="home-slogan">${H.slogan}</p>
+        ${forYou()}
         <div class="home-rubs">
           <section class="rub">
             <h2 class="rub-title">${H.kiboo.title}</h2>
@@ -89,6 +100,8 @@ const Home = (() => {
       </div>`;
     box.querySelectorAll("[data-go]").forEach(b => { b.onclick = () => { close(); location.hash = ""; setTimeout(() => $(b.dataset.go).scrollIntoView({ behavior: "smooth" }), 50); }; });
     box.querySelector("[data-a=parade]").onclick = () => { close(); Parade.open(T, $("lang").value); };
+    const fy = box.querySelector("[data-foryou]");
+    if (fy) fy.onclick = () => { close(); location.hash = fy.dataset.foryou; };
     box.querySelector("[data-a=ego]").onclick = () => { close(); location.hash = "ego"; };
     box.querySelector("[data-a=stats]").onclick = () => { close(); location.hash = "stats"; };
     box.querySelector("[data-a=player]").onclick = () => Stats.askPlayer();

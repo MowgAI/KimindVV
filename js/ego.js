@@ -28,7 +28,8 @@ const Ego = (() => {
   const list = () => (Store.data.ego || (Store.data.ego = []));
   const kindOf = r => r.kind || "style";
   const last = kind => list().filter(r => r.player === Store.player && kindOf(r) === kind).slice(-1)[0] || null;
-  const items = ch => (ch === "identity" ? EGO.identity : ch === "personality" ? EGO.personality : EGO.questions);
+  // Le chapitre 2 : les phrases de personnalité (échelle), puis « Ce que j'aime » (EGO.likes).
+  const items = ch => (ch === "identity" ? EGO.identity : ch === "personality" ? EGO.personality.concat(EGO.likes) : EGO.questions);
   const unlocked = ch => CHAPTERS.indexOf(ch) === 0 || !!last(CHAPTERS[CHAPTERS.indexOf(ch) - 1]);
 
   // Nom d'un personnage, dans la langue (celui de la parade, lang/parade-modes.js).
@@ -236,7 +237,7 @@ const Ego = (() => {
     // Plusieurs réponses possibles : les questions du style de joueur, et celles marquées multi.
     const multi = !!q.multi || chapter === "style";
     let title, opts, said;
-    if (chapter === "personality") {
+    if (chapter === "personality" && !q.options) {
       title = `<span class="ego-asks">${E().likeYou}</span>${q[L]}`;
       opts = EGO.scale.map(o => ({ id: String(o.v), icon: o.icon, label: o[L] }));
       said = E().likeYou + " " + q[L];
@@ -245,7 +246,7 @@ const Ego = (() => {
       opts = q.options.map(o => ({ id: o.id, icon: o.icon, label: o[L] }));
       said = q[L] + " " + opts.map(o => o.label).join(" ; ");
     }
-    const kind = chapter === "personality" ? " scale" : q.options && q.options.length > 6 ? " many" : "";
+    const kind = !q.options || q.id === "screen_liking" ? " scale" : q.options.length > 6 ? " many" : "";
     box().innerHTML = `${progress(qi + 1, total)}
       <div class="ego-q"><h3 class="ego-question">${title}</h3>
         <button class="act ghost ego-listen" type="button" data-a="listen" aria-label="${E().listen}">🔊</button></div>
@@ -346,7 +347,10 @@ const Ego = (() => {
       }
       list().push(rec);
     } else if (chapter === "personality") {
-      list().push(Object.assign(base, { version: "personality_v1", answers: answers.slice(), traits: personalityOf(answers) }));
+      // Les goûts (« Ce que j'aime ») : les réponses après les phrases de personnalité.
+      const likes = {};
+      EGO.likes.forEach((q, i) => { const a = answers[EGO.personality.length + i]; if (a !== undefined) likes[q.id] = a; });
+      list().push(Object.assign(base, { version: "personality_v2", answers: answers.slice(0, EGO.personality.length), likes, traits: personalityOf(answers) }));
     } else {
       const traits = traitsOf(answers);
       list().push(Object.assign(base, { version: "questionnaire_v1", answers: answers.slice(), character: character || null, traits, percents: percentsOf(traits) }));

@@ -306,6 +306,9 @@
     GAMES.forEach(g => games.append(menuCard(Object.assign({ image: g.image }, T.games[g.id]), () => { location.hash = g.id; }, "game-card", T.play)));
     games.append(menuCard(Object.assign({ image: "assets/cards/red-2.webp" }, T.menuKiboo), () => window.open("https://mowgai.github.io/Kiboo/", "_blank", "noopener"), "game-card extra", T.menuKiboo.action + " ↗"));
     fun.append(menuCard(T.menuParade, () => Parade.open(T, $("lang").value), "extra", T.menuParade.action));
+    // « Pour toi » : l'exercice recommandé (js/coach.js), en premier.
+    const reco = Coach.recommendation();
+    if (reco) perso.append(menuCard({ name: "🎯 " + T.coach.forYou, subtitle: Store.player || "", description: reco.text }, () => { location.hash = reco.hash; }, "extra for-you", T.coach.go));
     perso.append(menuCard(T.menuEgo, () => { location.hash = "ego"; }, "extra", T.menuEgo.action));
     perso.append(menuCard(T.menuStats, () => { location.hash = "stats"; }, "extra", T.menuStats.action));
     perso.append(menuCard(T.menuPlayer, () => Stats.askPlayer(), "extra", T.menuPlayer.action));
@@ -364,6 +367,7 @@
   }
 
   function applyTexts() {
+    Coach.texts(T);                            // avant l'accueil et le menu, qui affichent « Pour toi »
     $("lang").setAttribute("aria-label", T.language);
     $("intro-title").textContent = T.introTitle;
     const intro = $("intro");
@@ -409,6 +413,8 @@
     $("btn-menu").addEventListener("click", () => { location.hash = ""; });
     Parade.init();
     Ego.init();
+    Coach.init();
+    window.addEventListener("kiboom-player", renderMenu);
     GameAudio.init(() => $("lang").value);
     Stats.init(() => {
       const other = GAMES.find(g => g.id === location.hash.slice(1));

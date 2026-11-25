@@ -26,7 +26,7 @@ LANGS.en = {
   audio: { sfx: "Sounds", voice: "Voice", hello: "Hello! I'll read the game messages to you." },
   home: {
     pitch: "<b>KibooM</b> is an app to <em>learn maths while having fun</em>, that <em>adapts to you</em>.",
-    soon: "Adapting to each player is coming soon: for now, KibooM watches how you play.",
+    soon: "KibooM is starting to adapt to you: do Ego KibooM and you'll get games and tips just for you.",
     slogan: "Play. Learn. Replay.",
     kiboo: { title: "Play Kiboo", text: "Mini-bridge, against robots that each have their own personality.", go: "Play Kiboo", tab: "Kiboo opens in another tab. To come back to KibooM, go back to the KibooM tab.",
       robots: { kind: "Kind", wise: "Wise", sneaky: "Sneaky", unbeatable: "Unbeatable" } },
@@ -43,6 +43,11 @@ LANGS.en = {
   menuPlayer: { name: "Who's playing?", subtitle: "The player", description: "Pick your name or nickname: your results are kept under your name.", action: "Choose" },
   homeBtn: "Home",
   menuSoon: { name: "Coming soon", subtitle: "Getting to know you better", description: "Little games to get to know you better, and games that adapt to you (first in Kimba)." },
+  coach: {
+    forYou: "For you", go: "Let's go!", yourCharacter: "your favourite character",
+    pauseOk: "OK, I'll take a break", snooze: "Just a bit longer!", pauseTitle: "Enjoy your break!",
+    startTimer: "5-minute timer", timeUp: "Time to come back… if you want!", back: "I'm back",
+  },
   menuEgo: { name: "Ego KibooM", subtitle: "How KibooM sees you", description: "Three chapters so KibooM can get to know you: who you are, your personality, your player style. Your character becomes your avatar!", action: "Start" },
   ego: {
     title: "Ego KibooM",
