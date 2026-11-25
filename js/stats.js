@@ -309,6 +309,8 @@ const Stats = (() => {
         Object.entries(r.answers).forEach(([q, a]) => line("ego_answer(" + P + ", " + atom(q) + ", " + (Array.isArray(a) ? "[" + a.map(atom).join(", ") + "]" : atom(a)) + ")."));
       } else if (K === "personality") {
         r.answers.forEach((a, i) => line("personality_answer(" + P + ", " + atom(EGO.personality[i].id) + ", " + (a === "skip" ? "skip" : a) + ")."));
+        // Goûts (« Ce que j'aime ») : ego_like(Profil, Question, Réponse) ; une ligne par réponse cochée.
+        Object.entries(r.likes || {}).forEach(([q, a]) => (Array.isArray(a) ? a : [a]).forEach(v => line("ego_like(" + P + ", " + atom(q) + ", " + atom(v) + ").")));
         Object.entries(r.traits).forEach(([k, v]) => { if (v !== null) line("personality_trait(" + P + ", " + k + ", " + v + ")."); });
         // Portrait : les règles de regroupement qui correspondent (avec le dernier style de joueur).
         const style = (d.ego || []).filter(x => x.player === r.player && kindOf(x) === "style").slice(-1)[0];
@@ -323,6 +325,13 @@ const Stats = (() => {
         if (r.selfAssessment) line("ego_self_assessment(" + P + ", " + atom(r.selfAssessment) + ").");
         Object.entries(r.goals || {}).forEach(([g, v]) => line("ego_goal(" + P + ", " + g + ", " + v + ")."));
       }
+    });
+    // Conseils de KibooM (js/coach.js) : coach_advice(Joueur, N°, Moment, Conseil, Réponse, Date) ;
+    // Moment : time, fails, tired, unhappy, late ; Réponse : pause, snooze ou none ; durée de la pause.
+    (d.coach || []).forEach((c, n) => {
+      const S = atom(Store.playerId(c.player || "joueur"));
+      line("coach_advice(" + S + ", " + (n + 1) + ", " + c.trigger + ", " + atom(c.tip) + ", " + (c.response || "none") + ", " + atom(new Date(c.time).toISOString()) + ").");
+      if (c.breakSeconds !== undefined) line("coach_break_seconds(" + S + ", " + (n + 1) + ", " + c.breakSeconds + ").");
     });
     // Données fixes du joueur, d'après son dernier passage de « Qui je suis ».
     d.players.forEach(p => {

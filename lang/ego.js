@@ -347,4 +347,89 @@ window.EGO = {
       fr: "Tu as déjà joué à plein de jeux : tu comprends vite les règles et tu repères les astuces.",
       en: "You've played lots of games already: you pick up rules fast and spot the tricks." },
   ],
+
+  /* ---------- Chapitre 2, suite : ce que j'aime (pour personnaliser les conseils) ----------
+     Après les phrases de personnalité. multi : plusieurs réponses possibles. Ces goûts servent au
+     conseil de KibooM (js/coach.js) : pauses (« écoute ta musique », « va jouer dehors »…). */
+  likes: [
+    { id: "hobbies", multi: true, fr: "Tes passe-temps préférés ?", en: "Your favourite hobbies?",
+      options: [
+        { id: "sport", icon: "⚽", fr: "le sport", en: "sport" }, { id: "music", icon: "🎵", fr: "la musique", en: "music" },
+        { id: "drawing", icon: "🎨", fr: "le dessin, le bricolage", en: "drawing, crafts" }, { id: "reading", icon: "📚", fr: "la lecture, les histoires", en: "reading, stories" },
+        { id: "board_games", icon: "🎲", fr: "les jeux de société", en: "board games" }, { id: "video_games", icon: "🎮", fr: "les jeux vidéo", en: "video games" },
+        { id: "nature", icon: "🌳", fr: "la nature, les animaux", en: "nature, animals" }, { id: "dance", icon: "💃", fr: "la danse", en: "dancing" },
+        { id: "cooking", icon: "🧁", fr: "la cuisine", en: "cooking" }, { id: "building", icon: "🧱", fr: "construire (briques…)", en: "building (bricks…)" }] },
+    { id: "screen_liking", fr: "Être devant un écran, tu aimes…", en: "Being in front of a screen, you like it…",
+      options: [{ id: "0", icon: "😶", fr: "pas du tout", en: "not at all" }, { id: "1", icon: "🙂", fr: "un peu", en: "a little" },
+        { id: "2", icon: "😊", fr: "beaucoup", en: "a lot" }, { id: "3", icon: "🤩", fr: "énormément", en: "totally" }] },
+    { id: "after_screen", multi: true, fr: "Après un long moment sur l'écran, tu te sens…", en: "After a long time on a screen, you feel…",
+      options: [{ id: "fine", icon: "💪", fr: "en forme", en: "fine" }, { id: "eyes", icon: "😵‍💫", fr: "les yeux fatigués", en: "tired eyes" },
+        { id: "grumpy", icon: "😤", fr: "énervé, à cran", en: "grumpy, on edge" }, { id: "move", icon: "🤸", fr: "avec l'envie de bouger", en: "like moving around" }] },
+    { id: "music_taste", multi: true, fr: "Quelle musique tu aimes ?", en: "What music do you like?",
+      options: [{ id: "kids", icon: "🧸", fr: "les chansons pour enfants", en: "children's songs" }, { id: "cartoons", icon: "🎬", fr: "les musiques de dessins animés et de films", en: "cartoon and film music" },
+        { id: "pop", icon: "🎤", fr: "la pop", en: "pop" }, { id: "rap", icon: "🧢", fr: "le rap", en: "rap" }, { id: "rock", icon: "🎸", fr: "le rock", en: "rock" },
+        { id: "classical", icon: "🎻", fr: "la musique classique", en: "classical music" }, { id: "dunno", icon: "🤷", fr: "je ne sais pas", en: "I don't know" }] },
+    { id: "break_pref", multi: true, fr: "Pendant une pause, tu préfères…", en: "During a break, you'd rather…",
+      options: [{ id: "move", icon: "🤸", fr: "bouger", en: "move around" }, { id: "music", icon: "🎧", fr: "écouter de la musique", en: "listen to music" },
+        { id: "draw", icon: "✏️", fr: "dessiner", en: "draw" }, { id: "outside", icon: "🌞", fr: "jouer dehors", en: "play outside" },
+        { id: "read", icon: "📖", fr: "lire", en: "read" }, { id: "snack", icon: "🍎", fr: "goûter", en: "have a snack" }, { id: "rest", icon: "🛋️", fr: "me reposer", en: "rest" }] },
+    { id: "outdoor_with", multi: true, fr: "Dehors, tu préfères jouer…", en: "Outside, you'd rather play…",
+      options: [{ id: "friends", icon: "👫", fr: "avec des amis", en: "with friends" }, { id: "family", icon: "👨‍👩‍👧", fr: "en famille", en: "with family" },
+        { id: "alone", icon: "🧍", fr: "par moi-même", en: "on my own" }] },
+  ],
+
+  /* ---------- Le conseil de KibooM (js/coach.js), dit par l'avatar de l'enfant ----------
+     openers : la première phrase, selon le moment (temps de jeu, échecs, humeur, soir).
+     tips : les conseils de pause ; need : les goûts qui les rendent possibles (au moins un ; vide :
+     pour tout le monde) ; {music} : sa musique, {avatar} : le nom de son personnage.
+     reco : les recommandations d'exercices « Pour toi » ({game} : le nom du jeu). */
+  coach: {
+    openers: {
+      time:    { fr: "Hé, ça fait {min} minutes qu'on joue ensemble ! Et si on faisait une pause ?", en: "Hey, we've been playing together for {min} minutes! How about a break?" },
+      fails:   { fr: "Oups, ça ne marche pas fort en ce moment… Même les cartes ont besoin de souffler !", en: "Oops, things aren't going too well right now… Even cards need a breather!" },
+      tired:   { fr: "Un peu de fatigue ? J'ai une idée pour recharger les batteries :", en: "A bit tired? I've got an idea to recharge your batteries:" },
+      unhappy: { fr: "Ça ne va pas trop ? J'ai une idée pour te changer les idées :", en: "Not feeling great? I've got an idea to take your mind off things:" },
+      late:    { fr: "Il se fait tard… les cartes aussi vont bientôt se coucher 😴", en: "It's getting late… the cards are off to bed soon too 😴" },
+    },
+    music: {
+      kids: { fr: "une chanson pour enfants", en: "a children's song" }, cartoons: { fr: "une musique de dessin animé", en: "a cartoon tune" },
+      pop: { fr: "un morceau de pop", en: "a pop song" }, rap: { fr: "un morceau de rap", en: "a rap track" },
+      rock: { fr: "un bon rock", en: "some good rock" }, classical: { fr: "un air de musique classique", en: "a piece of classical music" },
+      any: { fr: "ta musique préférée", en: "your favourite music" },
+    },
+    lateTip: { fr: "Un bon dodo, c'est le meilleur entraînement pour demain !", en: "A good night's sleep is the best training for tomorrow!" },
+    tips: [
+      { id: "music_dance", need: ["break_pref:music", "hobbies:music", "hobbies:dance"], fr: "Écoute {music} et danse dessus 💃 !", en: "Put on {music} and dance to it 💃!" },
+      { id: "outside_friends", need: ["break_pref:outside", "outdoor_with:friends"], fr: "Va jouer dehors avec tes amis, les cartes t'attendront ! 🌞", en: "Go and play outside with your friends, the cards will wait for you! 🌞" },
+      { id: "outside_family", need: ["outdoor_with:family"], fr: "Propose une petite balade dehors en famille 🌳", en: "Suggest a little walk outside with your family 🌳" },
+      { id: "outside_air", need: ["break_pref:outside", "hobbies:nature"], fr: "Va prendre l'air dehors cinq minutes, et dis bonjour à un arbre 🌳", en: "Go and get some fresh air for five minutes, and say hello to a tree 🌳" },
+      { id: "frog_jumps", need: ["break_pref:move", "hobbies:sport", "after_screen:move"], fr: "Fais 10 sauts de grenouille 🐸 et reviens !", en: "Do 10 frog jumps 🐸 and come back!" },
+      { id: "run_house", need: ["break_pref:move", "hobbies:sport"], fr: "Fais le tour de la maison en courant… sans rien renverser 🏃", en: "Run round the house… without knocking anything over 🏃" },
+      { id: "funny_dance", need: ["hobbies:dance"], fr: "Invente une danse rigolote et montre-la à quelqu'un 💃", en: "Make up a silly dance and show it to someone 💃" },
+      { id: "draw_avatar", need: ["break_pref:draw", "hobbies:drawing"], fr: "Dessine {avatar} pour voir ! ✏️", en: "Try drawing {avatar}! ✏️" },
+      { id: "read_page", need: ["break_pref:read", "hobbies:reading"], fr: "Lis quelques pages de ton livre préféré 📖", en: "Read a few pages of your favourite book 📖" },
+      { id: "snack", need: ["break_pref:snack"], fr: "Va prendre un goûter (un fruit, c'est encore mieux 🍎)", en: "Go and have a snack (a piece of fruit is even better 🍎)" },
+      { id: "cook", need: ["hobbies:cooking"], fr: "Aide à préparer le goûter, tu as des talents de chef 🧁", en: "Help make the snack, you've got chef skills 🧁" },
+      { id: "bricks", need: ["hobbies:building"], fr: "Construis la plus haute tour possible avec tes briques 🧱", en: "Build the tallest tower you can with your bricks 🧱" },
+      { id: "board_game", need: ["hobbies:board_games"], fr: "Propose un vrai jeu de société à quelqu'un 🎲", en: "Ask someone to play a real board game 🎲" },
+      { id: "far_look", need: ["after_screen:eyes"], fr: "Regarde par la fenêtre, le plus loin possible : tes yeux te diront merci 👀", en: "Look out of the window, as far as you can: your eyes will thank you 👀" },
+      { id: "eyes_closed", need: ["break_pref:rest", "after_screen:eyes", "after_screen:grumpy"], fr: "Ferme les yeux et respire doucement en comptant jusqu'à 20 😌", en: "Close your eyes and breathe slowly while counting to 20 😌" },
+      { id: "stretch", need: [], fr: "Lève-toi et étire-toi comme un chat qui se réveille 🐈", en: "Stand up and stretch like a cat waking up 🐈" },
+      { id: "water", need: [], fr: "Va boire un grand verre d'eau, ton cerveau adore ça 💧", en: "Go and drink a big glass of water, your brain loves it 💧" },
+    ],
+    reco: {
+      reflect_more:   { fr: "Ton défi : réfléchir avant de répondre. {game} se joue sans chrono : prends ton temps !", en: "Your challenge: think before answering. {game} has no timer: take your time!" },
+      persist_more:   { fr: "Ton défi : persévérer. Retente {game}, cette fois, c'est la bonne !", en: "Your challenge: stick at it. Have another go at {game}, this time's the one!" },
+      stay_calm:      { fr: "Ton défi : rester zen. Commence en douceur avec {game}.", en: "Your challenge: stay zen. Start gently with {game}." },
+      act_more:       { fr: "Ton défi : oser te lancer. À {game}, il faut répondre vite !", en: "Your challenge: dare to jump in. In {game}, you have to answer fast!" },
+      try_new:        { fr: "Ton défi : l'aventure ! Tu n'as encore jamais joué à {game}.", en: "Your challenge: adventure! You've never played {game} yet." },
+      ask_help:       { fr: "Ton défi : demander un coup de main. Dans {game}, essaie le bouton d'aide !", en: "Your challenge: ask for a hand. In {game}, try the help button!" },
+      check_progress: { fr: "Ton défi : regarder tes progrès. Va voir tes statistiques !", en: "Your challenge: check your progress. Go and look at your statistics!" },
+      explorer:   { fr: "Tu aimes découvrir : essaie {game}, tu n'y as jamais joué !", en: "You love discovering: try {game}, you've never played it!" },
+      achiever:   { fr: "Tu aimes aller jusqu'au bout : continue {game} et vise le niveau suivant !", en: "You like seeing things through: carry on with {game} and aim for the next level!" },
+      architect:  { fr: "Tu aimes comprendre : {game} est un vrai casse-tête de calcul.", en: "You like understanding: {game} is a real number puzzle." },
+      spectateur: { fr: "Tu aimes observer : à {game}, tes yeux et ta mémoire vont faire des merveilles.", en: "You like watching: in {game}, your eyes and memory will work wonders." },
+      noEgo:      { fr: "Fais Ego KibooM pour que KibooM te propose des jeux rien que pour toi !", en: "Do Ego KibooM so KibooM can suggest games just for you!" },
+    },
+  },
 };

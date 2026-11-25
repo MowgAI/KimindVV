@@ -27,7 +27,7 @@ LANGS.fr = {
   audio: { sfx: "Bruitages", voice: "Voix", hello: "Bonjour ! Je vais te lire les messages du jeu." },
   home: {
     pitch: "<b>KibooM</b> est une appli pour <em>apprendre les maths en s'amusant</em>, qui <em>s'adapte à toi</em>.",
-    soon: "L'adaptation à chaque joueur arrive bientôt : pour l'instant, KibooM observe comment tu joues.",
+    soon: "KibooM commence à s'adapter à toi : fais Ego KibooM, et tu auras des jeux et des conseils rien que pour toi.",
     slogan: "Joue. Apprends. Rejoue.",
     kiboo: { title: "Play Kiboo", text: "Le petit bridge, contre des robots qui ont chacun leur caractère.", go: "Jouer à Kiboo", tab: "Kiboo s'ouvre dans un autre onglet. Pour revenir à KibooM, retourne sur l'onglet KibooM.",
       robots: { kind: "Gentil", wise: "Sage", sneaky: "Rusé", unbeatable: "Imbattable" } },
@@ -44,6 +44,11 @@ LANGS.fr = {
   menuPlayer: { name: "Qui joue ?", subtitle: "Le joueur", description: "Choisis ton prénom ou ton pseudo : tes résultats sont gardés à ton nom.", action: "Choisir" },
   homeBtn: "Accueil",
   menuSoon: { name: "Bientôt", subtitle: "Encore mieux te connaître", description: "De petits jeux pour mieux te connaître, et des jeux qui s'adaptent à toi (d'abord dans Kimba)." },
+  coach: {
+    forYou: "Pour toi", go: "J'y vais !", yourCharacter: "ton personnage préféré",
+    pauseOk: "D'accord, je fais une pause", snooze: "Encore un peu !", pauseTitle: "Bonne pause !",
+    startTimer: "Minuteur de 5 minutes", timeUp: "C'est l'heure de revenir… si tu veux !", back: "Je suis de retour",
+  },
   menuEgo: { name: "Ego KibooM", subtitle: "Comment KibooM te voit", description: "Trois chapitres pour que KibooM te connaisse : qui tu es, ta personnalité, ton style de joueur. Ton personnage devient ton avatar !", action: "Commencer" },
   ego: {
     title: "Ego KibooM",
