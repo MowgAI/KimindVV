@@ -68,7 +68,7 @@ const Stats = (() => {
     Store.data.players.forEach(name => {
       const b = el("button", "act ghost", name);
       b.type = "button";
-      b.addEventListener("click", () => { Store.setPlayer(name); dlg.close(); renderPlayer(); if (then) then(); });
+      b.addEventListener("click", () => { Store.setPlayer(name); dlg.close(); renderPlayer(); playerChanged(); if (then) then(); });
       list.append(b);
     });
     const input = $("player-name");
@@ -77,14 +77,21 @@ const Stats = (() => {
     $("player-form").onsubmit = e => {
       e.preventDefault();
       if (!input.value.trim()) return;
+      // Nouveau joueur : nouvelle BK individuelle (vide) ; on l'emmène vers Ego KibooM pour la remplir.
+      const isNew = !Store.data.players.some(p => Store.playerId(p) === Store.playerId(input.value.trim()));
       Store.setPlayer(input.value);
       dlg.close();
       renderPlayer();
+      playerChanged();
+      if (isNew) { if (typeof Home !== "undefined") Home.close(); location.hash = "ego"; return; }
       if (then) then();
     };
     dlg.showModal();
     input.focus();
   }
+
+  // Le joueur a changé : les écrans qui dépendent de lui (Ego KibooM) se redessinent.
+  const playerChanged = () => window.dispatchEvent(new Event("kiboom-player"));
 
   // Avant de jouer, il faut un joueur.
   function ensurePlayer(then) { if (Store.player) then(); else askPlayer(then); }
@@ -299,7 +306,7 @@ const Stats = (() => {
         r.answers.forEach((a, i) => line("personality_answer(" + P + ", " + atom(EGO.personality[i].id) + ", " + (a === "skip" ? "skip" : a) + ")."));
         Object.entries(r.traits).forEach(([k, v]) => { if (v !== null) line("personality_trait(" + P + ", " + k + ", " + v + ")."); });
       } else {
-        r.answers.forEach((a, qi) => line("ego_answer(" + P + ", " + atom(EGO.questions[qi].id) + ", " + atom(a) + ")."));
+        r.answers.forEach((a, qi) => line("ego_answer(" + P + ", " + atom(EGO.questions[qi].id) + ", " + (Array.isArray(a) ? "[" + a.map(atom).join(", ") + "]" : atom(a)) + ")."));
         if (r.character) { const [c, v] = r.character.split("-"); line("ego_identifies_with(" + P + ", " + c + ", " + v + ")."); }
         Object.entries(r.traits).forEach(([k, v]) => line("ego_trait(" + P + ", " + atom(k) + ", " + (Math.round(v * 100) / 100) + ")."));
         Object.entries(r.percents).forEach(([k, v]) => line("learner_type(" + P + ", " + k + ", " + v + ")."));

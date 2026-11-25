@@ -655,3 +655,4 @@ dialog li { margin-bottom: 6px; }
   .ego-skip { order: 3; flex-basis: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { .ego-star, .ego-ch-big { animation: none; } }
+.ego-multi span { color: var(--ink-soft); font-weight: 600; margin-right: 8px; }
