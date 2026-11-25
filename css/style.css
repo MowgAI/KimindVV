@@ -540,3 +540,68 @@ dialog li { margin-bottom: 6px; }
 }
 
 .rub-note { margin: 0; font-size: 0.85rem; font-weight: 600; color: var(--brand); }
+
+/* Ego KibooM (js/ego.js) : questionnaire en grosses cases, puis le portrait de l'enfant
+   (anneau des quatre types, son personnage au centre). Couleurs calmes, pas de minuteur. */
+#ego-body { max-width: 980px; margin: 0 auto; }
+.ego-intro { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 12px 0 24px; }
+.ego-mirror { font-size: 4.5rem; line-height: 1; }
+.ego-lead { font-size: 1.25rem; font-weight: 600; margin: 0; max-width: 560px; }
+.ego-points { text-align: left; max-width: 560px; margin: 4px 0 8px; padding-left: 1.2em; color: var(--ink-soft); }
+.ego-points li { margin: 4px 0; }
+.ego-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 18px 0; }
+.ego-progress { display: flex; align-items: center; gap: 12px; margin: 6px 0 14px; color: var(--ink-soft); font-weight: 600; }
+.ego-bar { flex: 1; height: 10px; border-radius: 999px; background: var(--brand-soft); overflow: hidden; }
+.ego-bar i { display: block; height: 100%; background: var(--brand); border-radius: 999px; transition: width 0.4s; }
+.ego-q { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.ego-question { margin: 0; font-size: clamp(1.3rem, 3.5vw, 1.7rem); flex: 1; }
+.ego-listen { flex: none; }
+.ego-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.ego-opt { display: flex; align-items: center; gap: 14px; text-align: left; font: inherit; font-size: 1.1rem; font-weight: 600; color: var(--ink);
+  background: var(--panel); border: 3px solid var(--brand-soft); border-radius: 20px; padding: 16px 18px; cursor: pointer; min-height: 84px; }
+.ego-opt:hover, .ego-opt:focus-visible { border-color: var(--brand); }
+.ego-opt.picked { border-color: var(--brand); background: var(--brand); color: #fff; }
+.ego-opt-icon { font-size: 2.2rem; line-height: 1; flex: none; }
+.ego-nav { display: flex; gap: 10px; justify-content: space-between; margin: 18px 0; }
+.ego-nav [data-a=pause] { margin-left: auto; }
+.ego-families { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.ego-fam, .ego-char { display: flex; flex-direction: column; align-items: center; gap: 8px; font: inherit; font-weight: 700; color: var(--ink);
+  background: var(--panel); border: 3px solid var(--brand-soft); border-radius: 20px; padding: 14px 8px; cursor: pointer; }
+.ego-fam:hover, .ego-char:hover, .ego-fam:focus-visible, .ego-char:focus-visible { border-color: var(--brand); }
+.card.ego-fam-card { --w: 90px; }
+.ego-chars { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.card.ego-char-card { --w: 76px; }
+.ego-char-name { font-size: 0.95rem; text-align: center; }
+.ego-result { display: grid; grid-template-columns: minmax(240px, 340px) 1fr; gap: 24px; align-items: center; margin: 8px 0 12px; }
+.ego-chart { position: relative; width: 100%; max-width: 340px; margin: 0 auto; aspect-ratio: 1; }
+.ego-donut { width: 100%; height: 100%; rotate: -90deg; }
+.ego-track { fill: none; stroke: var(--brand-soft); stroke-width: 26; opacity: 0.35; }
+.ego-arc { fill: none; stroke-width: 26; stroke-dasharray: 0 var(--c); animation: ego-grow 1.2s ease-out 0.2s forwards; }
+@keyframes ego-grow { to { stroke-dasharray: var(--len) var(--c); } }
+.ego-center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.card.ego-avatar { --w: 33%; animation: ego-pop 0.6s cubic-bezier(.3, 1.6, .5, 1); box-shadow: 0 6px 18px rgba(0,0,0,0.2); }
+.ego-big { font-size: 4.5rem; }
+@keyframes ego-pop { from { transform: scale(0.3); opacity: 0; } to { transform: none; opacity: 1; } }
+.ego-verdict { font-size: 1.3rem; font-weight: 600; margin: 0 0 12px; }
+.ego-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.ego-legend li { display: grid; grid-template-columns: 44px 1fr 110px 52px; gap: 10px; align-items: center; }
+.ego-leg-icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+.ego-leg-txt span { display: block; color: var(--ink-soft); font-size: 0.9rem; }
+.ego-leg-bar { height: 12px; border-radius: 999px; background: var(--brand-soft); overflow: hidden; }
+.ego-leg-bar i { display: block; height: 100%; border-radius: 999px; }
+.ego-leg-p { text-align: right; }
+.ego-change { margin: 16px 0 0; padding: 12px 14px; border-radius: 14px; background: var(--panel); border: 2px dashed var(--brand-soft); }
+.ego-noticed { background: var(--panel); border-radius: 18px; padding: 12px 18px; margin: 8px 0; }
+.ego-noticed h3 { margin: 0 0 6px; font-size: 1.1rem; }
+.ego-noticed ul { margin: 0; padding-left: 1.2em; }
+.ego-who { text-align: center; font-size: 1.1rem; }
+@media (max-width: 700px) {
+  .ego-options { grid-template-columns: 1fr; }
+  .ego-families { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ego-chars { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ego-result { grid-template-columns: 1fr; }
+  .ego-legend li { grid-template-columns: 40px 1fr 52px; }
+  .ego-leg-p { grid-row: 1; grid-column: 3; }
+  .ego-leg-bar { grid-row: 2; grid-column: 2 / 4; }
+}
+@media (prefers-reduced-motion: reduce) { .ego-arc { animation: none; stroke-dasharray: var(--len) var(--c); } .card.ego-avatar { animation: none; } }

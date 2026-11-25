@@ -26,9 +26,13 @@ const Store = (() => {
     return name.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "joueur";
   }
 
+  // Un pseudo = un joueur unique (sa BK individuelle lui est liée). Un pseudo qui donne le même
+  // identifiant qu'un joueur existant (« Léa » et « lea ») reprend ce joueur, sans en créer un second.
   function setPlayer(name) {
     name = name.trim();
     if (!name) return;
+    const same = data.players.find(p => playerId(p) === playerId(name));
+    if (same) name = same;
     if (!data.players.includes(name)) data.players.push(name);
     player = name;
     try { localStorage.setItem(PLAYER_KEY, name); } catch (e) { /* idem */ }

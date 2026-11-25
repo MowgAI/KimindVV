@@ -287,7 +287,7 @@
   // Menu : une carte par version ; l'adresse (#initiale…) garde la version choisie.
   // Menu en quatre parties, comme les rubriques de la page de lancement : Kimind (règles et
   // versions), Les KiJeux (les autres jeux, et Kiboo, qui est une autre application),
-  // Amusement (la parade) et Personnalisation (statistiques, joueur, bientôt le profil).
+  // Amusement (la parade) et Personnalisation (Ego KibooM, statistiques, joueur).
   function menuCard(t, open, cls, action) {
     const b = el("button", "version" + (cls ? " " + cls : ""));
     b.type = "button";
@@ -306,6 +306,7 @@
     GAMES.forEach(g => games.append(menuCard(Object.assign({ image: g.image }, T.games[g.id]), () => { location.hash = g.id; }, "game-card", T.play)));
     games.append(menuCard(Object.assign({ image: "assets/cards/red-2.webp" }, T.menuKiboo), () => window.open("https://mowgai.github.io/Kiboo/", "_blank", "noopener"), "game-card extra", T.menuKiboo.action + " ↗"));
     fun.append(menuCard(T.menuParade, () => Parade.open(T, $("lang").value), "extra", T.menuParade.action));
+    perso.append(menuCard(T.menuEgo, () => { location.hash = "ego"; }, "extra", T.menuEgo.action));
     perso.append(menuCard(T.menuStats, () => { location.hash = "stats"; }, "extra", T.menuStats.action));
     perso.append(menuCard(T.menuPlayer, () => Stats.askPlayer(), "extra", T.menuPlayer.action));
     perso.append(menuCard(T.menuSoon, null, "extra soon"));
@@ -318,14 +319,16 @@
     const hash = location.hash.slice(1);
     const nextVersion = VERSIONS.find(v => v.id === hash);
     const other = GAMES.find(g => g.id === hash);
-    if ((nextVersion || other) && !Store.player) { Stats.askPlayer(route); return; }
+    if ((nextVersion || other || hash === "ego") && !Store.player) { Stats.askPlayer(route); return; }
     if (version) recordKimind(false);
     version = nextVersion;
     GAMES.forEach(g => { if (g !== other) g.game().leave(); $(g.screen).hidden = g !== other; });
     if (other) other.game().start(T);
     $("stats-screen").hidden = hash !== "stats";
     if (hash === "stats") Stats.openStats();
-    $("menu-screen").hidden = !!version || !!other || hash === "stats";
+    $("ego-screen").hidden = hash !== "ego";
+    if (hash === "ego") Ego.start(T); else Ego.leave();
+    $("menu-screen").hidden = !!version || !!other || hash === "stats" || hash === "ego";
     $("game-screen").hidden = !version;
     $("game-btns").hidden = !version;
     $("mood-bar").hidden = !version && !other;
@@ -374,6 +377,7 @@
     $("games-title").textContent = T.gamesTitle;
     GameAudio.texts(T);
     Stats.texts(T);
+    Ego.texts(T);
     GAMES.forEach(g => g.game().texts(T));
     $("lbl-menu").textContent = T.menu;
     renderMenu();
@@ -404,6 +408,7 @@
     setLang($("lang").value);
     $("btn-menu").addEventListener("click", () => { location.hash = ""; });
     Parade.init();
+    Ego.init();
     GameAudio.init(() => $("lang").value);
     Stats.init(() => {
       const other = GAMES.find(g => g.id === location.hash.slice(1));
