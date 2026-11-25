@@ -310,6 +310,11 @@ const Stats = (() => {
       } else if (K === "personality") {
         r.answers.forEach((a, i) => line("personality_answer(" + P + ", " + atom(EGO.personality[i].id) + ", " + (a === "skip" ? "skip" : a) + ")."));
         Object.entries(r.traits).forEach(([k, v]) => { if (v !== null) line("personality_trait(" + P + ", " + k + ", " + v + ")."); });
+        // Portrait : les règles de regroupement qui correspondent (avec le dernier style de joueur).
+        const style = (d.ego || []).filter(x => x.player === r.player && kindOf(x) === "style").slice(-1)[0];
+        const pt = Ego.portraitOf(r, style);
+        if (pt.superpower) line("ego_superpower(" + P + ", " + pt.superpower + ").");
+        pt.forces.concat(pt.watches).forEach(x => line("ego_portrait(" + P + ", " + x.id + ", " + x.kind + ")."));
       } else {
         r.answers.forEach((a, qi) => line("ego_answer(" + P + ", " + atom(EGO.questions[qi].id) + ", " + (Array.isArray(a) ? "[" + a.map(atom).join(", ") + "]" : atom(a)) + ")."));
         if (r.character) { const [c, v] = r.character.split("-"); line("ego_identifies_with(" + P + ", " + c + ", " + v + ")."); }
