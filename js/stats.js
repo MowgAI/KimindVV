@@ -175,6 +175,10 @@ const Stats = (() => {
     Store.data.players.forEach(name => sel.append(new Option(name, name)));
     if (Store.player) sel.value = Store.player;
     renderStats();
+    // Vue chercheur : les enquêtes sur Kimba (règles apprises, en Prolog).
+    const research = typeof Enquete !== "undefined" ? Enquete.researcherHTML() : "";
+    $("stats-research").innerHTML = research;
+    $("stats-research").hidden = !research;
   }
 
   /* ---------- Export ---------- */
@@ -369,6 +373,7 @@ const Stats = (() => {
     $("stats-menu").textContent = "☰ " + T.menu;
     $("stats-export-pl").textContent = "⬇ " + T.stats.exportProlog;
     $("stats-export-json").textContent = "⬇ " + T.stats.exportJson;
+    $("stats-export-ilp").textContent = "⬇ " + T.enquete.exportIlp;
     $("stats-clear").textContent = T.stats.clear;
     if (!$("stats-screen").hidden) openStats();
   }
@@ -379,6 +384,7 @@ const Stats = (() => {
     $("stats-player").addEventListener("change", renderStats);
     $("stats-menu").addEventListener("click", () => { location.hash = ""; });
     $("stats-export-pl").addEventListener("click", () => download("kimind-donnees.pl", prolog(), "text/plain"));
+    $("stats-export-ilp").addEventListener("click", () => download("kimba-ilp.pl", Enquete.exportILP(), "text/plain"));
     $("stats-export-json").addEventListener("click", () => download("kimind-donnees.json", JSON.stringify(Store.data, null, 2), "application/json"));
     $("stats-clear").addEventListener("click", () => { if (confirm(T.stats.clearConfirm)) { Store.clear(); openStats(); } });
   }

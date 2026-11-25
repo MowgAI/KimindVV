@@ -309,6 +309,7 @@
     // « Pour toi » : l'exercice recommandé (js/coach.js), en premier.
     const reco = Coach.recommendation();
     if (reco) perso.append(menuCard({ name: "🎯 " + T.coach.forYou, subtitle: Store.player || "", description: reco.text }, () => { location.hash = reco.hash; }, "extra for-you", T.coach.go));
+    if (Enquete.available()) perso.append(menuCard(T.menuEnquete, () => { location.hash = "enquete"; }, "extra", T.menuEnquete.action));
     perso.append(menuCard(T.menuEgo, () => { location.hash = "ego"; }, "extra", T.menuEgo.action));
     perso.append(menuCard(T.menuStats, () => { location.hash = "stats"; }, "extra", T.menuStats.action));
     perso.append(menuCard(T.menuPlayer, () => Stats.askPlayer(), "extra", T.menuPlayer.action));
@@ -322,16 +323,18 @@
     const hash = location.hash.slice(1);
     const nextVersion = VERSIONS.find(v => v.id === hash);
     const other = GAMES.find(g => g.id === hash);
-    if ((nextVersion || other || hash === "ego") && !Store.player) { Stats.askPlayer(route); return; }
+    if ((nextVersion || other || hash === "ego" || hash === "enquete") && !Store.player) { Stats.askPlayer(route); return; }
     if (version) recordKimind(false);
     version = nextVersion;
     GAMES.forEach(g => { if (g !== other) g.game().leave(); $(g.screen).hidden = g !== other; });
     if (other) other.game().start(T);
     $("stats-screen").hidden = hash !== "stats";
     if (hash === "stats") Stats.openStats();
+    $("enquete-screen").hidden = hash !== "enquete";
+    if (hash === "enquete") Enquete.start(T);
     $("ego-screen").hidden = hash !== "ego";
     if (hash === "ego") Ego.start(T); else Ego.leave();
-    $("menu-screen").hidden = !!version || !!other || hash === "stats" || hash === "ego";
+    $("menu-screen").hidden = !!version || !!other || hash === "stats" || hash === "ego" || hash === "enquete";
     $("game-screen").hidden = !version;
     $("game-btns").hidden = !version;
     $("mood-bar").hidden = !version && !other;
@@ -368,6 +371,7 @@
 
   function applyTexts() {
     Coach.texts(T);                            // avant l'accueil et le menu, qui affichent « Pour toi »
+    Enquete.texts(T);
     $("lang").setAttribute("aria-label", T.language);
     $("intro-title").textContent = T.introTitle;
     const intro = $("intro");
@@ -413,6 +417,7 @@
     $("btn-menu").addEventListener("click", () => { location.hash = ""; });
     Parade.init();
     Ego.init();
+    Enquete.init();
     Coach.init();
     window.addEventListener("kiboom-player", renderMenu);
     GameAudio.init(() => $("lang").value);

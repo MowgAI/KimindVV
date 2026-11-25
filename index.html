@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Luckiest+Guy&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=42">
+<link rel="stylesheet" href="css/style.css?v=43">
 </head>
 <body>
 <div class="wrap">
@@ -52,9 +52,11 @@
       </div>
     </div>
     <div class="panel" id="stats-body"></div>
+    <div class="panel" id="stats-research" hidden></div>
     <p class="pick-row">
       <button class="act" id="stats-export-pl" type="button"></button>
       <button class="act ghost" id="stats-export-json" type="button"></button>
+      <button class="act ghost" id="stats-export-ilp" type="button"></button>
       <button class="act ghost" id="stats-clear" type="button"></button>
     </p>
   </section>
@@ -65,6 +67,14 @@
       <div class="other-ctrl"><button class="act ghost" id="ego-menu" type="button"></button></div>
     </div>
     <div id="ego-body"></div>
+  </section>
+
+  <section id="enquete-screen" class="game-other" hidden>
+    <div class="other-head">
+      <h2 class="other-title" id="enquete-title"></h2>
+      <div class="other-ctrl"><button class="act ghost" id="enquete-menu" type="button"></button></div>
+    </div>
+    <div id="enquete-body"></div>
   </section>
 
   <section id="kimba-screen" class="game-other" hidden></section>
@@ -179,31 +189,32 @@
   <form method="dialog"><button class="act" id="btn-close"></button></form>
 </dialog>
 
-<script src="lang/fr.js?v=42"></script>
-<script src="lang/en.js?v=42"></script>
-<script src="js/versions.js?v=42"></script>
-<script src="js/store.js?v=42"></script>
-<script src="lang/personnages.js?v=42"></script>
-<script src="lang/parade-modes.js?v=42"></script>
-<script src="js/kimind.js?v=42"></script>
-<script src="js/sound.js?v=42"></script>
-<script src="js/voice.js?v=42"></script>
-<script src="js/audio.js?v=42"></script>
-<script src="js/parade.js?v=42"></script>
-<script src="js/home.js?v=42"></script>
-<script src="js/colourgame.js?v=42"></script>
-<script src="js/kijun.js?v=42"></script>
-<script src="js/kipharaon.js?v=42"></script>
-<script src="js/kidory.js?v=42"></script>
-<script src="js/kibal.js?v=42"></script>
-<script src="js/kipotter.js?v=42"></script>
-<script src="js/kicompuzzle.js?v=42"></script>
-<script src="js/kipuzzle.js?v=42"></script>
-<script src="js/kiduel.js?v=42"></script>
-<script src="lang/ego.js?v=42"></script>
-<script src="js/ego.js?v=42"></script>
-<script src="js/coach.js?v=42"></script>
-<script src="js/stats.js?v=42"></script>
-<script src="js/game.js?v=42"></script>
+<script src="lang/fr.js?v=43"></script>
+<script src="lang/en.js?v=43"></script>
+<script src="js/versions.js?v=43"></script>
+<script src="js/store.js?v=43"></script>
+<script src="lang/personnages.js?v=43"></script>
+<script src="lang/parade-modes.js?v=43"></script>
+<script src="js/kimind.js?v=43"></script>
+<script src="js/sound.js?v=43"></script>
+<script src="js/voice.js?v=43"></script>
+<script src="js/audio.js?v=43"></script>
+<script src="js/parade.js?v=43"></script>
+<script src="js/home.js?v=43"></script>
+<script src="js/colourgame.js?v=43"></script>
+<script src="js/kijun.js?v=43"></script>
+<script src="js/kipharaon.js?v=43"></script>
+<script src="js/kidory.js?v=43"></script>
+<script src="js/kibal.js?v=43"></script>
+<script src="js/kipotter.js?v=43"></script>
+<script src="js/kicompuzzle.js?v=43"></script>
+<script src="js/kipuzzle.js?v=43"></script>
+<script src="js/kiduel.js?v=43"></script>
+<script src="lang/ego.js?v=43"></script>
+<script src="js/ego.js?v=43"></script>
+<script src="js/coach.js?v=43"></script>
+<script src="js/enquete.js?v=43"></script>
+<script src="js/stats.js?v=43"></script>
+<script src="js/game.js?v=43"></script>
 </body>
 </html>
