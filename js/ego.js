@@ -106,6 +106,27 @@ const Ego = (() => {
     });
     return out;
   }
+  // Le portrait : les règles de regroupement (EGO.portrait) qui correspondent à l'enfant, d'après sa
+  // personnalité (pers) et, s'il existe, son style de joueur (style). Renvoie le super-pouvoir (son
+  // étoile la plus brillante), jusqu'à 3 forces et 2 petits points à travailler.
+  function portraitOf(pers, style) {
+    const val = key => {
+      const [src, k] = key.split(".");
+      const v = src === "p" ? pers.traits[k] : style && style.traits ? style.traits[k] : undefined;
+      return v === null ? undefined : v;
+    };
+    const ok = c => { const v = val(c[0]); return v !== undefined && (c[1] === ">=" ? v >= c[2] : v <= c[2]); };
+    const matched = EGO.portrait.filter(r => r.all.every(ok)).sort((a, b) => b.prio - a.prio);
+    const level = k => { const v = pers.traits[k]; return v === null || v === undefined ? null : EGO.personalityTraits[k].inv ? 1 - v : v; };
+    const bright = Object.keys(EGO.personalityTraits).filter(k => level(k) !== null).sort((a, b) => level(b) - level(a));
+    return {
+      superpower: bright.length && level(bright[0]) >= 0.5 ? bright[0] : null,
+      also: bright.slice(1, 3).filter(k => level(k) >= 0.67),
+      forces: matched.filter(r => r.kind === "force").slice(0, 3),
+      watches: matched.filter(r => r.kind === "watch").slice(0, 2),
+    };
+  }
+
   // Défis : ceux que KibooM a remarqués (style et personnalité du joueur).
   function challengesFor(style) {
     const pers = last("personality");
@@ -368,6 +389,7 @@ const Ego = (() => {
           <defs><radialGradient id="ego-glow"><stop offset="0" stop-color="#FFE98A" stop-opacity="0.55"></stop><stop offset="1" stop-color="#FFE98A" stop-opacity="0"></stop></radialGradient></defs>
           <g class="ego-sky-lines">${lines}</g>${stars}</svg>
       </div>
+      ${portraitHTML(r)}
       <ul class="ego-stars">${keys.map(k => {
         const v = level(k), t = EGO.personalityTraits[k];
         return `<li class="${v === null ? "unknown" : ""}"><span class="ego-star-icon">${t.icon}</span><b>${t[L]}</b>
@@ -379,10 +401,28 @@ const Ego = (() => {
         ${unlocked("style") ? `<button class="act" type="button" data-a="next">${E().nextChapter} ${ICONS.style}</button>` : ""}
         <button class="act ghost" type="button" data-a="hub">🪞 ${E().backHub}</button>
       </div>`;
-    if (sorted.length) speak(box().querySelector(".ego-verdict").textContent);
+    const pEl = box().querySelector(".ego-portrait");
+    if (pEl) speak(pEl.textContent.replace(/[✨🌱🔮]/g, ""));
+    else if (sorted.length) speak(box().querySelector(".ego-verdict").textContent);
     on("[data-a=next]", () => begin("style", loadDraft("style")));
     on("[data-a=hub]", () => { step = "hub"; render(); });
   }
+  // « Ton portrait » : un petit texte composé à partir des regroupements, pas une liste d'étoiles.
+  function portraitHTML(r) {
+    const L = lang(), style = last("style"), pt = portraitOf(r, style), T2 = EGO.personalityTraits;
+    const sp = pt.superpower;
+    const parts = [];
+    if (sp) parts.push(`<p class="ego-power">${E().superpower.replace("{icon}", T2[sp].icon).replace("{name}", `<b>${T2[sp][L]}</b>`).replace("{text}", EGO.superpowers[sp][L])}</p>`);
+    const lines = pt.forces.map(f => f[L]);
+    // Peu de regroupements trouvés : on complète avec les autres étoiles qui brillent fort.
+    if (lines.length < 2) pt.also.forEach(k => lines.push(E().alsoStar.replace("{name}", T2[k][L]).replace("{text}", EGO.superpowers[k][L])));
+    if (lines.length) parts.push(`<ul class="ego-portrait-list">${lines.map(t => `<li>✨ ${t}</li>`).join("")}</ul>`);
+    if (pt.watches.length) parts.push(`<h4>${E().toWork}</h4><ul class="ego-portrait-list watch">${pt.watches.map(w => `<li>🌱 ${w[L]}</li>`).join("")}</ul>`);
+    if (!style) parts.push(`<p class="ego-portrait-note">${E().portraitMore}</p>`);
+    if (!parts.length) return "";
+    return `<div class="ego-portrait"><h3>🔮 ${E().portraitTitle}</h3><p class="ego-portrait-intro">${E().portraitIntro}</p>${parts.join("")}</div>`;
+  }
+
   function starPath(x, y, r) {
     let d = "";
     for (let i = 0; i < 10; i++) {
@@ -504,5 +544,5 @@ const Ego = (() => {
     window.addEventListener("kiboom-player", () => { if (!$("ego-screen").hidden && T) { leave(); step = "hub"; render(); } });
   }
 
-  return { init, texts, start, leave, traitsOf, percentsOf, personalityOf, challengesFor };
+  return { init, texts, start, leave, traitsOf, percentsOf, personalityOf, challengesFor, portraitOf };
 })();
