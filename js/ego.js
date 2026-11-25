@@ -1,30 +1,35 @@
 /* Ego KibooM : la BK individuelle de l'enfant, telle que KibooM la perçoit.
-   Étape 1 : un questionnaire (lang/ego.js) de 10 questions en images, puis l'enfant choisit
-   le personnage des cartes auquel il s'identifie le plus (d'abord la famille, puis le
-   personnage). Le résultat : les pourcentages des quatre types d'apprenants (Achiever,
-   Explorer, Architect, Spectateur) sur un diagramme en anneau, avec son personnage au centre,
-   ce que KibooM a remarqué, et le rappel que ça peut changer.
-
-   Calcul : chaque réponse ajoute des points à des caractéristiques (goût de la nouveauté,
-   réflexion, besoin de guidage…). Chaque type est un mélange de caractéristiques
-   (EGO.types[…].profile) ; on mesure à quel point l'enfant ressemble à chaque mélange, puis on
-   en fait des pourcentages (qui font 100).
-
-   Pour l'enfant seulement (pas d'écran pour les parents pour l'instant). Pas de limite de
-   temps ; on peut revenir à la question d'avant, ou s'arrêter et reprendre plus tard (les
-   réponses en cours sont gardées). Les résultats restent dans le navigateur (js/store.js) et
-   sont exportés en faits Prolog (js/stats.js). */
+   Trois chapitres, à faire dans l'ordre (chacun se débloque quand le précédent est fini, et
+   peut être refait) ; contenu dans lang/ego.js :
+   1. Qui je suis : données fixes (âge, mois d'anniversaire, classe, genre, langues).
+   2. Ma personnalité : traits stables (cinq grands traits, traits liés au jeu, traits fins) ;
+      résultat : « Ta constellation », une étoile au nom positif par trait.
+   3. Mon style de joueur : 10 questions, puis le personnage auquel l'enfant s'identifie (il
+      devient son avatar) ; résultat : les pourcentages des quatre types d'apprenants (Achiever,
+      Explorer, Architect, Spectateur) en anneau ; « Ça te ressemble ? » ; puis les défis, un par
+      un, seulement sur ce qui peut changer.
+   Chaque question a un bouton « Je préfère ne pas répondre ». Pas de limite de temps ; retour
+   à la question d'avant ; pause et reprise plus tard (réponses en cours gardées).
+   Pour l'enfant seulement. Les résultats sont liés au joueur, restent dans le navigateur
+   (js/store.js, data.ego : un enregistrement par passage, kind identity / personality / style)
+   et sont exportés en faits Prolog (js/stats.js). */
 const Ego = (() => {
   "use strict";
   const $ = id => document.getElementById(id);
   const FAMILIES = ["blue", "green", "red", "yellow"];
+  const CHAPTERS = ["identity", "personality", "style"];
+  const ICONS = { identity: "🪪", personality: "✨", style: "🎮" };
   const DRAFT_KEY = "kiboom-ego-draft";
-  let T = null, step = "intro", answers = [], family = null, character = null;
+  const SKIP = "skip";
+  let T = null, step = "hub", chapter = null, answers = [], family = null, current = null, challengeIdx = 0;
 
   const lang = () => (document.documentElement.lang === "en" ? "en" : "fr");
   const E = () => T.ego;
   const list = () => (Store.data.ego || (Store.data.ego = []));
-  const last = () => list().filter(r => r.player === Store.player).slice(-1)[0] || null;
+  const kindOf = r => r.kind || "style";
+  const last = kind => list().filter(r => r.player === Store.player && kindOf(r) === kind).slice(-1)[0] || null;
+  const items = ch => (ch === "identity" ? EGO.identity : ch === "personality" ? EGO.personality : EGO.questions);
+  const unlocked = ch => CHAPTERS.indexOf(ch) === 0 || !!last(CHAPTERS[CHAPTERS.indexOf(ch) - 1]);
 
   // Nom d'un personnage, dans la langue (celui de la parade, lang/parade-modes.js).
   function charName(key) {
@@ -33,28 +38,29 @@ const Ego = (() => {
     return g[key] ? g[key].n[0] : key;
   }
   const cardImg = key => "assets/cards/" + key + ".webp";
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
   /* ---------- Réponses en cours (reprendre plus tard) ---------- */
+  function drafts() { try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}"); } catch (e) { return {}; } }
   function saveDraft() {
     try {
-      const all = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
-      all[Store.player] = { answers, family, character, step };
+      const all = drafts();
+      all[Store.player] = all[Store.player] || {};
+      all[Store.player][chapter] = { answers, family, step };
       localStorage.setItem(DRAFT_KEY, JSON.stringify(all));
     } catch (e) { /* stockage indisponible */ }
   }
-  function loadDraft() {
-    try { return (JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}"))[Store.player] || null; } catch (e) { return null; }
-  }
-  function clearDraft() {
+  const loadDraft = ch => ((drafts()[Store.player] || {})[ch]) || null;
+  function clearDraft(ch) {
     try {
-      const all = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
-      delete all[Store.player];
+      const all = drafts();
+      if (all[Store.player]) delete all[Store.player][ch];
       localStorage.setItem(DRAFT_KEY, JSON.stringify(all));
     } catch (e) { /* stockage indisponible */ }
   }
 
-  /* ---------- Le calcul ---------- */
-  // Caractéristiques de l'enfant, entre −1 et 1 (2 points = le maximum).
+  /* ---------- Les calculs ---------- */
+  // Style : caractéristiques de l'enfant, entre −1 et 1 (2 points = le maximum).
   function traitsOf(ans) {
     const t = {};
     ans.forEach((optId, qi) => {
@@ -64,7 +70,7 @@ const Ego = (() => {
     Object.keys(t).forEach(k => { t[k] = Math.max(-1, Math.min(1, t[k] / 2)); });
     return t;
   }
-  // Ressemblance à chaque type (entre −1 et 1), puis pourcentages entiers qui font 100.
+  // Style : ressemblance à chaque type (mélange de caractéristiques), puis pourcentages entiers (100).
   function percentsOf(t) {
     const ids = Object.keys(EGO.types);
     const sim = ids.map(id => {
@@ -81,128 +87,275 @@ const Ego = (() => {
     ids.forEach((id, i) => { res[id] = out[i]; });
     return res;
   }
+  // Personnalité : chaque trait entre 0 et 1 (moyenne de ses phrases ; null si aucune réponse).
+  function personalityOf(ans) {
+    const acc = {};
+    EGO.personality.forEach((it, i) => {
+      const a = ans[i];
+      if (a === undefined || a === SKIP || a === null) return;
+      const v = it.rev ? 3 - Number(a) : Number(a);
+      (acc[it.trait] = acc[it.trait] || []).push(v / 3);
+    });
+    const out = {};
+    Object.keys(EGO.personalityTraits).forEach(k => {
+      out[k] = acc[k] ? Math.round((100 * acc[k].reduce((x, y) => x + y, 0)) / acc[k].length) / 100 : null;
+    });
+    return out;
+  }
+  // Défis : ceux que KibooM a remarqués (style et personnalité du joueur).
+  function challengesFor(style) {
+    const pers = last("personality");
+    return EGO.challenges.filter(c => {
+      const v = c.src === "personality" ? (pers ? pers.traits[c.trait] : null) : style.traits[c.trait];
+      if (v === null || v === undefined) return false;
+      return c.below !== undefined ? v < c.below : v > c.above;
+    });
+  }
 
-  /* ---------- L'affichage ---------- */
+  /* ---------- L'affichage commun ---------- */
   function speak(text) {
     if (typeof config !== "undefined" && config.voice) Voice.speak(text, { lang: lang() });
   }
   const box = () => $("ego-body");
-  function head() {
-    $("ego-title").textContent = "🪞 " + E().title;
-    $("ego-menu").textContent = "☰ " + T.menu;
-  }
+  const on = (sel, f) => { const b = box().querySelector(sel); if (b) b.onclick = f; };
 
   function render() {
     if (!T) return;
-    head();
-    ({ intro, question, family: familyStep, character: characterStep, result })[step]();
+    $("ego-title").textContent = "🪞 " + E().title;
+    $("ego-menu").textContent = "☰ " + T.menu;
+    ({ hub, quiz, family: familyStep, character: characterStep, result, challenge, done }[step] || hub)();
     window.scrollTo(0, 0);
   }
 
-  function intro() {
-    const r = last(), d = loadDraft();
-    box().innerHTML = `<div class="ego-intro">
-      <div class="ego-mirror" aria-hidden="true">🪞</div>
-      <p class="ego-lead">${E().intro}</p>
-      <ul class="ego-points">${E().points.map(p => `<li>${p}</li>`).join("")}</ul>
-      <div class="ego-actions">
-        ${d && d.answers && d.answers.length ? `<button class="act" type="button" data-a="resume">▶ ${E().resume}</button>` : ""}
-        <button class="act${d && d.answers && d.answers.length ? " ghost" : ""}" type="button" data-a="start">${r ? E().redo : E().start}</button>
-        ${r ? `<button class="act ghost" type="button" data-a="see">${E().see}</button>` : ""}
-      </div>
-    </div>`;
-    const on = (a, f) => { const b = box().querySelector(`[data-a=${a}]`); if (b) b.onclick = f; };
-    on("start", () => { answers = []; family = null; character = null; step = "question"; saveDraft(); render(); });
-    on("resume", () => { answers = d.answers || []; family = d.family; character = d.character; step = d.step && d.step !== "intro" ? d.step : "question"; render(); });
-    on("see", () => { step = "result"; render(); });
-  }
-
-  function progress(n) {
-    const total = EGO.questions.length + 1;
+  function progress(n, total) {
     return `<div class="ego-progress"><span>${E().stepOf.replace("{n}", n).replace("{total}", total)}</span>
       <div class="ego-bar"><i style="width:${Math.round((100 * (n - 1)) / total)}%"></i></div></div>`;
   }
-
-  function nav(backAllowed) {
+  // Pied de question : passer (ne pas répondre), retour, pause.
+  function foot(back, skip) {
     return `<div class="ego-nav">
-      ${backAllowed ? `<button class="act ghost" type="button" data-a="back">← ${E().back}</button>` : ""}
+      ${back ? `<button class="act ghost" type="button" data-a="back">← ${E().back}</button>` : ""}
+      ${skip ? `<button class="act ghost ego-skip" type="button" data-a="skip">🙊 ${E().skip}</button>` : ""}
       <button class="act ghost" type="button" data-a="pause">⏸ ${E().pause}</button>
     </div>`;
   }
-  function wireNav(onBack) {
-    const b = box().querySelector("[data-a=back]");
-    if (b) b.onclick = onBack;
-    box().querySelector("[data-a=pause]").onclick = () => { saveDraft(); location.hash = ""; };
+  function wireFoot(onBack, onSkip) {
+    on("[data-a=back]", onBack);
+    on("[data-a=skip]", onSkip);
+    on("[data-a=pause]", () => { saveDraft(); step = "hub"; render(); });
   }
 
-  function question() {
-    const qi = answers.length;
-    if (qi >= EGO.questions.length) { step = "family"; return familyStep(); }
-    const q = EGO.questions[qi], L = lang();
-    box().innerHTML = `${progress(qi + 1)}
-      <div class="ego-q">
-        <h3 class="ego-question">${q[L]}</h3>
-        <button class="act ghost ego-listen" type="button" data-a="listen" aria-label="${E().listen}">🔊</button>
+  /* ---------- L'accueil d'Ego : les trois chapitres ---------- */
+  function hub() {
+    const avatar = Store.avatar;
+    box().innerHTML = `<div class="ego-hub-head">
+        ${avatar ? `<span class="card face ego-hub-avatar" style="background-image:url(${cardImg(avatar)})" role="img" aria-label="${esc(charName(avatar))}"></span>` : `<span class="ego-mirror" aria-hidden="true">🪞</span>`}
+        <div><p class="ego-lead">${E().intro}</p><p class="ego-sub">${E().hubHint}</p></div>
       </div>
-      <div class="ego-options">${q.options.map(o => `<button class="ego-opt" type="button" data-o="${o.id}">
-        <span class="ego-opt-icon" aria-hidden="true">${o.icon}</span><span>${o[L]}</span></button>`).join("")}</div>
-      ${nav(qi > 0)}`;
-    const said = q[L] + " " + q.options.map(o => o[L]).join(" ; ");
-    box().querySelector("[data-a=listen]").onclick = () => Voice.speak(said, { lang: L });
+      <div class="ego-chapters">${CHAPTERS.map((ch, i) => {
+        const r = last(ch), open = unlocked(ch), d = loadDraft(ch), C = E().chapters[ch];
+        const status = r ? `✅ ${E().done}` : open ? (d && d.answers && d.answers.length ? `⏸ ${E().inProgress}` : `▶ ${E().toDo}`) : `🔒 ${E().locked}`;
+        return `<section class="ego-chapter${open ? "" : " locked"}">
+          <div class="ego-ch-num">${i + 1}</div>
+          <div class="ego-ch-icon" aria-hidden="true">${ICONS[ch]}</div>
+          <h3>${C.name}</h3><p>${C.text}</p>
+          <p class="ego-ch-status">${status}</p>
+          ${r ? `<p class="ego-ch-sum">${summary(ch, r)}</p>` : ""}
+          <div class="ego-ch-btns">
+            ${open && d && d.answers && d.answers.length ? `<button class="act" type="button" data-resume="${ch}">▶ ${E().resume}</button>` : ""}
+            ${open ? `<button class="act${(d && d.answers && d.answers.length) || r ? " ghost" : ""}" type="button" data-start="${ch}">${r ? E().redo : E().start}</button>` : ""}
+            ${r && ch !== "identity" ? `<button class="act ghost" type="button" data-see="${ch}">${E().see}</button>` : ""}
+          </div>
+        </section>`;
+      }).join("")}</div>
+      <p class="ego-change">🌱 ${E().mayChange}</p>`;
+    box().querySelectorAll("[data-start]").forEach(b => { b.onclick = () => begin(b.dataset.start, null); });
+    box().querySelectorAll("[data-resume]").forEach(b => { b.onclick = () => begin(b.dataset.resume, loadDraft(b.dataset.resume)); });
+    box().querySelectorAll("[data-see]").forEach(b => { b.onclick = () => { chapter = b.dataset.see; current = last(chapter); step = "result"; render(); }; });
+  }
+  // Résumé d'un chapitre fait, sur sa carte.
+  function summary(ch, r) {
+    const L = lang();
+    if (ch === "identity") {
+      const age = r.answers.age && r.answers.age !== SKIP ? E().ageShort.replace("{n}", r.answers.age) : "";
+      const cls = EGO.identity[2].options.find(o => o.id === r.answers.school_class);
+      return [Store.player, age, cls ? cls[L] : ""].filter(Boolean).map(esc).join(" · ");
+    }
+    if (ch === "personality") {
+      const top = Object.entries(r.traits).filter(([, v]) => v !== null)
+        .map(([k, v]) => [k, EGO.personalityTraits[k].inv ? 1 - v : v]).sort((a, b) => b[1] - a[1]).slice(0, 3);
+      return top.map(([k]) => EGO.personalityTraits[k].icon + " " + EGO.personalityTraits[k][L]).join(" · ");
+    }
+    const topType = Object.keys(r.percents).sort((a, b) => r.percents[b] - r.percents[a])[0];
+    return EGO.types[topType].icon + " " + EGO.types[topType][L].name + " " + r.percents[topType] + " %";
+  }
+
+  function begin(ch, draft) {
+    chapter = ch;
+    answers = draft && draft.answers ? draft.answers : (ch === "identity" ? {} : []);
+    family = draft ? draft.family : null;
+    step = draft && draft.step && draft.step !== "hub" ? draft.step : "quiz";
+    saveDraft();
+    render();
+  }
+
+  /* ---------- Les questions ---------- */
+  // answers : objet (qui je suis : id de question → réponse) ou liste (personnalité, style).
+  const answeredCount = () => (chapter === "identity" ? Object.keys(answers).length : answers.length);
+  function quiz() {
+    const all = items(chapter), qi = answeredCount();
+    if (qi >= all.length) return chapter === "style" ? (step = "family", familyStep()) : finish();
+    const L = lang(), total = all.length + (chapter === "style" ? 1 : 0), q = all[qi];
+    let title, opts, said;
+    if (chapter === "personality") {
+      title = `<span class="ego-asks">${E().likeYou}</span>${q[L]}`;
+      opts = EGO.scale.map(o => ({ id: String(o.v), icon: o.icon, label: o[L] }));
+      said = E().likeYou + " " + q[L];
+    } else {
+      title = q[L];
+      opts = q.options.map(o => ({ id: o.id, icon: o.icon, label: o[L] }));
+      said = q[L] + " " + opts.map(o => o.label).join(" ; ");
+    }
+    const kind = chapter === "personality" ? " scale" : q.options && q.options.length > 6 ? " many" : "";
+    box().innerHTML = `${progress(qi + 1, total)}
+      <div class="ego-q"><h3 class="ego-question">${title}</h3>
+        <button class="act ghost ego-listen" type="button" data-a="listen" aria-label="${E().listen}">🔊</button></div>
+      <div class="ego-options${kind}">${opts.map(o => `<button class="ego-opt" type="button" data-o="${o.id}" aria-pressed="false">
+        ${o.icon ? `<span class="ego-opt-icon" aria-hidden="true">${o.icon}</span>` : ""}<span>${o.label}</span></button>`).join("")}</div>
+      ${q.multi ? `<p class="ego-multi"><button class="act" type="button" data-a="ok" disabled>${E().ok}</button></p>` : ""}
+      ${foot(qi > 0, true)}`;
+    on("[data-a=listen]", () => Voice.speak(said, { lang: L }));
     speak(said);
+    const answer = v => {
+      if (chapter === "identity") answers[q.id] = v; else answers.push(v);
+      saveDraft();
+      setTimeout(render, 220);
+    };
     box().querySelectorAll("[data-o]").forEach(b => {
       b.onclick = () => {
+        if (q.multi) {
+          b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true");
+          b.classList.toggle("picked", b.getAttribute("aria-pressed") === "true");
+          box().querySelector("[data-a=ok]").disabled = !box().querySelector("[data-o][aria-pressed=true]");
+          return;
+        }
         b.classList.add("picked");
-        answers.push(b.dataset.o);
-        saveDraft();
-        setTimeout(render, 220);
+        answer(b.dataset.o);
       };
     });
-    wireNav(() => { answers.pop(); saveDraft(); render(); });
+    on("[data-a=ok]", () => answer(Array.from(box().querySelectorAll("[data-o][aria-pressed=true]")).map(b => b.dataset.o)));
+    wireFoot(() => {
+      if (chapter === "identity") delete answers[all[qi - 1].id]; else answers.pop();
+      saveDraft(); render();
+    }, () => answer(SKIP));
   }
 
   function familyStep() {
-    box().innerHTML = `${progress(EGO.questions.length + 1)}
+    const total = EGO.questions.length + 1;
+    box().innerHTML = `${progress(total, total)}
       <div class="ego-q"><h3 class="ego-question">${E().whoFamily}</h3></div>
-      <div class="ego-families">${FAMILIES.map(f => `<button class="ego-fam fam-${f}" type="button" data-f="${f}">
+      <div class="ego-families">${FAMILIES.map(f => `<button class="ego-fam" type="button" data-f="${f}">
         <span class="card face ego-fam-card" style="background-image:url(${cardImg(f + "-10")})"></span>
         <span>${E().families[f]}</span></button>`).join("")}</div>
-      ${nav(true)}`;
+      ${foot(true, true)}`;
     speak(E().whoFamily);
-    box().querySelectorAll("[data-f]").forEach(b => {
-      b.onclick = () => { family = b.dataset.f; step = "character"; saveDraft(); render(); };
-    });
-    wireNav(() => { answers.pop(); step = "question"; saveDraft(); render(); });
+    box().querySelectorAll("[data-f]").forEach(b => { b.onclick = () => { family = b.dataset.f; step = "character"; saveDraft(); render(); }; });
+    wireFoot(() => { answers.pop(); step = "quiz"; saveDraft(); render(); }, () => { family = null; finish(null); });
   }
 
   function characterStep() {
+    const total = EGO.questions.length + 1;
     const keys = Array.from({ length: 10 }, (_, i) => family + "-" + (i + 1));
-    box().innerHTML = `${progress(EGO.questions.length + 1)}
+    box().innerHTML = `${progress(total, total)}
       <div class="ego-q"><h3 class="ego-question">${E().whoCharacter}</h3></div>
       <div class="ego-chars">${keys.map(k => `<button class="ego-char" type="button" data-k="${k}">
         <span class="card face ego-char-card" style="background-image:url(${cardImg(k)})"></span>
-        <span class="ego-char-name">${charName(k)}</span></button>`).join("")}</div>
-      ${nav(true)}`;
+        <span class="ego-char-name">${esc(charName(k))}</span></button>`).join("")}</div>
+      ${foot(true, true)}`;
     speak(E().whoCharacter);
-    box().querySelectorAll("[data-k]").forEach(b => {
-      b.onclick = () => { character = b.dataset.k; finish(); };
-    });
-    wireNav(() => { family = null; step = "family"; saveDraft(); render(); });
+    box().querySelectorAll("[data-k]").forEach(b => { b.onclick = () => finish(b.dataset.k); });
+    wireFoot(() => { family = null; step = "family"; saveDraft(); render(); }, () => finish(null));
   }
 
-  // Fin du questionnaire : on calcule et on garde le résultat (une ligne par passage :
-  // la BK individuelle se met à jour, l'historique reste).
-  function finish() {
-    const traits = traitsOf(answers);
-    list().push({
-      id: "ego_" + Date.now().toString(36),
-      player: Store.player, time: Date.now(), version: "questionnaire_v1",
-      answers: answers.slice(), character, traits, percents: percentsOf(traits),
-    });
+  // Fin d'un chapitre : on calcule et on garde le résultat (un enregistrement par passage : la BK
+  // individuelle se met à jour, l'historique reste).
+  function finish(character) {
+    const base = { id: "ego_" + Date.now().toString(36), player: Store.player, time: Date.now(), kind: chapter };
+    if (chapter === "identity") {
+      const a = answers, age = parseInt(a.age, 10), month = parseInt(a.birth_month, 10);
+      const rec = Object.assign(base, { version: "identity_v1", answers: Object.assign({}, a) });
+      // Date de naissance approximative (année et mois), pour que l'âge se mette à jour tout seul.
+      if (age && month) {
+        const now = new Date(), had = now.getMonth() + 1 >= month;
+        rec.birth = (now.getFullYear() - age - (had ? 0 : 1)) + "-" + String(month).padStart(2, "0");
+      }
+      list().push(rec);
+    } else if (chapter === "personality") {
+      list().push(Object.assign(base, { version: "personality_v1", answers: answers.slice(), traits: personalityOf(answers) }));
+    } else {
+      const traits = traitsOf(answers);
+      list().push(Object.assign(base, { version: "questionnaire_v1", answers: answers.slice(), character: character || null, traits, percents: percentsOf(traits) }));
+      if (character) { Store.setAvatar(character); Stats.renderPlayer(); }
+    }
     Store.save();
-    clearDraft();
-    step = "result";
+    clearDraft(chapter);
+    current = last(chapter);
+    step = chapter === "identity" ? "done" : "result";
     render();
+  }
+
+  /* ---------- Les résultats ---------- */
+  function result() {
+    if (!current) { step = "hub"; return hub(); }
+    if (chapter === "personality") return constellation(current);
+    return styleResult(current);
+  }
+
+  // Ta constellation : une étoile par trait, qui brille plus ou moins (nom toujours positif).
+  function constellation(r) {
+    const L = lang(), keys = Object.keys(EGO.personalityTraits);
+    // Positions des étoiles (ciel de 400 × 260), reliées comme une constellation.
+    const POS = [[40, 70], [95, 30], [150, 75], [205, 35], [260, 80], [320, 40], [370, 95],
+      [60, 170], [120, 215], [185, 165], [245, 220], [300, 170], [355, 215]];
+    const level = k => { const v = r.traits[k]; return v === null ? null : EGO.personalityTraits[k].inv ? 1 - v : v; };
+    const stars = keys.map((k, i) => {
+      const v = level(k), [x, y] = POS[i];
+      const rr = v === null ? 4 : 5 + 9 * v, op = v === null ? 0.25 : 0.35 + 0.65 * v;
+      return `<g class="ego-star" style="--d:${(i * 0.17).toFixed(2)}s">
+        <circle cx="${x}" cy="${y}" r="${(rr * 2.4).toFixed(1)}" fill="url(#ego-glow)" opacity="${op.toFixed(2)}"></circle>
+        <path d="${starPath(x, y, rr)}" fill="#FFE066" opacity="${op.toFixed(2)}"></path></g>`;
+    }).join("");
+    const lines = [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [7, 8], [8, 9], [9, 10], [10, 11], [11, 12], [2, 9], [4, 11]]
+      .map(([a, b]) => `<line x1="${POS[a][0]}" y1="${POS[a][1]}" x2="${POS[b][0]}" y2="${POS[b][1]}"></line>`).join("");
+    const sorted = keys.filter(k => level(k) !== null).sort((a, b) => level(b) - level(a));
+    box().innerHTML = `<div class="ego-sky-wrap">
+        <h3 class="ego-sky-title">✨ ${E().constellation}</h3>
+        <svg class="ego-sky" viewBox="0 0 400 260" role="img" aria-label="${E().constellation}">
+          <defs><radialGradient id="ego-glow"><stop offset="0" stop-color="#FFE98A" stop-opacity="0.55"></stop><stop offset="1" stop-color="#FFE98A" stop-opacity="0"></stop></radialGradient></defs>
+          <g class="ego-sky-lines">${lines}</g>${stars}</svg>
+      </div>
+      <ul class="ego-stars">${keys.map(k => {
+        const v = level(k), t = EGO.personalityTraits[k];
+        return `<li class="${v === null ? "unknown" : ""}"><span class="ego-star-icon">${t.icon}</span><b>${t[L]}</b>
+          <span class="ego-star-meter" aria-label="${v === null ? E().unknown : Math.round(v * 100) + " %"}">${v === null ? "?" : "★".repeat(1 + Math.round(v * 4)) + "☆".repeat(4 - Math.round(v * 4))}</span></li>`;
+      }).join("")}</ul>
+      ${sorted.length ? `<p class="ego-verdict small">${E().brightest.replace("{a}", `<b>${EGO.personalityTraits[sorted[0]][L]}</b>`).replace("{b}", `<b>${EGO.personalityTraits[sorted[1] || sorted[0]][L]}</b>`)}</p>` : ""}
+      <p class="ego-change">🌱 ${E().mayChange}</p>
+      <div class="ego-actions">
+        ${unlocked("style") ? `<button class="act" type="button" data-a="next">${E().nextChapter} ${ICONS.style}</button>` : ""}
+        <button class="act ghost" type="button" data-a="hub">🪞 ${E().backHub}</button>
+      </div>`;
+    if (sorted.length) speak(box().querySelector(".ego-verdict").textContent);
+    on("[data-a=next]", () => begin("style", loadDraft("style")));
+    on("[data-a=hub]", () => { step = "hub"; render(); });
+  }
+  function starPath(x, y, r) {
+    let d = "";
+    for (let i = 0; i < 10; i++) {
+      const a = (Math.PI / 5) * i - Math.PI / 2, rad = i % 2 ? r * 0.45 : r;
+      d += (i ? "L" : "M") + (x + rad * Math.cos(a)).toFixed(1) + " " + (y + rad * Math.sin(a)).toFixed(1);
+    }
+    return d + "Z";
   }
 
   // Anneau en SVG : un arc par type, proportionnel au pourcentage, dessiné en douceur.
@@ -220,9 +373,7 @@ const Ego = (() => {
       <circle r="${R}" cx="100" cy="100" class="ego-track"></circle>${arcs}</svg>`;
   }
 
-  function result() {
-    const r = last();
-    if (!r) { step = "intro"; return intro(); }
+  function styleResult(r) {
     const L = lang(), types = EGO.types;
     const order = Object.keys(types).sort((a, b) => r.percents[b] - r.percents[a]);
     const top = order[0];
@@ -232,15 +383,16 @@ const Ego = (() => {
       .filter(x => x.text && Math.abs(x.v) >= 0.25)
       .sort((a, b) => Math.abs(b.v) - Math.abs(a.v)).slice(0, 3);
     const who = r.character ? charName(r.character) : "";
+    const asked = r === last("style") && !r.selfAssessment;
     box().innerHTML = `<div class="ego-result">
       <div class="ego-chart">
         ${donut(r.percents)}
         <div class="ego-center">
-          ${r.character ? `<span class="card face ego-avatar" style="background-image:url(${cardImg(r.character)})" role="img" aria-label="${who}"></span>` : `<span class="ego-big">${types[top].icon}</span>`}
+          ${r.character ? `<span class="card face ego-avatar" style="background-image:url(${cardImg(r.character)})" role="img" aria-label="${esc(who)}"></span>` : `<span class="ego-big">${types[top].icon}</span>`}
         </div>
       </div>
       <div class="ego-side">
-        <p class="ego-verdict">${E().verdict.replace("{name}", Store.player || "").replace("{type}", `<b style="color:${types[top].color}">${types[top].icon} ${types[top][L].name}</b>`).replace("{p}", r.percents[top])}</p>
+        <p class="ego-verdict">${E().verdict.replace("{type}", `<b style="color:${types[top].color}">${types[top].icon} ${types[top][L].name}</b>`).replace("{p}", r.percents[top])}</p>
         <ul class="ego-legend">${order.map(id => `<li>
           <span class="ego-leg-icon" style="background:${types[id].color}">${types[id].icon}</span>
           <span class="ego-leg-txt"><b>${types[id][L].name}</b> <span>${types[id][L].text}</span></span>
@@ -250,30 +402,69 @@ const Ego = (() => {
       </div>
     </div>
     ${noticed.length ? `<div class="ego-noticed"><h3>${E().noticed}</h3><ul>${noticed.map(x => `<li>${x.text}</li>`).join("")}</ul></div>` : ""}
-    ${who ? `<p class="ego-who">${E().yourCharacter.replace("{who}", `<b>${who}</b>`)}</p>` : ""}
-    <div class="ego-actions">
-      <button class="act" type="button" data-a="redo">🔁 ${E().redo}</button>
-      <button class="act ghost" type="button" data-a="home">☰ ${T.menu}</button>
-    </div>`;
-    speak(box().querySelector(".ego-verdict").textContent + " " + E().mayChange);
-    box().querySelector("[data-a=redo]").onclick = () => { answers = []; family = null; character = null; step = "question"; saveDraft(); render(); };
-    box().querySelector("[data-a=home]").onclick = () => { location.hash = ""; };
+    ${who ? `<p class="ego-who">${E().yourCharacter.replace("{who}", `<b>${esc(who)}</b>`)}</p>` : ""}
+    ${asked ? `<div class="ego-self"><h3>${E().selfQuestion}</h3><div class="ego-self-btns">
+        ${["agree", "partly", "disagree", SKIP].map(v => `<button class="act ${v === SKIP ? "ghost" : ""}" type="button" data-self="${v}">${E().self[v]}</button>`).join("")}
+      </div></div>` : `<div class="ego-actions">
+        <button class="act" type="button" data-a="redo">🔁 ${E().redo}</button>
+        <button class="act ghost" type="button" data-a="hub">🪞 ${E().backHub}</button>
+      </div>`}`;
+    speak(box().querySelector(".ego-verdict").textContent + " " + E().mayChange + (asked ? " " + E().selfQuestion : ""));
+    box().querySelectorAll("[data-self]").forEach(b => {
+      b.onclick = () => {
+        r.selfAssessment = b.dataset.self;
+        r.goals = {};
+        Store.save();
+        challengeIdx = 0;
+        step = challengesFor(r).length ? "challenge" : "done";
+        render();
+      };
+    });
+    on("[data-a=redo]", () => begin("style", null));
+    on("[data-a=hub]", () => { step = "hub"; render(); });
+  }
+
+  // Les défis, un par un.
+  function challenge() {
+    const r = current, all = challengesFor(r), c = all[challengeIdx];
+    if (!c) { step = "done"; return done(); }
+    const L = lang();
+    box().innerHTML = `<div class="ego-challenge">
+      <p class="ego-ch-count">${E().challengeOf.replace("{n}", challengeIdx + 1).replace("{total}", all.length)}</p>
+      <div class="ego-ch-big" aria-hidden="true">${c.icon}</div>
+      <p class="ego-ch-text">${c[L]}</p>
+      <div class="ego-actions">
+        <button class="act" type="button" data-g="accepted">💪 ${E().accept}</button>
+        <button class="act ghost" type="button" data-g="declined">🙂 ${E().decline}</button>
+      </div></div>`;
+    speak(c[L]);
+    box().querySelectorAll("[data-g]").forEach(b => {
+      b.onclick = () => { r.goals[c.id] = b.dataset.g; Store.save(); challengeIdx++; render(); };
+    });
+  }
+
+  // Fin : merci ; on propose le chapitre suivant, ou de revenir à l'accueil d'Ego.
+  function done() {
+    const next = CHAPTERS[CHAPTERS.indexOf(chapter) + 1];
+    const goals = chapter === "style" && current && current.goals ? Object.keys(current.goals).filter(k => current.goals[k] === "accepted") : [];
+    box().innerHTML = `<div class="ego-intro">
+      <div class="ego-mirror" aria-hidden="true">${chapter === "identity" ? "🪪" : "🌟"}</div>
+      <p class="ego-lead">${E().thanks[chapter]}</p>
+      ${goals.length ? `<div class="ego-noticed"><h3>${E().yourGoals}</h3><ul>${goals.map(g => { const c = EGO.challenges.find(x => x.id === g); return `<li>${c.icon} ${E().goalNames[g]}</li>`; }).join("")}</ul></div>` : ""}
+      <div class="ego-actions">
+        ${next ? `<button class="act" type="button" data-a="next">${E().nextChapter} ${ICONS[next]}</button>` : ""}
+        <button class="act ghost" type="button" data-a="hub">🪞 ${E().backHub}</button>
+      </div></div>`;
+    speak(E().thanks[chapter]);
+    on("[data-a=next]", () => begin(next, loadDraft(next)));
+    on("[data-a=hub]", () => { step = "hub"; render(); });
   }
 
   /* ---------- Ouvrir, fermer, langue ---------- */
-  function start(texts) {
-    T = texts;
-    step = "intro";
-    render();
-  }
+  function start(texts) { T = texts; step = "hub"; render(); }
   function leave() { if (typeof Voice !== "undefined") Voice.stop(); }
-  function texts(t) {
-    T = t;
-    if (!$("ego-screen").hidden) render();
-  }
-  function init() {
-    $("ego-menu").addEventListener("click", () => { location.hash = ""; });
-  }
+  function texts(t) { T = t; if (!$("ego-screen").hidden) render(); }
+  function init() { $("ego-menu").addEventListener("click", () => { location.hash = ""; }); }
 
-  return { init, texts, start, leave, traitsOf, percentsOf };
+  return { init, texts, start, leave, traitsOf, percentsOf, personalityOf, challengesFor };
 })();

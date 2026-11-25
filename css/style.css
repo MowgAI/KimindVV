@@ -605,3 +605,53 @@ dialog li { margin-bottom: 6px; }
   .ego-leg-bar { grid-row: 2; grid-column: 2 / 4; }
 }
 @media (prefers-reduced-motion: reduce) { .ego-arc { animation: none; stroke-dasharray: var(--len) var(--c); } .card.ego-avatar { animation: none; } }
+
+/* Ego KibooM : les trois chapitres, la constellation, les défis, l'avatar du joueur. */
+.card.player-avatar { --w: 22px; display: inline-block; vertical-align: middle; border-radius: 4px; box-shadow: none; }
+.ego-hub-head { display: flex; align-items: center; gap: 16px; margin: 6px 0 16px; }
+.card.ego-hub-avatar { --w: 74px; flex: none; }
+.ego-sub { margin: 4px 0 0; color: var(--ink-soft); }
+.ego-chapters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.ego-chapter { position: relative; background: var(--panel); border: 3px solid var(--brand-soft); border-radius: 22px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+.ego-chapter.locked { opacity: 0.55; }
+.ego-chapter h3 { margin: 0; font-size: 1.25rem; }
+.ego-chapter p { margin: 0; }
+.ego-ch-num { position: absolute; top: 10px; right: 14px; font-weight: 700; color: var(--brand); font-size: 1.3rem; }
+.ego-ch-icon { font-size: 2.4rem; line-height: 1; }
+.ego-ch-status { font-weight: 600; color: var(--ink-soft); }
+.ego-ch-sum { font-weight: 600; }
+.ego-ch-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 8px; }
+.ego-asks { display: block; font-size: 0.95rem; color: var(--ink-soft); font-weight: 600; margin-bottom: 4px; }
+.ego-options.scale { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.ego-options.scale .ego-opt { flex-direction: column; text-align: center; justify-content: center; }
+.ego-options.many { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+.ego-options.many .ego-opt { justify-content: center; min-height: 64px; text-align: center; }
+.ego-opt[aria-pressed="true"] { border-color: var(--brand); background: var(--brand); color: #fff; }
+.ego-multi { text-align: center; margin: 14px 0 0; }
+.ego-skip { margin: 0 auto; }
+.ego-sky-wrap { max-width: 640px; margin: 0 auto; background: radial-gradient(ellipse at top, #2B2A6E, #121238 70%); border-radius: 24px; padding: 14px 14px 6px; color: #FFF3C4; }
+.ego-sky-title { margin: 0 0 4px; text-align: center; }
+.ego-sky { width: 100%; height: auto; display: block; }
+.ego-sky-lines line { stroke: #FFF3C4; stroke-opacity: 0.25; stroke-width: 1.2; stroke-dasharray: 3 4; }
+.ego-star { animation: ego-twinkle 2.6s ease-in-out var(--d) infinite; transform-origin: center; transform-box: fill-box; }
+@keyframes ego-twinkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.65; } }
+.ego-stars { list-style: none; padding: 0; margin: 14px 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px 14px; }
+.ego-stars li { display: flex; align-items: center; gap: 8px; background: var(--panel); border-radius: 14px; padding: 8px 12px; }
+.ego-stars li.unknown { opacity: 0.55; }
+.ego-star-icon { font-size: 1.3rem; }
+.ego-star-meter { margin-left: auto; color: #E8A400; font-size: 0.9rem; white-space: nowrap; }
+.ego-verdict.small { font-size: 1.15rem; text-align: center; }
+.ego-self { text-align: center; background: var(--panel); border-radius: 20px; padding: 14px; margin: 12px 0; }
+.ego-self h3 { margin: 0 0 10px; }
+.ego-self-btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.ego-challenge { text-align: center; max-width: 620px; margin: 10px auto; background: var(--panel); border: 3px solid var(--brand-soft); border-radius: 26px; padding: 22px 18px; }
+.ego-ch-count { margin: 0; color: var(--ink-soft); font-weight: 600; }
+.ego-ch-big { font-size: 4.5rem; line-height: 1.2; animation: ego-pop 0.6s cubic-bezier(.3, 1.6, .5, 1); }
+.ego-ch-text { font-size: 1.35rem; font-weight: 600; margin: 8px 0 4px; }
+@media (max-width: 760px) {
+  .ego-chapters { grid-template-columns: 1fr; }
+  .ego-options.scale { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ego-nav { flex-wrap: wrap; }
+  .ego-skip { order: 3; flex-basis: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .ego-star, .ego-ch-big { animation: none; } }
