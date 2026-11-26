@@ -6,6 +6,8 @@ L'application s'ouvre sur une **page de lancement** aux couleurs de la présenta
 
 **Ego KibooM** (rubrique Personnalisation, `js/ego.js`, contenu dans `lang/ego.js`) : la BK individuelle de l'enfant. Un questionnaire de 10 questions en images, puis le choix du personnage des cartes auquel il s'identifie ; KibooM montre les pourcentages de quatre types d'apprenants (Achiever, Explorer, Architect, Spectateur) sur un diagramme en anneau, avec le personnage au centre, en rappelant que c'est son avis pour le moment. Les résultats restent dans le navigateur et sont exportés en faits Prolog.
 
+**Charte de la personnalisation** (`docs/charte-personnalisation.md`) : KibooM est une appli pour chez soi, avec ou sans les parents, liée à aucune institution ; l'enfant est comparé à lui-même, jamais à une norme, et tous les talents comptent autant.
+
 ## Kimind
 
 Devine les couleurs et les valeurs de 4 cartes cachées, avec les cartes de [Kiboo](https://github.com/MowgAI/Kiboo).

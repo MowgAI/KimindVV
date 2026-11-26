@@ -2,11 +2,13 @@
 
 Ce que chaque jeu **demande** à l'enfant, niveau par niveau. Ce n'est **pas** un classement des jeux : un même exercice peut être facile pour l'un et difficile pour l'autre (KiDory est facile pour un enfant de 5 ans et difficile pour un adulte, c'est l'inverse pour les additions). Le parcours rapprochera ces descriptions du profil de l'enfant (ses compétences, et ce qui le gêne ou lui réussit, **pour le moment**).
 
+À lire avec la **[charte de la personnalisation](charte-personnalisation.md)** : l'enfant est comparé à lui-même, jamais à une norme ; tous les talents comptent autant.
+
 **Simple d'abord, souple ensuite** : peu de dimensions, trois valeurs, et chaque valeur dit d'où elle vient. Un spécialiste pourra corriger une seule ligne sans tout remettre en cause, et les données des parties corrigeront aussi le tableau.
 
 ## Les dimensions
 
-**5 compétences** (ce que l'exercice fait travailler) :
+**5 compétences « attendues »** (ce que l'exercice fait travailler) :
 
 | Compétence | Ce que ça veut dire |
 |---|---|
@@ -55,15 +57,21 @@ Ce que chaque jeu **demande** à l'enfant, niveau par niveau. Ce n'est **pas** u
 - **Révéler des talents cachés.** Si un enfant réussit bien mieux dans les jeux rigolos que dans les jeux sérieux, **pour la même compétence** (par exemple, de la logique à Kipuzzle mais pas à KiJun), c'est un **talent caché** : KibooM le lui dit et le valorise (« Tu es une vraie tête de stratège ! »), et le parcours l'utilise. C'est aussi un des « décalages » entre ce que disent les formulaires et ce que montre le comportement.
 - **Dans le parcours** : pour un enfant qui décroche sur les jeux sérieux, on fait d'abord progresser ses compétences par des jeux **rigolos et exigeants**, puis on revient doucement vers les jeux sérieux, en lui rappelant ce qu'il a déjà réussi. Kiboo en fait partie, comme récompense et comme voie à part entière.
 
-## Comment les compétences évoluent avec l'âge (très grossièrement, à corriger)
+## Les talents « non scolaires » (à égalité avec les compétences)
 
-| Compétence | Petits (4–6 ans) | Primaire (7–10 ans) | Grands et adultes |
-|---|---|---|---|
-| 🧠 Mémoire (images) | **forte** | forte | plus faible qu'on ne croit |
-| 🔢 Calcul | faible | progresse avec la classe | fort (habitude scolaire) |
-| 🧩 Logique | en construction | progresse | forte |
-| ♟️ Stratégie | en construction | progresse (très variable) | variable |
-| ⚡ Rapidité | variable | progresse | forte |
+Ils valent autant que le calcul ou la mémoire (charte, principe 3). Aujourd'hui, **presque aucun jeu ne donne l'occasion de les montrer** : c'est un manque à combler.
+
+| Talent | Où il peut se montrer aujourd'hui | Occasions à créer |
+|---|---|---|
+| 🎨 **Créativité, imagination** | presque nulle part (Ego : passe-temps, avatar) | inventer une énigme Kimind pour un ami ; inventer une règle de Kipuzzle ; inventer la phrase drôle de son personnage pour la parade |
+| 🔍 **Observation fine** | Kimba (désordre), KiDory, Kibal (le piège) | repérer un détail sur les cartes (les pattes, les casques…), un intrus |
+| 😂 **Humour, fantaisie** | la parade (modes drôle, méchant) | écrire ou choisir des phrases drôles, inventer des noms |
+| 🤝 **Coopération, empathie** | Kiboo (le partenaire) | jouer en équipe avec un personnage ou un ami |
+| 🦁 **Audace** | brûler des étapes, accepter un défi | choisir soi-même un défi « trop dur » |
+| 🐢 **Persévérance** | recommencer après un échec (déjà dans les traces) | la valoriser, même sans réussite |
+| 🧭 **Curiosité** | essayer des jeux nouveaux (déjà dans les traces) | la valoriser comme un talent |
+
+Rien n'y est noté « bien » ou « mal » : on valorise le fait de créer, d'oser, de persévérer, et l'originalité.
 
 ## Points d'attention (enfants autistes, et tous les enfants)
 
@@ -75,5 +83,6 @@ Ce que chaque jeu **demande** à l'enfant, niveau par niveau. Ce n'est **pas** u
 
 - Le **ton** de chaque jeu, et la comparaison de la réussite entre jeux rigolos et jeux sérieux pour une même compétence (talents cachés).
 - Le tableau devient un fichier de données dans l'appli (séparé du code), avec la même source pour chaque valeur, exporté en Prolog (`exercise_skill/4`, `exercise_condition/4`).
-- Le profil de l'enfant en miroir : un niveau par compétence (départ selon l'âge et la classe, puis mis à jour après chaque exercice) et sa tolérance à chaque condition (Ego KibooM et comportement).
+- Le profil de l'enfant en miroir : ses compétences **et ses talents**, comparés à lui-même (au mieux un premier essai selon ce que l'enfant dit de lui, vite corrigé par ce qu'il fait), mis à jour après chaque exercice et sa tolérance à chaque condition (Ego KibooM et comportement).
+- Les occasions de créer (énigmes, règles, phrases), pour que les talents non scolaires puissent se montrer.
 - Le parcours « Continuer mon aventure » : un défi sur les compétences (environ 2 chances sur 3 de réussir), brûler des étapes, changer de jeu, Kiboo en récompense et en voie à part entière.
