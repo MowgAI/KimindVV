@@ -41,7 +41,7 @@ const Coach = (() => {
     const id = lastEgo("identity"), age = id && id.answers ? parseInt(id.answers.age, 10) : NaN, lk = likes();
     let m = isNaN(age) ? 20 : age <= 6 ? 15 : age <= 8 ? 20 : 25;
     if (["eyes", "grumpy", "move"].some(v => has(lk, "after_screen:" + v))) m -= 5;
-    return Math.max(10, m);
+    return Math.max(15, m);                    // jamais moins de 15 minutes (choix de l'auteure)
   }
 
   // Un jeu à l'écran (pas le menu, l'accueil, les statistiques ni Ego), page visible.
