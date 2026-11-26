@@ -751,3 +751,23 @@ dialog.coach::backdrop { background: rgba(20, 16, 50, 0.45); }
   .intrus-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (prefers-reduced-motion: reduce) { .inv-big, .parade-mix { animation: none; } }
+
+/* Le parcours (js/parcours.js) : « Continuer mon aventure » et le bandeau de l'avatar en jeu. */
+.adv-card { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; text-align: left; max-width: 900px; margin: 10px auto 0; background: #fff; border: 3px solid var(--brand); border-radius: 24px; padding: 14px 16px; color: #222; }
+.card.adv-av { --w: 64px; display: block; flex: none; }
+.card.adv-av.small { --w: 44px; }
+.adv-icon { font-size: 2.6rem; }
+.adv-text p { margin: 0 0 4px; }
+.adv-title { font-weight: 700; color: var(--brand); }
+.adv-next { font-weight: 700; }
+.adv-btns { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.adv-modes { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; border-top: 1px dashed #ccd; padding-top: 8px; }
+.adv-modes button { font: inherit; font-weight: 600; font-size: 0.9rem; padding: 4px 12px; border-radius: 999px; border: 2px solid var(--brand-soft); background: #fff; color: var(--brand); cursor: pointer; }
+.adv-modes button[aria-pressed="true"] { background: var(--brand); color: #fff; border-color: var(--brand); }
+.adv-modes span { font-size: 0.85rem; color: #555; }
+.adv-toast { position: fixed; left: 50%; bottom: 16px; translate: -50% 0; z-index: 30; display: flex; gap: 12px; align-items: center; max-width: min(620px, calc(100vw - 24px)); background: var(--panel); color: var(--ink); border: 3px solid var(--brand); border-radius: 22px; padding: 12px 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); animation: ego-pop 0.4s ease-out; }
+.adv-toast[hidden] { display: none; }
+.adv-toast p { margin: 0 0 6px; }
+/* Mode « KibooM choisit » : l'enfant ne choisit pas le niveau. */
+body.mode-auto [data-r=level], body.mode-auto [data-r=lbl-level], body.mode-auto #level, body.mode-auto #lbl-level { display: none; }
+@media (max-width: 640px) { .adv-card { grid-template-columns: auto 1fr; } .adv-btns { grid-column: 1 / -1; } }

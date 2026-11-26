@@ -310,8 +310,9 @@
     fun.append(menuCard(T.menuIntrus, () => { location.hash = "intrus"; }, "extra", T.menuIntrus.action));
     fun.append(menuCard(T.menuParade, () => Parade.open(T, $("lang").value), "extra", T.menuParade.action));
     // « Pour toi » : l'exercice recommandé (js/coach.js), en premier.
-    const reco = Coach.recommendation();
-    if (reco) perso.append(menuCard({ name: "🎯 " + T.coach.forYou, subtitle: Store.player || "", description: reco.text }, () => { location.hash = reco.hash; }, "extra for-you", T.coach.go));
+    // « Continuer mon aventure » (js/parcours.js), en premier.
+    const adv = Parcours.menuInfo();
+    if (adv) perso.append(menuCard({ name: "🧭 " + T.parcours.title, subtitle: Store.player || "", description: adv.text }, adv.run, "extra for-you", T.parcours.go));
     if (Enquete.available()) perso.append(menuCard(T.menuEnquete, () => { location.hash = "enquete"; }, "extra", T.menuEnquete.action));
     perso.append(menuCard(T.menuEgo, () => { location.hash = "ego"; }, "extra", T.menuEgo.action));
     perso.append(menuCard(T.menuStats, () => { location.hash = "stats"; }, "extra", T.menuStats.action));
@@ -331,7 +332,7 @@
     if (version) recordKimind(false);
     version = nextVersion;
     GAMES.forEach(g => { if (g !== other) g.game().leave(); $(g.screen).hidden = g !== other; });
-    if (other) other.game().start(T);
+    if (other) other.game().start(T, Parcours.takeLevel(other.id));
     $("stats-screen").hidden = hash !== "stats";
     if (hash === "stats") Stats.openStats();
     $("invente-screen").hidden = hash !== "invente";
@@ -345,7 +346,12 @@
     $("game-screen").hidden = !version;
     $("game-btns").hidden = !version;
     $("mood-bar").hidden = !version && !other;
-    if (version) { renderRules(); newGame(); }
+    if (version) {
+      const lv = Parcours.takeLevel(version.id);       // niveau choisi par le parcours (1 facile, 2 moyen, 3 difficile)
+      if (lv) $("level").value = ["easy", "medium", "hard"][lv - 1];
+      renderRules();
+      newGame();
+    }
     window.scrollTo(0, 0);
   }
 
@@ -378,6 +384,7 @@
 
   function applyTexts() {
     Coach.texts(T);                            // avant l'accueil et le menu, qui affichent « Pour toi »
+    Parcours.texts(T);
     Enquete.texts(T);
     Creatif.texts(T);
     $("lang").setAttribute("aria-label", T.language);
@@ -427,6 +434,7 @@
     Ego.init();
     Enquete.init();
     Creatif.init();
+    Parcours.init();
     Coach.init();
     window.addEventListener("kiboom-player", renderMenu);
     GameAudio.init(() => $("lang").value);

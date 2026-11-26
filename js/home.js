@@ -29,15 +29,8 @@ const Home = (() => {
 
   const card = (c, v) => `<span class="card face home-mini" style="background-image:url(assets/cards/${c}-${v}.webp)"></span>`;
 
-  // « Pour toi » : l'exercice recommandé à ce joueur (js/coach.js).
-  function forYou() {
-    const r = typeof Coach !== "undefined" ? Coach.recommendation() : null;
-    if (!r) return "";
-    const av = Store.avatar;
-    return `<div class="home-foryou">${av ? `<span class="card face home-foryou-av" style="background-image:url(assets/cards/${av}.webp)"></span>` : `<span class="home-foryou-icon">🎯</span>`}
-      <p><b>${T.coach.forYou}, ${String(Store.player).replace(/[&<>"]/g, "")} :</b> ${r.text}</p>
-      <button class="act" type="button" data-foryou="${r.hash}">${T.coach.go}</button></div>`;
-  }
+  // « Continuer mon aventure » : l'avatar propose la suite (js/parcours.js).
+  const forYou = () => (typeof Parcours !== "undefined" ? Parcours.cardHTML() : "");
 
   function render() {
     const H = T.home;
@@ -104,8 +97,7 @@ const Home = (() => {
     box.querySelector("[data-a=invente]").onclick = () => { close(); location.hash = "invente"; };
     box.querySelector("[data-a=intrus]").onclick = () => { close(); location.hash = "intrus"; };
     box.querySelector("[data-a=parade]").onclick = () => { close(); Parade.open(T, $("lang").value); };
-    const fy = box.querySelector("[data-foryou]");
-    if (fy) fy.onclick = () => { close(); location.hash = fy.dataset.foryou; };
+    if (typeof Parcours !== "undefined") Parcours.wire(box, render);
     box.querySelector("[data-a=ego]").onclick = () => { close(); location.hash = "ego"; };
     box.querySelector("[data-a=stats]").onclick = () => { close(); location.hash = "stats"; };
     box.querySelector("[data-a=player]").onclick = () => Stats.askPlayer();
