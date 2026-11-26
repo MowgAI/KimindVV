@@ -337,6 +337,21 @@ const Stats = (() => {
       line("coach_advice(" + S + ", " + (n + 1) + ", " + c.trigger + ", " + atom(c.tip) + ", " + (c.response || "none") + ", " + atom(new Date(c.time).toISOString()) + ").");
       if (c.breakSeconds !== undefined) line("coach_break_seconds(" + S + ", " + (n + 1) + ", " + c.breakSeconds + ").");
     });
+    // Ateliers créatifs (js/creatif.js) : rien n'y est noté « bien » ou « mal ».
+    // invented_character(Id, Joueur, Tête, Corps, Pieds, Nom) ; invented_character_phrase(Id, Phrase).
+    // divergent_round(Id, Joueur, [Cartes], Idées cachées) ; divergent_idea(Id, Carte, Raison) ;
+    // divergent_own_idea(Id, Carte, Texte) : une raison inventée par l'enfant.
+    (d.creations || []).forEach(c => {
+      const S = atom(Store.playerId(c.player || "joueur"));
+      line("invented_character(" + atom(c.id) + ", " + S + ", " + c.parts.map(k => atom(k.replace("-", "_"))).join(", ") + ", " + atom(c.name) + ").");
+      if (c.phrase) line("invented_character_phrase(" + atom(c.id) + ", " + atom(c.phrase) + ").");
+    });
+    (d.ideas || []).forEach(r => {
+      const S = atom(Store.playerId(r.player || "joueur")), R = atom(r.id);
+      line("divergent_round(" + R + ", " + S + ", [" + r.cards.map(k => atom(k.replace("-", "_"))).join(", ") + "], " + r.total + ").");
+      r.found.forEach(f => line("divergent_idea(" + R + ", " + atom(f.key.replace("-", "_")) + ", " + f.r + ")."));
+      r.own.forEach(o => line("divergent_own_idea(" + R + ", " + atom(o.key.replace("-", "_")) + ", " + atom(o.text) + ")."));
+    });
     // Données fixes du joueur, d'après son dernier passage de « Qui je suis ».
     d.players.forEach(p => {
       const r = (d.ego || []).filter(x => x.player === p && kindOf(x) === "identity").slice(-1)[0];

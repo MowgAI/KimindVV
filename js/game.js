@@ -305,6 +305,9 @@
     VERSIONS.forEach(v => kimind.append(menuCard(T.versions[v.id], () => { location.hash = v.id; }, "", T.play)));
     GAMES.forEach(g => games.append(menuCard(Object.assign({ image: g.image }, T.games[g.id]), () => { location.hash = g.id; }, "game-card", T.play)));
     games.append(menuCard(Object.assign({ image: "assets/cards/red-2.webp" }, T.menuKiboo), () => window.open("https://mowgai.github.io/Kiboo/", "_blank", "noopener"), "game-card extra", T.menuKiboo.action + " ↗"));
+    // Les ateliers créatifs (js/creatif.js) : pas de bonne réponse, seulement des idées.
+    fun.append(menuCard(T.menuInvente, () => { location.hash = "invente"; }, "extra", T.menuInvente.action));
+    fun.append(menuCard(T.menuIntrus, () => { location.hash = "intrus"; }, "extra", T.menuIntrus.action));
     fun.append(menuCard(T.menuParade, () => Parade.open(T, $("lang").value), "extra", T.menuParade.action));
     // « Pour toi » : l'exercice recommandé (js/coach.js), en premier.
     const reco = Coach.recommendation();
@@ -323,18 +326,22 @@
     const hash = location.hash.slice(1);
     const nextVersion = VERSIONS.find(v => v.id === hash);
     const other = GAMES.find(g => g.id === hash);
-    if ((nextVersion || other || hash === "ego" || hash === "enquete") && !Store.player) { Stats.askPlayer(route); return; }
+    const atelier = hash === "invente" || hash === "intrus";
+    if ((nextVersion || other || atelier || hash === "ego" || hash === "enquete") && !Store.player) { Stats.askPlayer(route); return; }
     if (version) recordKimind(false);
     version = nextVersion;
     GAMES.forEach(g => { if (g !== other) g.game().leave(); $(g.screen).hidden = g !== other; });
     if (other) other.game().start(T);
     $("stats-screen").hidden = hash !== "stats";
     if (hash === "stats") Stats.openStats();
+    $("invente-screen").hidden = hash !== "invente";
+    $("intrus-screen").hidden = hash !== "intrus";
+    if (atelier) Creatif.start(hash, T);
     $("enquete-screen").hidden = hash !== "enquete";
     if (hash === "enquete") Enquete.start(T);
     $("ego-screen").hidden = hash !== "ego";
     if (hash === "ego") Ego.start(T); else Ego.leave();
-    $("menu-screen").hidden = !!version || !!other || hash === "stats" || hash === "ego" || hash === "enquete";
+    $("menu-screen").hidden = !!version || !!other || hash === "stats" || hash === "ego" || hash === "enquete" || atelier;
     $("game-screen").hidden = !version;
     $("game-btns").hidden = !version;
     $("mood-bar").hidden = !version && !other;
@@ -372,6 +379,7 @@
   function applyTexts() {
     Coach.texts(T);                            // avant l'accueil et le menu, qui affichent « Pour toi »
     Enquete.texts(T);
+    Creatif.texts(T);
     $("lang").setAttribute("aria-label", T.language);
     $("intro-title").textContent = T.introTitle;
     const intro = $("intro");
@@ -418,6 +426,7 @@
     Parade.init();
     Ego.init();
     Enquete.init();
+    Creatif.init();
     Coach.init();
     window.addEventListener("kiboom-player", renderMenu);
     GameAudio.init(() => $("lang").value);

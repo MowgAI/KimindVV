@@ -76,12 +76,16 @@ const Parade = (() => {
   // Les 40 personnages défilent ; chacun parle (ou reste le temps de lire), puis le suivant arrive.
   async function runParade(start) {
     const me = ++run;
-    for (let i = start; i <= 40;) {
+    // Après les 40 personnages des cartes : ceux que le joueur a inventés (js/creatif.js).
+    const inv = typeof Creatif !== "undefined" && Store.player ? Creatif.mine() : [];
+    const END = 40 + inv.length;
+    for (let i = start; i <= END;) {
       if (me !== run) return;
       forward = false;
       current = i;
       const s = Math.floor(i / 10), v = (i % 10) + 1;
-      const text = i < 40 ? presentation(s, v) : T.paradeEnd;
+      const made = i >= 40 && i < END ? inv[i - 40] : null;
+      const text = i < 40 ? presentation(s, v) : made ? (made.phrase || T.paradeInvented.replace("{name}", made.name)) : T.paradeEnd;
       const floor = $("parade-floor");
       floor.textContent = "";
       if (i < 40) {
@@ -96,6 +100,16 @@ const Parade = (() => {
         floor.append(char);
         // La musique de la famille, dans le style du mode et dans une autre tonalité à chaque personnage.
         Sound.music("fam" + s, { mode, shift: [0, 3, -2, 5, 2][i % 5] });
+      } else if (made) {
+        // Un personnage inventé : son dessin (cadavre exquis), son nom et sa phrase.
+        const char = document.createElement("div");
+        char.className = "parade-char";
+        char.innerHTML = Creatif.mixHTML(made.parts, 170, "parade-mix") + '<div class="parade-bubble"><p class="parade-who"></p><p></p><p class="parade-count"></p></div>';
+        char.querySelector(".parade-who").textContent = "✨ " + made.name;
+        char.querySelectorAll(".parade-bubble p")[1].textContent = text;
+        char.querySelector(".parade-count").textContent = T.paradeInventedBy.replace("{name}", Store.player) + " · " + (i - 39) + " / " + inv.length;
+        floor.append(char);
+        Sound.music("intro");
       } else {
         const end = document.createElement("div");
         end.className = "parade-end";
@@ -113,7 +127,7 @@ const Parade = (() => {
         Sound.music("intro");
       }
       const skip = new Promise(r => { skipNow = r; });
-      const talk = paused ? Promise.resolve(false) : i < 40 ? introduce(s, v, text) : speak(text);
+      const talk = paused ? Promise.resolve(false) : i < 40 ? introduce(s, v, text) : speak(text, "m", VOICE[mode]);
       await Promise.race([talk.then(spoken => wait(spoken ? 500 : Math.max(2200, text.length * 50))), skip]);
       if (me !== run) return;
       if (paused) {
@@ -122,7 +136,7 @@ const Parade = (() => {
         if (me !== run) return;
         if (!forward) continue;                     // reprise : le même personnage reparle
       }
-      if (i === 40) { if (forward) close(); else skipNow = close; return; }   // fin : « Suivant » ferme
+      if (i === END) { if (forward) close(); else skipNow = close; return; }   // fin : « Suivant » ferme
       i++;
     }
   }

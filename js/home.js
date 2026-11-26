@@ -83,7 +83,9 @@ const Home = (() => {
             <div class="rub-body">
               <div class="rub-fun">${card("blue", 1)}${card("green", 10)}${card("yellow", 2)}</div>
               <p class="rub-text">${H.fun.text}</p>
-              <button class="act" type="button" data-a="parade">🎪 ${H.fun.parade}</button>
+              <button class="act" type="button" data-a="invente">🧪 ${H.fun.invente}</button>
+              <button class="act ghost" type="button" data-a="intrus">🔍 ${H.fun.intrus}</button>
+              <button class="act ghost" type="button" data-a="parade">🎪 ${H.fun.parade}</button>
             </div>
           </section>
           <section class="rub">
@@ -99,6 +101,8 @@ const Home = (() => {
         </div>
       </div>`;
     box.querySelectorAll("[data-go]").forEach(b => { b.onclick = () => { close(); location.hash = ""; setTimeout(() => $(b.dataset.go).scrollIntoView({ behavior: "smooth" }), 50); }; });
+    box.querySelector("[data-a=invente]").onclick = () => { close(); location.hash = "invente"; };
+    box.querySelector("[data-a=intrus]").onclick = () => { close(); location.hash = "intrus"; };
     box.querySelector("[data-a=parade]").onclick = () => { close(); Parade.open(T, $("lang").value); };
     const fy = box.querySelector("[data-foryou]");
     if (fy) fy.onclick = () => { close(); location.hash = fy.dataset.foryou; };

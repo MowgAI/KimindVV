@@ -401,6 +401,7 @@ window.EGO = {
       rock: { fr: "un bon rock", en: "some good rock" }, classical: { fr: "un air de musique classique", en: "a piece of classical music" },
       any: { fr: "ta musique préférée", en: "your favourite music" },
     },
+    hobbyIntro: { fr: "Toi qui aimes {h} :", en: "You love {h}, so:" },
     lateTip: { fr: "Un bon dodo, c'est le meilleur entraînement pour demain !", en: "A good night's sleep is the best training for tomorrow!" },
     tips: [
       { id: "music_dance", need: ["break_pref:music", "hobbies:music", "hobbies:dance"], fr: "Écoute {music} et danse dessus 💃 !", en: "Put on {music} and dance to it 💃!" },
@@ -409,6 +410,9 @@ window.EGO = {
       { id: "outside_air", need: ["break_pref:outside", "hobbies:nature"], fr: "Va prendre l'air dehors cinq minutes, et dis bonjour à un arbre 🌳", en: "Go and get some fresh air for five minutes, and say hello to a tree 🌳" },
       { id: "frog_jumps", need: ["break_pref:move", "hobbies:sport", "after_screen:move"], fr: "Fais 10 sauts de grenouille 🐸 et reviens !", en: "Do 10 frog jumps 🐸 and come back!" },
       { id: "run_house", need: ["break_pref:move", "hobbies:sport"], fr: "Fais le tour de la maison en courant… sans rien renverser 🏃", en: "Run round the house… without knocking anything over 🏃" },
+      { id: "ball", need: ["hobbies:sport"], fr: "Va jouer au foot ou taper dans un ballon dehors ⚽, et quitte l'appli : on se retrouvera plus tard !", en: "Go and play football or kick a ball around outside ⚽, and leave the app: we'll meet again later!" },
+      { id: "own_video_game", need: ["hobbies:video_games"], fr: "Prends une feuille et invente le premier niveau de ton propre jeu vidéo 🎮", en: "Grab a sheet of paper and invent the first level of your own video game 🎮" },
+      { id: "listen_album", need: ["hobbies:music"], fr: "Éteins l'écran et écoute {music}, les yeux fermés 🎧", en: "Switch off the screen and listen to {music} with your eyes closed 🎧" },
       { id: "funny_dance", need: ["hobbies:dance"], fr: "Invente une danse rigolote et montre-la à quelqu'un 💃", en: "Make up a silly dance and show it to someone 💃" },
       { id: "draw_avatar", need: ["break_pref:draw", "hobbies:drawing"], fr: "Dessine {avatar} pour voir ! ✏️", en: "Try drawing {avatar}! ✏️" },
       { id: "read_page", need: ["break_pref:read", "hobbies:reading"], fr: "Lis quelques pages de ton livre préféré 📖", en: "Read a few pages of your favourite book 📖" },
