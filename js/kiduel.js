@@ -339,7 +339,9 @@ const Kiduel = (() => {
     if (round) render();
   }
 
-  function start(t) {
+  // lvl : niveau de départ choisi par le parcours (js/parcours.js) ; sinon, le niveau en cours.
+  function start(t, lvl) {
+    if (lvl) level = lvl;
     texts(t);
     score = 0;
     games = 0;

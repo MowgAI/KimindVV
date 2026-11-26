@@ -209,7 +209,7 @@ const Stats = (() => {
       line("game(" + I + ", " + i.game + ").");
       line("level(" + I + ", " + i.level + ").");
       line("exercise_number(" + I + ", " + i.number + ").");
-      line("list_of_cards(" + I + ", [" + i.cards.join(", ") + "]).");
+      line("list_of_cards(" + I + ", [" + (i.cards || []).join(", ") + "]).");
       line("layout(" + I + ", " + i.layout + ").");
       line("chaos_measure(" + I + ", " + i.chaos + ").");
       // KiJun : correct_answer donne la somme de chaque couleur (étape 2) ; les sens demandés
@@ -280,6 +280,9 @@ const Stats = (() => {
       if (i.help) line("click_on_button_help(" + I + ").");
       (i.helps || []).forEach(h => line("help_used(" + I + ", try_" + h.try + ", " + h.type + ", [" + h.colours.join(", ") + "])."));
       if (i.feedback) line("type_of_feedback_received(" + I + ", " + i.feedback + ").");
+      // Qui a choisi l'exercice : student, suggested (proposition de KibooM acceptée) ou ai (mode
+      // « KibooM choisit ») ; les règles sur les choix de l'enfant ne valent que pour student.
+      line("chosen_by(" + I + ", " + (i.chosenBy || "student") + ").");
       line("");
     });
     // Humeurs : le 3e argument est le numéro d'exercice du joueur au moment du clic.
@@ -337,6 +340,10 @@ const Stats = (() => {
       line("coach_advice(" + S + ", " + (n + 1) + ", " + c.trigger + ", " + atom(c.tip) + ", " + (c.response || "none") + ", " + atom(new Date(c.time).toISOString()) + ").");
       if (c.breakSeconds !== undefined) line("coach_break_seconds(" + S + ", " + (n + 1) + ", " + c.breakSeconds + ").");
     });
+    // Parcours (js/parcours.js) : mode de chaque joueur (free : il choisit ; auto : KibooM choisit) et
+    // aventures proposées et lancées : adventure_step(Joueur, N°, Jeu, Niveau, Raison, Origine, Date).
+    Object.entries(d.modes || {}).forEach(([p, m]) => line("parcours_mode(" + atom(Store.playerId(p)) + ", " + m + ")."));
+    (d.adventure || []).forEach((s, n) => line("adventure_step(" + atom(Store.playerId(s.player || "joueur")) + ", " + (n + 1) + ", " + atom(s.game) + ", " + (s.level || 0) + ", " + atom(s.why || "none") + ", " + atom(s.from || "home") + ", " + atom(new Date(s.time).toISOString()) + ")."));
     // Ateliers créatifs (js/creatif.js) : rien n'y est noté « bien » ou « mal ».
     // invented_character(Id, Joueur, Tête, Corps, Pieds, Nom) ; invented_character_phrase(Id, Phrase).
     // divergent_round(Id, Joueur, [Cartes], Idées cachées) ; divergent_idea(Id, Carte, Raison) ;

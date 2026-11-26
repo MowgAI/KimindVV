@@ -53,6 +53,10 @@ const Store = (() => {
       help: 0,
       ragequit: false,
       success: false,
+      // Qui a choisi cet exercice : student (l'enfant), suggested (une proposition de KibooM
+      // acceptée par l'enfant) ou ai (mode « KibooM choisit »). Les règles de la BK sur les choix
+      // de l'enfant ne valent que pour student.
+      chosenBy: typeof Parcours !== "undefined" ? Parcours.chosenBy(fields.game) : "student",
     }, fields);
     data.instances.push(inst);
     save();
@@ -73,7 +77,7 @@ const Store = (() => {
   }
 
   function addKimind(game) {
-    data.kimind.push(Object.assign({ player, time: Date.now() }, game));
+    data.kimind.push(Object.assign({ player, time: Date.now(), chosenBy: typeof Parcours !== "undefined" ? Parcours.chosenBy(game.version) : "student" }, game));
     save();
   }
 
