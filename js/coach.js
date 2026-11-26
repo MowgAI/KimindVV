@@ -64,7 +64,14 @@ const Coach = (() => {
     const t = any(personal.length ? personal : fits);
     const music = (lk.music_taste || []).filter(v => C.music[v]);
     const name = avatarName();
-    return { id: t.id, text: t[L].replace("{music}", (music.length ? C.music[any(music)] : C.music.any)[L]).replace("{avatar}", name || T.coach.yourCharacter) };
+    let text = t[L].replace("{music}", (music.length ? C.music[any(music)] : C.music.any)[L]).replace("{avatar}", name || T.coach.yourCharacter);
+    // Le conseil vient d'un de ses passe-temps : on le dit (« Toi qui aimes le dessin… »).
+    const hobby = t.need.map(tag => tag.split(":")).find(([q, v]) => q === "hobbies" && has(lk, "hobbies:" + v));
+    if (hobby) {
+      const opt = EGO.likes.find(q => q.id === "hobbies").options.find(o => o.id === hobby[1]);
+      if (opt) text = C.hobbyIntro[L].replace("{h}", opt[L]) + " " + text.charAt(0).toLowerCase() + text.slice(1);
+    }
+    return { id: t.id, text };
   }
 
   function advise(trigger) {
@@ -84,6 +91,7 @@ const Coach = (() => {
     $("coach-snooze").hidden = snoozes >= 2 || trigger === "late";
     $("coach-ask").hidden = false;
     $("coach-break").hidden = true;
+    $("coach-goodbye").hidden = true;
     $("coach").showModal();
     if (typeof config !== "undefined" && config.voice) Voice.speak(opener + " " + tip.text, { lang: L });
   }
@@ -105,6 +113,8 @@ const Coach = (() => {
     $("coach-timer-btn").textContent = "⏱️ " + T.coach.startTimer;
     $("coach-timer-btn").hidden = false;
     $("coach-back").textContent = T.coach.back;
+    $("coach-leave").textContent = "👋 " + T.coach.leave;
+    $("coach-bye").textContent = T.coach.byeHint;
     current.breakStart = Date.now();
   }
 
@@ -197,6 +207,15 @@ const Coach = (() => {
     $("coach-snooze").addEventListener("click", () => respond("snooze"));
     $("coach-timer-btn").addEventListener("click", startTimer);
     $("coach-back").addEventListener("click", close);
+    // Le but n'est pas de garder l'enfant devant l'écran : on l'invite à quitter l'appli.
+    $("coach-leave").addEventListener("click", () => {
+      if (current) { current.left = true; Store.save(); }
+      $("coach-break").hidden = true;
+      $("coach-goodbye").hidden = false;
+      $("coach-goodbye-text").textContent = T.coach.goodbye.replace("{name}", Store.player || "");
+      if (typeof config !== "undefined" && config.voice) Voice.speak(T.coach.goodbye.replace("{name}", Store.player || ""), { lang: lang() });
+      try { window.close(); } catch (e) { /* un onglet ouvert à la main ne se ferme pas tout seul */ }
+    });
     $("coach").addEventListener("cancel", e => { e.preventDefault(); if (!$("coach-ask").hidden) respond("snooze"); else close(); });
     // L'humeur « fatigué » ou « pas content » : un conseil tout de suite.
     const add = Store.addState;

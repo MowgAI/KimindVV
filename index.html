@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Luckiest+Guy&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=44">
+<link rel="stylesheet" href="css/style.css?v=45">
 </head>
 <body>
 <div class="wrap">
@@ -67,6 +67,22 @@
       <div class="other-ctrl"><button class="act ghost" id="ego-menu" type="button"></button></div>
     </div>
     <div id="ego-body"></div>
+  </section>
+
+  <section id="invente-screen" class="game-other" hidden>
+    <div class="other-head">
+      <h2 class="other-title" id="invente-title"></h2>
+      <div class="other-ctrl"><button class="act ghost" id="invente-menu" type="button"></button></div>
+    </div>
+    <div id="invente-body"></div>
+  </section>
+
+  <section id="intrus-screen" class="game-other" hidden>
+    <div class="other-head">
+      <h2 class="other-title" id="intrus-title"></h2>
+      <div class="other-ctrl"><button class="act ghost" id="intrus-menu" type="button"></button></div>
+    </div>
+    <div id="intrus-body"></div>
   </section>
 
   <section id="enquete-screen" class="game-other" hidden>
@@ -162,8 +178,13 @@
   <div id="coach-break" hidden>
     <h2 id="coach-break-title"></h2>
     <p class="coach-bubble" id="coach-tip-again"></p>
+    <p class="coach-bye" id="coach-bye"></p>
     <p class="coach-timer" id="coach-timer" aria-live="polite"></p>
-    <p class="pick-row coach-btns"><button class="act ghost" id="coach-timer-btn" type="button"></button><button class="act" id="coach-back" type="button"></button></p>
+    <p class="pick-row coach-btns"><button class="act" id="coach-leave" type="button"></button><button class="act ghost" id="coach-timer-btn" type="button"></button><button class="act ghost" id="coach-back" type="button"></button></p>
+  </div>
+  <div id="coach-goodbye" hidden>
+    <p class="coach-wave" aria-hidden="true">👋</p>
+    <p class="coach-bubble" id="coach-goodbye-text"></p>
   </div>
 </dialog>
 
@@ -189,32 +210,34 @@
   <form method="dialog"><button class="act" id="btn-close"></button></form>
 </dialog>
 
-<script src="lang/fr.js?v=44"></script>
-<script src="lang/en.js?v=44"></script>
-<script src="js/versions.js?v=44"></script>
-<script src="js/store.js?v=44"></script>
-<script src="lang/personnages.js?v=44"></script>
-<script src="lang/parade-modes.js?v=44"></script>
-<script src="js/kimind.js?v=44"></script>
-<script src="js/sound.js?v=44"></script>
-<script src="js/voice.js?v=44"></script>
-<script src="js/audio.js?v=44"></script>
-<script src="js/parade.js?v=44"></script>
-<script src="js/home.js?v=44"></script>
-<script src="js/colourgame.js?v=44"></script>
-<script src="js/kijun.js?v=44"></script>
-<script src="js/kipharaon.js?v=44"></script>
-<script src="js/kidory.js?v=44"></script>
-<script src="js/kibal.js?v=44"></script>
-<script src="js/kipotter.js?v=44"></script>
-<script src="js/kicompuzzle.js?v=44"></script>
-<script src="js/kipuzzle.js?v=44"></script>
-<script src="js/kiduel.js?v=44"></script>
-<script src="lang/ego.js?v=44"></script>
-<script src="js/ego.js?v=44"></script>
-<script src="js/coach.js?v=44"></script>
-<script src="js/enquete.js?v=44"></script>
-<script src="js/stats.js?v=44"></script>
-<script src="js/game.js?v=44"></script>
+<script src="lang/fr.js?v=45"></script>
+<script src="lang/en.js?v=45"></script>
+<script src="js/versions.js?v=45"></script>
+<script src="js/store.js?v=45"></script>
+<script src="lang/personnages.js?v=45"></script>
+<script src="lang/parade-modes.js?v=45"></script>
+<script src="js/kimind.js?v=45"></script>
+<script src="js/sound.js?v=45"></script>
+<script src="js/voice.js?v=45"></script>
+<script src="js/audio.js?v=45"></script>
+<script src="js/parade.js?v=45"></script>
+<script src="js/home.js?v=45"></script>
+<script src="js/colourgame.js?v=45"></script>
+<script src="js/kijun.js?v=45"></script>
+<script src="js/kipharaon.js?v=45"></script>
+<script src="js/kidory.js?v=45"></script>
+<script src="js/kibal.js?v=45"></script>
+<script src="js/kipotter.js?v=45"></script>
+<script src="js/kicompuzzle.js?v=45"></script>
+<script src="js/kipuzzle.js?v=45"></script>
+<script src="js/kiduel.js?v=45"></script>
+<script src="lang/ego.js?v=45"></script>
+<script src="js/ego.js?v=45"></script>
+<script src="js/coach.js?v=45"></script>
+<script src="js/enquete.js?v=45"></script>
+<script src="lang/creatif.js?v=45"></script>
+<script src="js/creatif.js?v=45"></script>
+<script src="js/stats.js?v=45"></script>
+<script src="js/game.js?v=45"></script>
 </body>
 </html>
