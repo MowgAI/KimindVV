@@ -28,6 +28,22 @@ window.SEMANTIQUE = {
     kimminmaxus: { levels: 3, ton: "mid", kimind: true, skills: { logic: [3, 3], calc: [3, 3], memory: [2, 2], strategy: [2, 2] } },
     kimind5:     { levels: 3, ton: "mid", kimind: true, skills: { logic: [3, 3], calc: [2, 2], memory: [2, 2], strategy: [1, 1] } },
   },
+  /* Les jeux du défi Kichallenge (js/kichallenge.js), À TRIER PAR L'AUTEURE : pour chaque jeu, les niveaux
+     proposés à chaque difficulté du défi, [du niveau, au niveau]. null : le jeu n'est pas proposé à
+     cette difficulté (par exemple Kimba et Kiplus, pas marrants quand il y a trop de cartes).
+     Un jeu absent de la liste n'est jamais dans le défi (Kipuzzle et Kiduel : parties entières avec adversaire).
+     S'il y a moins de 5 jeux pour une difficulté, un jeu revient, jamais deux fois de suite. */
+  challenge: {
+    //             Facile    Moyen     Difficile  Ultime
+    kimba:       { easy: [1, 3], medium: [4, 5], hard: null,   ultimate: null },
+    kiplus:      { easy: [1, 3], medium: [4, 5], hard: null,   ultimate: null },
+    kijun:       { easy: [1, 3], medium: [4, 6], hard: [7, 9], ultimate: [10, 10] },
+    kipharaon:   { easy: [1, 3], medium: [4, 6], hard: [7, 9], ultimate: [10, 10] },
+    kidory:      { easy: [1, 3], medium: [4, 6], hard: [7, 9], ultimate: [10, 10] },
+    kibal:       { easy: [1, 3], medium: [4, 6], hard: [7, 9], ultimate: [10, 10] },
+    kipotter:    { easy: [1, 3], medium: [4, 6], hard: [7, 9], ultimate: [10, 10] },
+    kicompuzzle: { easy: [1, 3], medium: [4, 6], hard: [7, 9], ultimate: [10, 10] },
+  },
   // Kiboo : une autre application (récompense, et voie à part entière pour les « non scolaires »).
   kiboo: { ton: "fun", opponent: true, skills: { strategy: [3, 3], memory: [2, 2], logic: [2, 2], calc: [1, 1] } },
 };

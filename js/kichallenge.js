@@ -8,9 +8,10 @@
    jamais aux autres joueurs. */
 const Kichallenge = (() => {
   "use strict";
-  // Jeux du défi : un exercice court, sans adversaire (Kipuzzle et Kiduel sont des parties entières).
-  const POOL = ["kimba", "kiplus", "kijun", "kipharaon", "kidory", "kibal", "kipotter", "kicompuzzle"];
-  const DIFF = { easy: [1, 3], medium: [4, 6], hard: [7, 9], ultimate: [10, 10] };   // ultime : que des niveaux 10
+  // Jeux du défi et niveaux par difficulté : tableau à trier par l'auteure, dans lang/semantique.js
+  // (SEMANTIQUE.challenge). Les difficultés : facile, moyen, difficile, ultime.
+  const DIFFS = ["easy", "medium", "hard", "ultimate"];
+  const TABLE = () => window.SEMANTIQUE.challenge || {};
   const N = 5, HELP_MS = 10000, MISS_MS = 30000;
   const ICON = "assets/cards/blue-10.webp";
   let T = null, run = null, diff = "easy", last = null, screen = null, waiting = false;
@@ -42,7 +43,7 @@ const Kichallenge = (() => {
   }
 
   function renderIntro() {
-    const recs = Object.keys(DIFF).map(d => {
+    const recs = DIFFS.map(d => {
       const l = mine(d);
       if (!l.length) return `<li><b>${C().diffs[d]}</b> : ${C().noRecord}</li>`;
       const b = Math.min(...l.map(r => r.total));
@@ -53,7 +54,7 @@ const Kichallenge = (() => {
         <div><h2>${C().title}</h2><p>${C().intro}</p></div></div>
       <ul class="ch-rules">${C().rules.map(r => `<li>${r}</li>`).join("")}</ul>
       <p class="ch-lbl">${C().chooseDiff}</p>
-      <div class="ch-diffs" role="group">${Object.keys(DIFF).map(d => `<button type="button" class="ch-diff" data-d="${d}" aria-pressed="${d === diff}">${C().diffs[d]}<small>${C().diffHints[d]}</small></button>`).join("")}</div>
+      <div class="ch-diffs" role="group">${DIFFS.map(d => `<button type="button" class="ch-diff" data-d="${d}" aria-pressed="${d === diff}">${C().diffs[d]}<small>${C().diffHints[d]}</small></button>`).join("")}</div>
       <p><button class="act" type="button" data-c="go">▶ ${C().go}</button></p>
       <h3>${C().recordsTitle}</h3><ul class="ch-recs">${recs}</ul>
       <p class="ch-note">${C().onlyYou}</p></div>`;
@@ -63,12 +64,23 @@ const Kichallenge = (() => {
 
   /* ---------- Le défi ---------- */
   function begin() {
-    const games = POOL.slice().sort(() => Math.random() - 0.5).slice(0, N);
-    run = { id: "ch_" + Date.now().toString(36), player: Store.player, difficulty: diff, start: Date.now(), i: -1,
-      list: games.map(g => ({ game: g, level: rand(...DIFF[diff]) })) };
+    run = { id: "ch_" + Date.now().toString(36), player: Store.player, difficulty: diff, start: Date.now(), i: -1, list: draw(diff) };
     last = null;
     document.body.classList.add("in-challenge");
     next();
+  }
+
+  // Tirage des 5 exercices : des jeux différents tant que possible ; s'il y en a moins de 5 pour cette
+  // difficulté, un jeu revient, jamais deux fois de suite.
+  function draw(d) {
+    const pool = Object.keys(TABLE()).filter(g => TABLE()[g][d] && GAMES.some(x => x.id === g));
+    const shuffle = a => a.slice().sort(() => Math.random() - 0.5);
+    let games = shuffle(pool).slice(0, N);
+    while (pool.length && games.length < N) {
+      const prev = games[games.length - 1], choices = pool.filter(g => g !== prev || pool.length === 1);
+      games.push(choices[Math.floor(Math.random() * choices.length)]);
+    }
+    return games.map(g => ({ game: g, level: rand(...TABLE()[g][d]) }));
   }
 
   function next() {
