@@ -283,6 +283,8 @@ const Stats = (() => {
       // Qui a choisi l'exercice : student, suggested (proposition de KibooM acceptée) ou ai (mode
       // « KibooM choisit ») ; les règles sur les choix de l'enfant ne valent que pour student.
       line("chosen_by(" + I + ", " + (i.chosenBy || "student") + ").");
+      // L'aide est toujours un choix de l'enfant ; KibooM peut seulement la suggérer.
+      if (i.helpSuggested) line("help_suggested(" + I + ").");
       line("");
     });
     // Humeurs : le 3e argument est le numéro d'exercice du joueur au moment du clic.

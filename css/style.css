@@ -136,6 +136,8 @@ body.parade-open { overflow: hidden; }
 .cg-cards.scattered .card { position: absolute; --w: var(--scat-w); }
 .cg-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .cg-panel { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+/* La zone de réponse reste visible en bas de l'écran, même avec beaucoup de cartes au-dessus. */
+.game-other .cg-panel { position: sticky; bottom: 0; z-index: 4; box-shadow: 0 -6px 16px rgba(0,0,0,0.12); }
 .cg-answers { display: flex; gap: 12px; flex-wrap: wrap; }
 .cg-box {
   font: inherit; font-size: 1.8rem; font-weight: 700; cursor: pointer;
@@ -771,3 +773,9 @@ dialog.coach::backdrop { background: rgba(20, 16, 50, 0.45); }
 /* Mode « KibooM choisit » : l'enfant ne choisit pas le niveau. */
 body.mode-auto [data-r=level], body.mode-auto [data-r=lbl-level], body.mode-auto #level, body.mode-auto #lbl-level { display: none; }
 @media (max-width: 640px) { .adv-card { grid-template-columns: auto 1fr; } .adv-btns { grid-column: 1 / -1; } }
+
+/* L'aide suggérée (js/parcours.js) : le bouton brille doucement ; l'enfant décide. */
+[data-r=help].suggest { position: relative; animation: help-glow 1.4s ease-in-out infinite; border-color: var(--brand); }
+[data-r=help].suggest::after { content: attr(data-suggest); position: absolute; left: 50%; bottom: calc(100% + 8px); translate: -50% 0; white-space: nowrap; background: var(--brand); color: #fff; font-size: 0.85rem; padding: 4px 10px; border-radius: 999px; pointer-events: none; }
+@keyframes help-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(65,65,238,0); } 50% { box-shadow: 0 0 0 6px rgba(65,65,238,0.25); } }
+@media (prefers-reduced-motion: reduce) { [data-r=help].suggest { animation: none; } }

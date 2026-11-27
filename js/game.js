@@ -236,7 +236,12 @@
     $("won").textContent = T.won(rounds.length);
   }
 
-  function render() { renderStatement(); renderHidden(); renderOffer(); renderPicker(); renderHistory(); renderStatus(); }
+  // Redessiner ne doit pas faire bouger la page : on garde la position de défilement.
+  function render() {
+    const keepY = window.scrollY;
+    renderStatement(); renderHidden(); renderOffer(); renderPicker(); renderHistory(); renderStatus();
+    if (window.scrollY !== keepY) window.scrollTo(0, keepY);
+  }
 
   function won() { return found.every(Boolean) && (!hiddenSigns() || [1, 2, 3].every(p => signFound[p])); }
 

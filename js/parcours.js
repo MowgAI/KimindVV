@@ -346,10 +346,29 @@ const Parcours = (() => {
     el.querySelector("[data-t=free]").onclick = () => { setMode("free"); hideToast(); };
   }
 
+  // Aide suggérée (jamais imposée : l'aide reste un choix de l'enfant, dans les deux modes) :
+  // après un essai raté sans aide, le bouton 💡 brille avec « Un coup de pouce ? ». La suggestion est
+  // notée dans l'exercice (helpSuggested) pour distinguer l'aide spontanée de l'aide après suggestion.
+  function suggestHelp() {
+    const id = screenGame();
+    if (!id || !Store.player || !T) return;
+    const btn = document.querySelector("#" + id + "-screen [data-r=help]");
+    if (!btn) return;
+    const inst = Store.data.instances.filter(i => i.player === Store.player && i.game === id).slice(-1)[0];
+    const tries = inst && !inst.end ? inst.tries || [] : [];
+    const want = tries.length && tries[tries.length - 1].success === false && !inst.help && !btn.hidden && !btn.disabled;
+    btn.classList.toggle("suggest", !!want);
+    if (want) {
+      btn.dataset.suggest = P().helpSuggest;
+      if (!inst.helpSuggested) { inst.helpSuggested = true; Store.save(); }
+    }
+  }
+
   function texts(t) { T = t; }
   function init() {
     document.body.classList.toggle("mode-auto", mode() === "auto");
     setInterval(watch, 1500);
+    setInterval(suggestHelp, 1000);
     window.addEventListener("hashchange", hideToast);
     window.addEventListener("kiboom-player", () => { seen = null; rerolls = []; hideToast(); document.body.classList.toggle("mode-auto", mode() === "auto"); });
   }

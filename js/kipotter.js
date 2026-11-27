@@ -108,7 +108,14 @@ const KiPotter = (() => {
     line.append(marker);
   }
 
+  // Redessiner ne doit pas faire bouger la page (sinon, avec beaucoup de cartes, l'écran remonte à
+  // chaque chiffre tapé) : on garde la position de défilement.
   function render() {
+    const keepY = window.scrollY;
+    renderScreen();
+    if (window.scrollY !== keepY) window.scrollTo(0, keepY);
+  }
+  function renderScreen() {
     const lv = LEVELS[level - 1];
     q("level").value = level;
     q("score").textContent = T.kibal.score(score, games);

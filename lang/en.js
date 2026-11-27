@@ -75,6 +75,7 @@ LANGS.en = {
     well: "Well played at {game}! Ready for a new adventure?", nextAdventure: "New adventure", stayHere: "I'll stay here",
     modeLabel: "Who chooses?", modeFree: "I choose", modeAuto: "KibooM chooses",
     modeFreeHint: "You choose your games; I make suggestions.", modeAutoHint: "I choose the games and levels for you.",
+    helpSuggest: "Need a hand?",
     autoSame: "Let's carry on here, at the level that suits you.", autoJump: "That was too easy: I'm making you skip levels!", autoOther: "Time for a new adventure:", continue: "Carry on",
   },
   menuInvente: { name: "🧪 Invent your character", subtitle: "Creative workshop", description: "Mix the heads, bodies and feet of the characters, give yours a name and a funny line: it'll join the parade!", action: "Invent" },
