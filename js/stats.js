@@ -358,7 +358,11 @@ const Stats = (() => {
       const S = atom(Store.playerId(r.player || "joueur")), R = atom(r.id);
       if (r.completed) line("kichallenge_run(" + S + ", " + R + ", " + r.difficulty + ", " + Math.round(r.total / 1000) + ", " + r.list.filter(e => e.ok).length + ", " + r.list.reduce((t, e) => t + e.help, 0) + ", " + !!r.record + ").");
       else line("kichallenge_stopped(" + S + ", " + R + ", " + r.difficulty + ", " + r.list.filter(e => e.closed).length + ").");
-      r.list.forEach((e, k) => { if (e.inst) line("kichallenge_exercise(" + R + ", " + (k + 1) + ", " + atom(e.inst) + ")."); });
+      r.list.forEach((e, k) => {
+        if (e.inst) line("kichallenge_exercise(" + R + ", " + (k + 1) + ", " + atom(e.inst) + ").");
+        // kichallenge_step(Défi, Rang, Jeu, Niveau, Résultat (ok, missed, skipped), Secondes, Aides) : aussi pour Kimind.
+        if (e.closed) line("kichallenge_step(" + R + ", " + (k + 1) + ", " + atom(e.game) + ", " + e.level + ", " + (e.ok ? "ok" : e.skipped ? "skipped" : "missed") + ", " + Math.round(e.ms / 1000) + ", " + e.help + ").");
+      });
     });
     // Répliques de KibooM (js/repliques.js) : message_shown(Joueur, Exercice ou none, Moment, Réplique, Date) ;
     // child_line(Joueur, Moment, Texte) : une réplique écrite par l'enfant (ses mots, montrés à lui seul).

@@ -4,7 +4,8 @@
      mauvaise réponse, la fin d'une partie gagnée ou perdue.
    - Voix : une voix de garçon (voix d'homme, plus aiguë) lit les messages des jeux, dans la
      langue choisie (js/voice.js).
-   - Musique (js/sound.js) : choisie d'après ce qu'on fait (voir STYLE) ; éteinte par défaut.
+   - Musique (js/sound.js) : choisie d'après ce qu'on fait (voir STYLE), habillée selon les goûts
+     musicaux de l'enfant (Ego) ; éteinte par défaut.
    Les jeux n'ont rien à faire : on écoute les changements de leurs messages (.cg-msg, et
    #won pour Kimind) et l'apparition de leur bouton « Encore ! ». Un message marqué
    data-quiet (le compte à rebours de KiDory) n'est pas lu. */
@@ -68,11 +69,19 @@ const GameAudio = (() => {
     if (!h) return "intro";
     return STYLE[h] || "game";
   }
+  // Les goûts musicaux du joueur (Ego, chapitre 2, « Ce que j'aime ») : un goût tiré au hasard à chaque
+  // nouvelle musique, pour varier ; aucun (ou « je ne sais pas ») : les musiques telles quelles.
+  function taste() {
+    const p = (Store.data.ego || []).filter(r => r.player === Store.player && r.kind === "personality").slice(-1)[0];
+    const l = p && p.likes && Array.isArray(p.likes.music_taste) ? p.likes.music_taste.filter(x => x !== "dunno") : [];
+    return l.length ? l[Math.floor(Math.random() * l.length)] : null;
+  }
+  let lastPlayer = null;
   function updateMusic() {
     const parade = $("parade");
     if (parade && !parade.hidden) return;                 // la parade choisit ses musiques
     const style = config.music ? wanted() : null;
-    if (Sound.playing() !== style) Sound.music(style);
+    if (Sound.playing() !== style || Store.player !== lastPlayer) { lastPlayer = Store.player; Sound.music(style, { taste: style ? taste() : null }); }
   }
 
   function init(getLang) {

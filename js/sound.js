@@ -246,9 +246,30 @@ const Sound = (() => {
     drole: { tempo: 1.2, staccato: 0.3, mWave: "square", drums: "khshkhsh", sprinkleAdd: ["boing", "boing"] },
     mechant: { tempo: 0.8, shift: -12, mWave: "sawtooth", mLp: 1400, bWave: "sawtooth", drums: "k..sk..s", heavy: true },
   };
+  /* Les goûts musicaux de l'enfant (Ego, « Quelle musique tu aimes ? ») habillent toutes les musiques
+     de KibooM. Sur les musiques calmes (pour se concentrer), seul le timbre change : ni le tempo ni la
+     batterie, pour ne pas déranger. */
+  const TASTE = {
+    kids:      { mWave: "triangle", staccato: 0.5, drums: "k.h.k.h.", shift: 12, calm: { mWave: "triangle", shift: 12 } },
+    cartoons:  { mWave: "square", staccato: 0.7, drums: "k.s.k.s.", calm: { mWave: "triangle" } },
+    pop:       { mWave: "square", staccato: 0.6, drums: "khshkhsh", calm: { mWave: "square" } },
+    rap:       { tempo: 0.78, mWave: "sine", staccato: 0.3, drums: "k..sk.ks", heavy: true, bWave: "sawtooth", calm: { mWave: "sine", bWave: "sawtooth" } },
+    rock:      { mWave: "sawtooth", mLp: 1800, bWave: "sawtooth", drums: "xhshxhsh", heavy: true, calm: { mWave: "sawtooth", mLp: 1200 } },
+    classical: { tempo: 0.85, mWave: "sine", bWave: "triangle", staccato: 0.95, drums: "", calm: { mWave: "sine" } },
+  };
+  const CALM = ["game", "creative"];
+  function tasted(tr) {
+    const t = TASTE[wantOpts.taste];
+    if (!t) return tr;
+    const m = CALM.includes(want) ? t.calm : t, v = Object.assign({}, tr);
+    if (m.tempo) v.tempo = tr.tempo * m.tempo;
+    if (m.shift) v.melody = tr.melody.map(n => (n ? n + m.shift : 0));
+    for (const k of ["mWave", "staccato", "drums", "mLp", "bWave", "heavy"]) if (k in m) v[k] = m[k];
+    return v;
+  }
   function variant(tr) {
     const m = MODE_MUSIC[wantOpts.mode] || {}, shift = (m.shift || 0) + (wantOpts.shift || 0);
-    if (!wantOpts.mode && !wantOpts.shift) return tr;
+    if (!wantOpts.mode && !wantOpts.shift) return tasted(tr);
     const up = n => (n ? n + shift : 0);
     const v = Object.assign({}, tr, {
       tempo: tr.tempo * (m.tempo || 1), vol: tr.vol * (m.vol || 1),
@@ -295,9 +316,10 @@ const Sound = (() => {
   }
 
   // style : "intro", "game", "challenge", "lively", "duel", "creative", "fam0"…"fam3", ou null (silence). Une piste est tirée au hasard à chaque départ.
-  // opts (parade) : { mode: "gentil" | "bebe" | "drole" | "mechant", shift: demi-tons }.
+  // opts (parade) : { mode: "gentil" | "bebe" | "drole" | "mechant", shift: demi-tons } ;
+  // opts.taste : goût musical de l'enfant (kids, cartoons, pop, rap, rock, classical), voir TASTE.
   function music(style, opts = {}) {
-    const key = style + "|" + (opts.mode || "") + "|" + (opts.shift || 0);
+    const key = style + "|" + (opts.mode || "") + "|" + (opts.shift || 0) + "|" + (opts.taste || "");
     if (wantKey === key) return;
     want = style;
     wantKey = key;
