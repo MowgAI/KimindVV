@@ -57,6 +57,9 @@ const Store = (() => {
       // acceptée par l'enfant) ou ai (mode « KibooM choisit »). Les règles de la BK sur les choix
       // de l'enfant ne valent que pour student.
       chosenBy: typeof Parcours !== "undefined" ? Parcours.chosenBy(fields.game) : "student",
+      // Chrono choisi par l'enfant (js/chrono.js) et défi Kichallenge dont l'exercice fait partie.
+      timer: typeof Chrono !== "undefined" ? Chrono.mode() : "none",
+      challenge: typeof Kichallenge !== "undefined" ? Kichallenge.tag(fields.game) : undefined,
     }, fields);
     data.instances.push(inst);
     save();

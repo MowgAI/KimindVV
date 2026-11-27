@@ -239,6 +239,8 @@ const Parcours = (() => {
     picked[c.game] = mode() === "auto" ? "ai" : "suggested";
     if (location.hash === "#" + c.game) window.dispatchEvent(new Event("hashchange")); else location.hash = c.game;
   }
+  // Un exercice lancé par un autre module (Kichallenge : chosen_by challenge).
+  function prepare(game, level, by) { pending[game] = level; picked[game] = by; }
   // Le jeu demande son niveau de départ (une seule fois).
   function takeLevel(id) { const l = pending[id]; delete pending[id]; return l || null; }
 
@@ -296,6 +298,7 @@ const Parcours = (() => {
     if (seen === null || !id) { seen = count; return; }
     if (count === seen) return;
     seen = count;
+    if (typeof Kichallenge !== "undefined" && Kichallenge.running()) return;   // le défi décide de la suite
     const res = results(id), g = S()[id];
     if (!res.length) return;
     const last = res.slice(-3), cur = res[res.length - 1].level;
@@ -373,5 +376,5 @@ const Parcours = (() => {
     window.addEventListener("kiboom-player", () => { seen = null; rerolls = []; hideToast(); document.body.classList.toggle("mode-auto", mode() === "auto"); });
   }
 
-  return { init, texts, choose, go, takeLevel, cardHTML, wire, menuInfo, abilities, ego, results, mode, setMode, chosenBy };
+  return { init, texts, choose, go, takeLevel, cardHTML, wire, menuInfo, abilities, ego, results, mode, setMode, chosenBy, prepare };
 })();
