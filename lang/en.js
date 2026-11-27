@@ -24,7 +24,7 @@ LANGS.en = {
   paradeModesSoon: "The Baby, Funny and Naughty modes only exist in French for now (button FR at the top of the home page). The English texts are coming.",
   paradeModes: { gentil: "😊 Kind", bebe: "👶 Baby", drole: "🤪 Funny", mechant: "😈 Naughty" },
   paradeEnd: "That's it! All forty Kiboo characters have said hello. Now, shall we play?",
-  audio: { sfx: "Sounds", voice: "Voice", hello: "Hello! I'll read the game messages to you." },
+  audio: { music: "Music", sfx: "Sounds", voice: "Voice", hello: "Hello! I'll read the game messages to you." },
   home: {
     pitch: "<b>KibooM</b> is an app to <em>learn maths while having fun</em>, that <em>adapts to you</em>.",
     soon: "KibooM is starting to adapt to you: do Ego KibooM and you'll get games and tips just for you.",

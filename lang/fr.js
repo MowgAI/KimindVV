@@ -25,7 +25,7 @@ LANGS.fr = {
   paradeModesSoon: "",
   paradeModes: { gentil: "😊 Gentil", bebe: "👶 Bébé", drole: "🤪 Drôle", mechant: "😈 Méchant" },
   paradeEnd: "Et voilà ! Les quarante personnages de Kiboo t'ont dit bonjour. Maintenant, on joue ?",
-  audio: { sfx: "Bruitages", voice: "Voix", hello: "Bonjour ! Je vais te lire les messages du jeu." },
+  audio: { music: "Musique", sfx: "Bruitages", voice: "Voix", hello: "Bonjour ! Je vais te lire les messages du jeu." },
   home: {
     pitch: "<b>KibooM</b> est une appli pour <em>apprendre les maths en s'amusant</em>, qui <em>s'adapte à toi</em>.",
     soon: "KibooM commence à s'adapter à toi : fais Ego KibooM, et tu auras des jeux et des conseils rien que pour toi.",
