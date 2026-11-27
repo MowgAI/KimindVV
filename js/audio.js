@@ -84,17 +84,27 @@ const GameAudio = (() => {
     if (Sound.playing() !== style || Store.player !== lastPlayer) { lastPlayer = Store.player; Sound.music(style, { taste: style ? taste() : null }); }
   }
 
+  // Allumer ou éteindre la musique, les bruitages ou la voix (barre ⚙️ et page de lancement).
+  function toggle(kind) {
+    config[kind] = !config[kind];
+    save();
+    labels();
+    if (kind === "music") { Sound.unlock(); updateMusic(); }
+    if (kind === "sfx" && config.sfx) Sound.sfx("click");
+    if (kind === "voice") { if (config.voice) Voice.speak(T.audio.hello, { lang: lang(), gender: "m", pitch: BOY }); else Voice.stop(); }
+  }
+  // Texte d'un bouton (pour la page de lancement).
+  function label(kind) {
+    const on = config[kind];
+    return { music: (on ? "🎵 " : "🔇 ") + T.audio.music, sfx: (on ? "🔊 " : "🔈 ") + T.audio.sfx, voice: (on ? "🗣️ " : "🤐 ") + T.audio.voice }[kind];
+  }
+
   function init(getLang) {
-    $("btn-music").addEventListener("click", () => { config.music = !config.music; save(); labels(); Sound.unlock(); updateMusic(); });
+    $("btn-music").addEventListener("click", () => toggle("music"));
     setInterval(updateMusic, 600);
     lang = getLang;
-    $("btn-sfx").addEventListener("click", () => { config.sfx = !config.sfx; save(); labels(); if (config.sfx) Sound.sfx("click"); });
-    $("btn-voice").addEventListener("click", () => {
-      config.voice = !config.voice;
-      save();
-      labels();
-      if (config.voice) Voice.speak(T.audio.hello, { lang: lang(), gender: "m", pitch: BOY }); else Voice.stop();
-    });
+    $("btn-sfx").addEventListener("click", () => toggle("sfx"));
+    $("btn-voice").addEventListener("click", () => toggle("voice"));
     new MutationObserver(records => {
       const msgs = new Set(), ended = new Set();
       records.forEach(r => {
@@ -117,5 +127,5 @@ const GameAudio = (() => {
 
   function texts(t) { T = t; labels(); }
 
-  return { init, texts };
+  return { init, texts, toggle, label, isOn: k => !!config[k] };
 })();

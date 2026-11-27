@@ -841,3 +841,17 @@ body.in-challenge .rep-bubble { top: 110px; }
 .rub-fire { font-size: 2rem; align-self: center; margin-left: 8px; }
 .challenge-card { border: 4px solid #F59E0B; box-shadow: 0 6px 18px rgba(245,158,11,0.35); }
 body.in-challenge #level, body.in-challenge #lbl-level, body.in-challenge #btn-new { display: none; }
+
+/* Barre du haut allégée : les réglages (musique, bruitages, voix, joueur, langue) sont sur la page de
+   lancement ; dans les écrans, un petit bouton ⚙️ les ouvre. « 🏠 Accueil » seulement sur la liste du menu. */
+.head-right { position: relative; }
+#btn-home { display: none; }
+body.on-menu #btn-home { display: inline-flex; }
+#btn-settings { font-size: 1.2rem; padding: 6px 12px; }
+.head-settings { display: none; position: absolute; top: calc(100% + 8px); right: 0; z-index: 40; flex-direction: column; align-items: stretch; gap: 8px; min-width: 220px; background: var(--panel); border: 3px solid var(--brand); border-radius: 18px; padding: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+.head-settings.open { display: flex; }
+.head-settings .lang-wrap { justify-content: center; }
+/* Réglages sur la page de lancement. */
+.home-tools { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 10px 0 4px; }
+.home-tools button { font: inherit; font-weight: 600; cursor: pointer; padding: 6px 14px; border-radius: 999px; border: 2px solid var(--brand); background: #FFF; color: var(--brand); }
+.home-tools button[aria-pressed="true"] { background: var(--brand); color: #FFF; }
