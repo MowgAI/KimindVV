@@ -1,5 +1,5 @@
 /* Kichallenge : un défi chronométré de 5 exercices tirés au hasard dans des jeux différents.
-   L'enfant choisit la difficulté du défi (facile : niveaux 1 à 3, moyen : 4 à 6, difficile : 7 à 9) ;
+   L'enfant choisit la difficulté du défi (facile : niveaux 1 à 3, moyen : 4 à 6, difficile : 7 à 9, ultime : que des niveaux 10) ;
    chaque exercice se joue dans son jeu habituel, puis on passe au suivant.
    Temps du défi = somme des temps des exercices (le chrono attend entre deux exercices)
    + 10 s par aide (l'aide reste permise : c'est toujours un choix de l'enfant)
@@ -10,7 +10,7 @@ const Kichallenge = (() => {
   "use strict";
   // Jeux du défi : un exercice court, sans adversaire (Kipuzzle et Kiduel sont des parties entières).
   const POOL = ["kimba", "kiplus", "kijun", "kipharaon", "kidory", "kibal", "kipotter", "kicompuzzle"];
-  const DIFF = { easy: [1, 3], medium: [4, 6], hard: [7, 9] };
+  const DIFF = { easy: [1, 3], medium: [4, 6], hard: [7, 9], ultimate: [10, 10] };   // ultime : que des niveaux 10
   const N = 5, HELP_MS = 10000, MISS_MS = 30000;
   const ICON = "assets/cards/blue-10.webp";
   let T = null, run = null, diff = "easy", last = null, screen = null, waiting = false;
