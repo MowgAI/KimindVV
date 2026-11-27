@@ -140,5 +140,11 @@ const Home = (() => {
     if (!location.hash) open();
   }
 
-  return { init, texts, open, close, logoHTML };
+  // Les boutons « Menu » des jeux ramènent à la page de lancement (celle qu'on voit en ouvrant l'appli).
+  function back() {
+    if (location.hash) location.hash = "";
+    open();
+  }
+
+  return { init, texts, open, close, back, logoHTML };
 })();

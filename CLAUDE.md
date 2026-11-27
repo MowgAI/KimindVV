@@ -8,6 +8,7 @@
 - Versions dans le menu : `js/versions.js` ; moteur : `js/kimind.js` ; affichage : `js/game.js` ; textes : `lang/fr.js`.
 - Tests du moteur : `node tests/kimind.test.js`.
 - Redessiner un écran de jeu ne doit pas faire bouger la page (render garde window.scrollY) ; la zone de réponse (.cg-panel) reste collée en bas de l'écran.
+- Les boutons « ☰ Menu » des jeux ramènent à la page de lancement (Home.back()), pas à la liste du menu.
 - À chaque changement de JS ou de CSS : augmenter le numéro `?v=` dans `index.html` (sinon le navigateur garde les anciens fichiers en cache).
 
 Descriptions des KiJeux : pas de phrase « avec Archi, Lili… », sauf pour les jeux à adversaire (Kiduel, Kipuzzle).

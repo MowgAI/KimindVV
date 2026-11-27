@@ -228,7 +228,7 @@ const Enquete = (() => {
         <button class="act${needBreak ? " ghost" : ""}" type="button" data-go="kimba">${T.enquete.play}</button>
         <button class="act ghost" type="button" data-a="menu">☰ ${T.menu}</button></p>`;
     box.querySelector("[data-go]").onclick = () => { location.hash = "kimba"; };
-    box.querySelector("[data-a=menu]").onclick = () => { location.hash = ""; };
+    box.querySelector("[data-a=menu]").onclick = () => Home.back();
     const br = box.querySelector("[data-a=break]");
     if (br) br.onclick = () => Coach.advise("tired");
     if (typeof config !== "undefined" && config.voice) Voice.speak(box.textContent.replace(/[🔍💡🌱🌟🌈☰]/g, ""), { lang: lang() });
@@ -284,7 +284,7 @@ const Enquete = (() => {
   /* ---------- Démarrage ---------- */
   function texts(t) { T = t; if ($("enquete-screen") && !$("enquete-screen").hidden) render(); }
   function start(t) { T = t; render(); }
-  function init() { $("enquete-menu").addEventListener("click", () => { location.hash = ""; }); }
+  function init() { $("enquete-menu").addEventListener("click", () => Home.back()); }
 
   return { init, texts, start, offer, available, status, learn, literals, run, researcherHTML, exportILP, prologRule };
 })();

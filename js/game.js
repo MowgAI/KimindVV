@@ -450,7 +450,7 @@
     $("lang").value = savedLang();
     $("lang").addEventListener("change", () => setLang($("lang").value));
     setLang($("lang").value);
-    $("btn-menu").addEventListener("click", () => { location.hash = ""; });
+    $("btn-menu").addEventListener("click", () => Home.back());
     Parade.init();
     Ego.init();
     Enquete.init();

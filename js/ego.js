@@ -570,7 +570,7 @@ const Ego = (() => {
   function leave() { if (typeof Voice !== "undefined") Voice.stop(); }
   function texts(t) { T = t; if (!$("ego-screen").hidden) render(); }
   function init() {
-    $("ego-menu").addEventListener("click", () => { location.hash = ""; });
+    $("ego-menu").addEventListener("click", () => Home.back());
     // Autre joueur : autre BK individuelle ; on revient à l'accueil d'Ego, avec ses chapitres à lui.
     window.addEventListener("kiboom-player", () => { if (!$("ego-screen").hidden && T) { leave(); step = "hub"; render(); } });
   }
