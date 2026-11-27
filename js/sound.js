@@ -188,6 +188,30 @@ const Sound = (() => {
         melody: [62, 65, 69, 72, 71, 69, 67, 65, 64, 67, 71, 74, 72, 0, 69, 0, 62, 64, 65, 67, 69, 71, 72, 74, 72, 69, 65, 62, 0, 0, 0, 0],
         bass: [38, 45, 38, 45, 43, 50, 43, 50, 45, 52, 45, 52, 38, 45, 38, 0] },
     ],
+    /* Musiques de KibooM (choisies d'après ce qu'on fait ; réglage « Musique », js/audio.js). */
+    // Kichallenge : dynamique, rapide, ça pousse.
+    challenge: [
+      { name: "Turbo", tempo: 168, vol: 0.12, mv: 0.15, staccato: 0.6, drums: "xhshxhsh",
+        melody: [69, 0, 72, 69, 76, 69, 72, 74, 69, 0, 72, 69, 77, 76, 74, 72, 67, 0, 71, 67, 74, 67, 71, 72, 67, 0, 71, 74, 79, 77, 76, 74,
+          69, 0, 72, 69, 76, 69, 72, 74, 69, 0, 72, 69, 81, 79, 77, 76, 77, 76, 74, 72, 74, 72, 71, 68, 69, 0, 76, 0, 81, 0, 0, 0],
+        bass: [45, 45, 57, 45, 45, 45, 57, 45, 43, 43, 55, 43, 43, 43, 55, 43, 45, 45, 57, 45, 41, 41, 53, 41, 40, 40, 52, 40, 45, 45, 45, 0] },
+      { name: "Sprint", tempo: 176, vol: 0.11, mv: 0.14, mLp: 2600, bWave: "sawtooth", staccato: 0.55, drums: "khshkhsh",
+        melody: [76, 76, 79, 76, 74, 76, 72, 74, 76, 76, 79, 81, 79, 76, 74, 72, 74, 74, 77, 74, 72, 74, 71, 72, 74, 74, 77, 79, 77, 74, 72, 71,
+          76, 76, 79, 76, 74, 76, 72, 74, 76, 79, 81, 84, 83, 81, 79, 76, 77, 76, 74, 72, 71, 72, 74, 71, 72, 0, 79, 0, 84, 0, 0, 0],
+        bass: [48, 48, 60, 48, 48, 48, 60, 48, 43, 43, 55, 43, 43, 43, 55, 43, 45, 45, 57, 45, 41, 41, 53, 41, 43, 43, 55, 43, 48, 48, 48, 0] },
+    ],
+    // Kibal (aller vite) : entraînant, sans stresser.
+    lively: [{ name: "Entrain", tempo: 140, vol: 0.09, mv: 0.14, mWave: "triangle", staccato: 0.7, drums: "khshkhsh",
+      melody: [72, 74, 76, 79, 76, 74, 72, 0, 74, 76, 77, 81, 77, 76, 74, 0, 76, 77, 79, 83, 79, 77, 76, 74, 72, 0, 79, 0, 72, 0, 0, 0],
+      bass: [48, 55, 48, 55, 50, 57, 50, 57, 52, 59, 52, 59, 48, 55, 48, 0] }],
+    // Jeux contre un adversaire (Kipuzzle, Kiduel) : un peu de suspense, malicieux.
+    duel: [{ name: "Duel", tempo: 124, vol: 0.09, mv: 0.15, staccato: 0.5, drums: "k.hsk.hs",
+      melody: [64, 0, 67, 0, 71, 70, 69, 0, 64, 0, 67, 0, 72, 71, 69, 0, 62, 0, 65, 0, 69, 68, 67, 0, 64, 66, 68, 69, 71, 0, 0, 0],
+      bass: [40, 47, 40, 47, 40, 47, 40, 47, 38, 45, 38, 45, 40, 47, 40, 0] }],
+    // Ateliers créatifs : rêveur, pour laisser venir les idées.
+    creative: [{ name: "Rêverie", tempo: 84, vol: 0.07, mv: 0.15, mWave: "triangle", staccato: 0.95,
+      melody: [72, 0, 76, 0, 79, 0, 81, 79, 76, 0, 74, 0, 72, 0, 0, 0, 74, 0, 76, 0, 79, 0, 84, 81, 79, 0, 76, 0, 74, 0, 0, 0],
+      bass: [48, 55, 52, 55, 45, 52, 48, 52, 41, 48, 45, 48, 43, 50, 47, 50] }],
     // Une musique par famille (0 animaux, 1 dinosaures, 2 robots, 3 métiers).
     fam0: [{ name: "Ferme", tempo: 128, vol: 0.14, mv: 0.2, mWave: "triangle", staccato: 0.45, drums: "k.h.k.h.", every: 2,
       sprinkle: ["meow", "woof", "chirp", "oink", "squeak", "boing"],
@@ -270,7 +294,7 @@ const Sound = (() => {
     if (ctx) musicGain.gain.setTargetAtTime(0, ctx.currentTime, 0.15);
   }
 
-  // style : "intro", "game", "fam0"…"fam3", ou null (silence). Une piste est tirée au hasard à chaque départ.
+  // style : "intro", "game", "challenge", "lively", "duel", "creative", "fam0"…"fam3", ou null (silence). Une piste est tirée au hasard à chaque départ.
   // opts (parade) : { mode: "gentil" | "bebe" | "drole" | "mechant", shift: demi-tons }.
   function music(style, opts = {}) {
     const key = style + "|" + (opts.mode || "") + "|" + (opts.shift || 0);
@@ -300,5 +324,6 @@ const Sound = (() => {
     S[name](ctx.currentTime + 0.01, sfxGain, arg);
   }
 
-  return { music, sfx, character, duck, unlock };
+  const playing = () => want;
+  return { music, sfx, character, duck, unlock, playing };
 })();

@@ -4,10 +4,11 @@
      mauvaise réponse, la fin d'une partie gagnée ou perdue.
    - Voix : une voix de garçon (voix d'homme, plus aiguë) lit les messages des jeux, dans la
      langue choisie (js/voice.js).
+   - Musique (js/sound.js) : choisie d'après ce qu'on fait (voir STYLE) ; éteinte par défaut.
    Les jeux n'ont rien à faire : on écoute les changements de leurs messages (.cg-msg, et
    #won pour Kimind) et l'apparition de leur bouton « Encore ! ». Un message marqué
    data-quiet (le compte à rebours de KiDory) n'est pas lu. */
-const config = { sfx: false, voice: false };      // lu aussi par js/sound.js (config.sfx)
+const config = { sfx: false, voice: false, music: false };      // lu aussi par js/sound.js (config.sfx)
 const GameAudio = (() => {
   "use strict";
   const KEY = "kimind-audio";
@@ -21,6 +22,8 @@ const GameAudio = (() => {
   function labels() {
     $("btn-sfx").textContent = (config.sfx ? "🔊 " : "🔈 ") + T.audio.sfx;
     $("btn-sfx").setAttribute("aria-pressed", config.sfx);
+    $("btn-music").textContent = (config.music ? "🎵 " : "🔇 ") + T.audio.music;
+    $("btn-music").setAttribute("aria-pressed", config.music);
     $("btn-voice").textContent = (config.voice ? "🗣️ " : "🤐 ") + T.audio.voice;
     $("btn-voice").setAttribute("aria-pressed", config.voice);
   }
@@ -47,7 +50,34 @@ const GameAudio = (() => {
     Sound.sfx(msg && msg.classList.contains("ko") ? "lose" : "win", 0.3);
   }
 
+  /* La musique suit ce que fait l'enfant :
+     - accueil et menu : les musiques joyeuses de Kiboo (intro) ;
+     - Kichallenge : dynamique et rapide (challenge) ;
+     - jeux de réflexion (Kimind, Kimba, Kiplus, KiJun, Kipharaon, KiDory, KiPotter, Kicompuzzle),
+       Ego, enquête, statistiques : calme et douce (game), pour se concentrer ;
+     - Kibal (aller vite) : entraînante (lively) ; Kipuzzle et Kiduel (adversaire) : malicieuse (duel) ;
+     - ateliers créatifs : rêveuse (creative) ;
+     - écran de pause : silence (la pause, c'est loin de l'écran) ; la parade garde ses musiques. */
+  const STYLE = { kibal: "lively", kipuzzle: "duel", kiduel: "duel", invente: "creative", intrus: "creative", kichallenge: "challenge" };
+  function wanted() {
+    const pause = $("coach-break");
+    if (pause && !pause.hidden) return null;
+    if ($("home") && !$("home").hidden) return "intro";
+    if (typeof Kichallenge !== "undefined" && Kichallenge.running()) return "challenge";
+    const h = location.hash.slice(1);
+    if (!h) return "intro";
+    return STYLE[h] || "game";
+  }
+  function updateMusic() {
+    const parade = $("parade");
+    if (parade && !parade.hidden) return;                 // la parade choisit ses musiques
+    const style = config.music ? wanted() : null;
+    if (Sound.playing() !== style) Sound.music(style);
+  }
+
   function init(getLang) {
+    $("btn-music").addEventListener("click", () => { config.music = !config.music; save(); labels(); Sound.unlock(); updateMusic(); });
+    setInterval(updateMusic, 600);
     lang = getLang;
     $("btn-sfx").addEventListener("click", () => { config.sfx = !config.sfx; save(); labels(); if (config.sfx) Sound.sfx("click"); });
     $("btn-voice").addEventListener("click", () => {
