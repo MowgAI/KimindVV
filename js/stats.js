@@ -285,6 +285,8 @@ const Stats = (() => {
       line("chosen_by(" + I + ", " + (i.chosenBy || "student") + ").");
       // L'aide est toujours un choix de l'enfant ; KibooM peut seulement la suggérer.
       if (i.helpSuggested) line("help_suggested(" + I + ").");
+      // Chrono choisi par l'enfant pendant l'exercice (js/chrono.js) : hidden ou shown (rien : pas de chrono).
+      if (i.timer && i.timer !== "none") line("timer_during_instance(" + I + ", " + i.timer + ").");
       line("");
     });
     // Humeurs : le 3e argument est le numéro d'exercice du joueur au moment du clic.
@@ -346,6 +348,18 @@ const Stats = (() => {
     // aventures proposées et lancées : adventure_step(Joueur, N°, Jeu, Niveau, Raison, Origine, Date).
     Object.entries(d.modes || {}).forEach(([p, m]) => line("parcours_mode(" + atom(Store.playerId(p)) + ", " + m + ")."));
     (d.adventure || []).forEach((s, n) => line("adventure_step(" + atom(Store.playerId(s.player || "joueur")) + ", " + (n + 1) + ", " + atom(s.game) + ", " + (s.level || 0) + ", " + atom(s.why || "none") + ", " + atom(s.from || "home") + ", " + atom(new Date(s.time).toISOString()) + ")."));
+    // Chrono en option (js/chrono.js) : choix actuel de chaque joueur et changements datés.
+    Object.entries(d.timers || {}).forEach(([p, m]) => line("timer_choice(" + atom(Store.playerId(p)) + ", " + m + ")."));
+    (d.timerLog || []).forEach(c => line("timer_change(" + atom(Store.playerId(c.player || "joueur")) + ", " + c.mode + ", " + atom(new Date(c.time).toISOString()) + ")."));
+    // Kichallenge (js/kichallenge.js) : kichallenge_run(Joueur, Défi, Difficulté, Temps en secondes
+    // (aides et ratés compris), Réussis sur 5, Aides, Record perso) ; un défi arrêté en route :
+    // kichallenge_stopped(Joueur, Défi, Difficulté, Exercices finis) ; kichallenge_exercise(Défi, Rang, Exercice).
+    (d.challenges || []).forEach(r => {
+      const S = atom(Store.playerId(r.player || "joueur")), R = atom(r.id);
+      if (r.completed) line("kichallenge_run(" + S + ", " + R + ", " + r.difficulty + ", " + Math.round(r.total / 1000) + ", " + r.list.filter(e => e.ok).length + ", " + r.list.reduce((t, e) => t + e.help, 0) + ", " + !!r.record + ").");
+      else line("kichallenge_stopped(" + S + ", " + R + ", " + r.difficulty + ", " + r.list.filter(e => e.closed).length + ").");
+      r.list.forEach((e, k) => { if (e.inst) line("kichallenge_exercise(" + R + ", " + (k + 1) + ", " + atom(e.inst) + ")."); });
+    });
     // Ateliers créatifs (js/creatif.js) : rien n'y est noté « bien » ou « mal ».
     // invented_character(Id, Joueur, Tête, Corps, Pieds, Nom) ; invented_character_phrase(Id, Phrase).
     // divergent_round(Id, Joueur, [Cartes], Idées cachées) ; divergent_idea(Id, Carte, Raison) ;

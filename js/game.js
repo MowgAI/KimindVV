@@ -269,9 +269,14 @@
   function recordKimind(won) {
     if (!game || game.recorded || (!won && !rounds.length)) return;
     game.recorded = true;
+    game.won = won;
+    game.end = Date.now();
     Store.addKimind({ version: version ? version.id : game.version, level: game.levelName, rounds: rounds.length, won,
       duration: Math.round((Date.now() - game.start) / 1000), nbSolutions: game.nbSolutions });
   }
+
+  // La partie de Kimind en cours, pour le chrono (js/chrono.js).
+  window.kimindGame = () => (version && game ? game : null);
 
   function newGame() {
     recordKimind(false);
@@ -309,6 +314,8 @@
     kimind.append(menuCard(T.menuRules, () => $("dlg-intro").showModal(), "extra", T.menuRules.action));
     VERSIONS.forEach(v => kimind.append(menuCard(T.versions[v.id], () => { location.hash = v.id; }, "", T.play)));
     GAMES.forEach(g => games.append(menuCard(Object.assign({ image: g.image }, T.games[g.id]), () => { location.hash = g.id; }, "game-card", T.play)));
+    // Kichallenge (js/kichallenge.js) : 5 exercices au hasard, chronométrés, records personnels.
+    games.append(menuCard(Object.assign({ image: "assets/cards/blue-10.webp" }, T.menuKichallenge), () => { location.hash = "kichallenge"; }, "game-card", T.play));
     games.append(menuCard(Object.assign({ image: "assets/cards/red-2.webp" }, T.menuKiboo), () => window.open("https://mowgai.github.io/Kiboo/", "_blank", "noopener"), "game-card extra", T.menuKiboo.action + " ↗"));
     // Les ateliers créatifs (js/creatif.js) : pas de bonne réponse, seulement des idées.
     fun.append(menuCard(T.menuInvente, () => { location.hash = "invente"; }, "extra", T.menuInvente.action));
@@ -333,7 +340,8 @@
     const nextVersion = VERSIONS.find(v => v.id === hash);
     const other = GAMES.find(g => g.id === hash);
     const atelier = hash === "invente" || hash === "intrus";
-    if ((nextVersion || other || atelier || hash === "ego" || hash === "enquete") && !Store.player) { Stats.askPlayer(route); return; }
+    const challenge = hash === "kichallenge";
+    if ((nextVersion || other || atelier || challenge || hash === "ego" || hash === "enquete") && !Store.player) { Stats.askPlayer(route); return; }
     if (version) recordKimind(false);
     version = nextVersion;
     GAMES.forEach(g => { if (g !== other) g.game().leave(); $(g.screen).hidden = g !== other; });
@@ -343,14 +351,17 @@
     $("invente-screen").hidden = hash !== "invente";
     $("intrus-screen").hidden = hash !== "intrus";
     if (atelier) Creatif.start(hash, T);
+    $("kichallenge-screen").hidden = !challenge;
+    if (challenge) Kichallenge.start(T);
     $("enquete-screen").hidden = hash !== "enquete";
     if (hash === "enquete") Enquete.start(T);
     $("ego-screen").hidden = hash !== "ego";
     if (hash === "ego") Ego.start(T); else Ego.leave();
-    $("menu-screen").hidden = !!version || !!other || hash === "stats" || hash === "ego" || hash === "enquete" || atelier;
+    $("menu-screen").hidden = !!version || !!other || hash === "stats" || hash === "ego" || hash === "enquete" || atelier || challenge;
     $("game-screen").hidden = !version;
     $("game-btns").hidden = !version;
     $("mood-bar").hidden = !version && !other;
+    $("chrono-bar").hidden = !version && !other;
     if (version) {
       const lv = Parcours.takeLevel(version.id);       // niveau choisi par le parcours (1 facile, 2 moyen, 3 difficile)
       if (lv) $("level").value = ["easy", "medium", "hard"][lv - 1];
@@ -392,6 +403,8 @@
     Parcours.texts(T);
     Enquete.texts(T);
     Creatif.texts(T);
+    Chrono.texts(T);
+    Kichallenge.texts(T);
     $("lang").setAttribute("aria-label", T.language);
     $("intro-title").textContent = T.introTitle;
     const intro = $("intro");
@@ -439,6 +452,8 @@
     Ego.init();
     Enquete.init();
     Creatif.init();
+    Chrono.init();
+    Kichallenge.init();
     Parcours.init();
     Coach.init();
     window.addEventListener("kiboom-player", renderMenu);
