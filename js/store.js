@@ -80,7 +80,8 @@ const Store = (() => {
   }
 
   function addKimind(game) {
-    data.kimind.push(Object.assign({ player, time: Date.now(), chosenBy: typeof Parcours !== "undefined" ? Parcours.chosenBy(game.version) : "student" }, game));
+    data.kimind.push(Object.assign({ player, time: Date.now(), chosenBy: typeof Parcours !== "undefined" ? Parcours.chosenBy(game.version) : "student",
+      challenge: typeof Kichallenge !== "undefined" ? Kichallenge.tag(game.version) : undefined }, game));
     save();
   }
 

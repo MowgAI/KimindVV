@@ -10,7 +10,8 @@ const Kichallenge = (() => {
   "use strict";
   // Jeux du défi et niveaux par difficulté : tableau à trier par l'auteure, dans lang/semantique.js
   // (SEMANTIQUE.challenge). Les difficultés : facile, moyen, difficile, ultime.
-  const DIFFS = ["easy", "medium", "hard", "ultimate"];
+  const DIFFS = ["easy", "medium", "hard", "ultimate", "kimind"];
+  const isKimind = g => VERSIONS.some(v => v.id === g);
   const TABLE = () => window.SEMANTIQUE.challenge || {};
   const N = 5, HELP_MS = 10000, MISS_MS = 30000;
   const ICON = "assets/cards/blue-10.webp";
@@ -21,7 +22,8 @@ const Kichallenge = (() => {
   const fmt = ms => Chrono.fmt(ms);
   const runs = () => Store.data.challenges || (Store.data.challenges = []);
   const mine = d => runs().filter(r => r.player === Store.player && r.completed && (!d || r.difficulty === d));
-  const gameName = id => (T.games[id] ? T.games[id].name : id);
+  const gameName = id => (T.games[id] ? T.games[id].name : T.versions[id] ? T.versions[id].name : id);
+  const levelName = ex => (isKimind(ex.game) ? T.levels[["easy", "medium", "hard"][ex.level - 1]] : C().level + " " + ex.level);
   const rand = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
 
   function running() { return !!run; }
@@ -73,7 +75,7 @@ const Kichallenge = (() => {
   // Tirage des 5 exercices : des jeux différents tant que possible ; s'il y en a moins de 5 pour cette
   // difficulté, un jeu revient, jamais deux fois de suite.
   function draw(d) {
-    const pool = Object.keys(TABLE()).filter(g => TABLE()[g][d] && GAMES.some(x => x.id === g));
+    const pool = Object.keys(TABLE()).filter(g => TABLE()[g][d] && (GAMES.some(x => x.id === g) || isKimind(g)));
     const shuffle = a => a.slice().sort(() => Math.random() - 0.5);
     let games = shuffle(pool).slice(0, N);
     while (pool.length && games.length < N) {
@@ -94,8 +96,17 @@ const Kichallenge = (() => {
     banner();
   }
 
-  // L'exercice du défi en cours (dans le Store), s'il a commencé.
-  function instOf(ex) { return Store.data.instances.filter(i => i.challenge === run.id && i.game === ex.game).slice(-1)[0] || null; }
+  // L'exercice du défi en cours (dans le Store), s'il a commencé. Kimind : la partie en cours (elle
+  // finit quand elle est gagnée), vue comme un exercice.
+  function instOf(ex) {
+    if (isKimind(ex.game)) {
+      const g = typeof window.kimindGame === "function" ? window.kimindGame() : null;
+      if (!g || g.version !== ex.game || g.start < ex.launched) return ex.kimind || null;
+      ex.kimind = { id: null, start: g.start, end: g.recorded && g.won ? g.end : null, success: !!g.won, help: g.help || 0, ragequit: false, tries: [] };
+      return ex.kimind;
+    }
+    return Store.data.instances.filter(i => i.challenge === run.id && i.game === ex.game).slice(-1)[0] || null;
+  }
 
   // Temps d'un exercice fini, avec les secondes ajoutées.
   const cost = ex => ex.ms + ex.help * HELP_MS + (ex.ok ? 0 : MISS_MS);
@@ -155,7 +166,7 @@ const Kichallenge = (() => {
       btns = `<button class="act" type="button" data-c="next">${run.i + 1 < N ? C().nextEx : C().seeResult} ▶</button><span class="ch-wait">${C().clockWaits}</span>`;
     } else btns = `<button class="act ghost" type="button" data-c="skip">⏭ ${C().skip}</button><button class="act ghost" type="button" data-c="stop">✖ ${C().stop}</button>`;
     el.innerHTML = `<span class="card face ch-icon small" style="background-image:url(${ICON})"></span>
-      <div class="ch-info"><b>Kichallenge · ${C().diffs[run.difficulty]}</b><span>${C().step(run.i + 1, N)} · ${esc(gameName(ex.game))} · ${C().level} ${ex.level}</span>${msg ? `<span class="ch-msg">${msg}</span>` : ""}</div>
+      <div class="ch-info"><b>Kichallenge · ${C().diffs[run.difficulty]}</b><span>${C().step(run.i + 1, N)} · ${esc(gameName(ex.game))} · ${levelName(ex)}</span>${msg ? `<span class="ch-msg">${msg}</span>` : ""}</div>
       <span class="ch-time">⏱️ ${fmt(total(Date.now()))}</span><div class="ch-btns">${btns}</div>`;
     const b = s => el.querySelector("[data-c=" + s + "]");
     if (b("next")) b("next").onclick = next;
@@ -219,7 +230,7 @@ const Kichallenge = (() => {
     else if (r.record) head = `<p class="ch-big">🏆 ${C().newRecord}</p><p>${C().beatBy(fmt(r.best - r.total))}</p>`;
     else head = `<p class="ch-big">${C().noNewRecord}</p><p>${C().yourRecord(fmt(r.best))}</p>`;
     if (r.first !== null && r.total < r.first) head += `<p>${C().sinceFirst(fmt(r.first - r.total))}</p>`;
-    const rows = r.list.map(ex => `<tr><td>${esc(gameName(ex.game))}</td><td>${ex.level}</td><td>${ex.skipped ? C().skipped : ex.ok ? "✅" : C().missed}</td><td>${fmt(ex.ms)}</td><td>${ex.help ? "+" + ex.help * HELP_MS / 1000 + " s" : ""}${ex.ok ? "" : (ex.help ? " " : "") + "+" + MISS_MS / 1000 + " s"}</td></tr>`).join("");
+    const rows = r.list.map(ex => `<tr><td>${esc(gameName(ex.game))}</td><td>${isKimind(ex.game) ? levelName(ex) : ex.level}</td><td>${ex.skipped ? C().skipped : ex.ok ? "✅" : C().missed}</td><td>${fmt(ex.ms)}</td><td>${ex.help ? "+" + ex.help * HELP_MS / 1000 + " s" : ""}${ex.ok ? "" : (ex.help ? " " : "") + "+" + MISS_MS / 1000 + " s"}</td></tr>`).join("");
     screen.innerHTML = `<div class="ch-box">
       <div class="ch-head"><span class="card face ch-icon" style="background-image:url(${ICON})"></span>
         <div><h2>${C().title} · ${C().diffs[r.difficulty]}</h2><p class="ch-total">⏱️ ${fmt(r.total)}</p></div></div>
@@ -243,7 +254,7 @@ const Kichallenge = (() => {
     if (!T || !Store.player) return "";
     const l = mine();
     if (!l.length) return "";
-    const order = ["ultimate", "hard", "medium", "easy"], d = order.find(x => l.some(r => r.difficulty === x));
+    const order = ["kimind", "ultimate", "hard", "medium", "easy"], d = order.find(x => l.some(r => r.difficulty === x));
     return " " + C().yourBest(fmt(Math.min(...mine(d).map(r => r.total))), C().diffs[d]);
   }
 

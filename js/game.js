@@ -471,7 +471,7 @@
     $("btn-new").addEventListener("click", newGame);
     $("btn-propose").addEventListener("click", propose);
     $("btn-rules").addEventListener("click", () => $("dlg-rules").showModal());
-    $("show-possible").addEventListener("change", renderStatus);
+    $("show-possible").addEventListener("change", () => { if ($("show-possible").checked && game) game.help = (game.help || 0) + 1; renderStatus(); });
     window.addEventListener("hashchange", route);
     route();
     Home.init(l => { $("lang").value = l; setLang(l); });
