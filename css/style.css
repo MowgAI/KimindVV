@@ -613,7 +613,7 @@ dialog li { margin-bottom: 6px; }
 .ego-hub-head { display: flex; align-items: center; gap: 16px; margin: 6px 0 16px; }
 .card.ego-hub-avatar { --w: 74px; flex: none; }
 .ego-sub { margin: 4px 0 0; color: var(--ink-soft); }
-.ego-chapters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.ego-chapters { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
 .ego-chapter { position: relative; background: var(--panel); border: 3px solid var(--brand-soft); border-radius: 22px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
 .ego-chapter.locked { opacity: 0.55; }
 .ego-chapter h3 { margin: 0; font-size: 1.25rem; }
@@ -855,3 +855,12 @@ body.on-menu #btn-home { display: inline-flex; }
 .home-tools { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 10px 0 4px; }
 .home-tools button { font: inherit; font-weight: 600; cursor: pointer; padding: 6px 14px; border-radius: 999px; border: 2px solid var(--brand); background: #FFF; color: var(--brand); }
 .home-tools button[aria-pressed="true"] { background: var(--brand); color: #FFF; }
+
+/* Ego, 4e espace « Mes goûts » (toujours ouvert). */
+.ego-tastes { border-color: #F472B6; }
+.taste-q { background: var(--panel); border-radius: 18px; padding: 12px 14px; margin: 10px 0; }
+.taste-q h4 { margin: 0 0 8px; }
+.taste-opts { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.taste-opt { font: inherit; cursor: pointer; padding: 6px 12px; border-radius: 999px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); }
+.taste-opt[aria-pressed="true"] { border-color: var(--brand); background: var(--brand); color: #fff; }
+.taste-free { font: inherit; width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 12px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); }

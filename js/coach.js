@@ -29,10 +29,7 @@ const Coach = (() => {
 
   // Ses goûts (chapitre 2, « Ce que j'aime ») : { hobbies: [...], break_pref: [...], ... }.
   function likes() {
-    const r = lastEgo("personality");
-    const out = {};
-    Object.entries((r && r.likes) || {}).forEach(([k, v]) => { if (v !== "skip") out[k] = Array.isArray(v) ? v : [v]; });
-    return out;
+    return Store.likes();     // chapitre 2 et espace « Mes goûts », le plus récent l'emporte
   }
   const has = (lk, tag) => { const [q, v] = tag.split(":"); return (lk[q] || []).includes(v); };
 

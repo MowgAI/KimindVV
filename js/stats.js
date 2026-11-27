@@ -316,7 +316,11 @@ const Stats = (() => {
     (d.ego || []).forEach(r => {
       const P = atom(r.id), S = atom(Store.playerId(r.player || "joueur")), K = kindOf(r);
       line("ego_profile(" + P + ", " + S + ", " + atom(r.version) + ", " + atom(new Date(r.time).toISOString()) + ").");
-      if (K === "identity") {
+      if (K === "likes") {
+        // Espace « Mes goûts » : ego_like(Profil, Question, Réponse) et ego_like_free(Profil, Question, Texte libre).
+        Object.entries(r.likes || {}).forEach(([q, a]) => (Array.isArray(a) ? a : [a]).forEach(v => line("ego_like(" + P + ", " + atom(q) + ", " + atom(v) + ").")));
+        Object.entries(r.free || {}).forEach(([q, t]) => { if (t) line("ego_like_free(" + P + ", " + atom(q) + ", " + atom(t) + ")."); });
+      } else if (K === "identity") {
         Object.entries(r.answers).forEach(([q, a]) => line("ego_answer(" + P + ", " + atom(q) + ", " + (Array.isArray(a) ? "[" + a.map(atom).join(", ") + "]" : atom(a)) + ")."));
       } else if (K === "personality") {
         r.answers.forEach((a, i) => line("personality_answer(" + P + ", " + atom(EGO.personality[i].id) + ", " + (a === "skip" ? "skip" : a) + ")."));

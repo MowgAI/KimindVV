@@ -72,8 +72,7 @@ const GameAudio = (() => {
   // Les goûts musicaux du joueur (Ego, chapitre 2, « Ce que j'aime ») : un goût tiré au hasard à chaque
   // nouvelle musique, pour varier ; aucun (ou « je ne sais pas ») : les musiques telles quelles.
   function taste() {
-    const p = (Store.data.ego || []).filter(r => r.player === Store.player && r.kind === "personality").slice(-1)[0];
-    const l = p && p.likes && Array.isArray(p.likes.music_taste) ? p.likes.music_taste.filter(x => x !== "dunno") : [];
+    const l = (Store.likes().music_taste || []).filter(x => x !== "dunno");
     return l.length ? l[Math.floor(Math.random() * l.length)] : null;
   }
   let lastPlayer = null;

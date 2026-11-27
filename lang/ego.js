@@ -381,6 +381,16 @@ window.EGO = {
       options: [{ id: "friends", icon: "👫", fr: "avec des amis", en: "with friends" }, { id: "family", icon: "👨‍👩‍👧", fr: "en famille", en: "with family" },
         { id: "alone", icon: "🧍", fr: "par moi-même", en: "on my own" }] },
   ],
+  // Questions en plus, seulement dans l'espace « Mes goûts » (à remplir quand on veut, dans l'ordre qu'on veut).
+  likesExtra: [
+    { id: "sports", multi: true, fr: "Les sports que tu aimes ?", en: "The sports you like?",
+      options: [{ id: "football", icon: "⚽", fr: "le foot", en: "football" }, { id: "basketball", icon: "🏀", fr: "le basket", en: "basketball" },
+        { id: "tennis", icon: "🎾", fr: "le tennis", en: "tennis" }, { id: "swimming", icon: "🏊", fr: "la natation", en: "swimming" },
+        { id: "cycling", icon: "🚴", fr: "le vélo", en: "cycling" }, { id: "rugby", icon: "🏉", fr: "le rugby", en: "rugby" },
+        { id: "gym", icon: "🤸", fr: "la gym", en: "gymnastics" }, { id: "martial_arts", icon: "🥋", fr: "le judo, le karaté…", en: "judo, karate…" },
+        { id: "horse_riding", icon: "🏇", fr: "l'équitation", en: "horse riding" }, { id: "running", icon: "🏃", fr: "la course", en: "running" },
+        { id: "skiing", icon: "⛷️", fr: "le ski", en: "skiing" }, { id: "climbing", icon: "🧗", fr: "l'escalade", en: "climbing" }] },
+  ],
 
   /* ---------- Le conseil de KibooM (js/coach.js), dit par l'avatar de l'enfant ----------
      openers : la première phrase, selon le moment (temps de jeu, échecs, humeur, soir).
