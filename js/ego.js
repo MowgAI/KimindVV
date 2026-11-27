@@ -149,7 +149,7 @@ const Ego = (() => {
     if (!T) return;
     $("ego-title").textContent = "🪞 " + E().title;
     $("ego-menu").textContent = "☰ " + T.menu;
-    ({ hub, quiz, family: familyStep, character: characterStep, result, challenge, done, avatarFamily, avatarCharacter }[step] || hub)();
+    ({ hub, quiz, family: familyStep, character: characterStep, result, challenge, done, avatarFamily, avatarCharacter, lines }[step] || hub)();
     window.scrollTo(0, 0);
   }
 
@@ -177,7 +177,8 @@ const Ego = (() => {
     box().innerHTML = `<div class="ego-hub-head">
         ${avatar ? `<span class="card face ego-hub-avatar" style="background-image:url(${cardImg(avatar)})" role="img" aria-label="${esc(charName(avatar))}"></span>` : `<span class="ego-mirror" aria-hidden="true">🪞</span>`}
         <div><p class="ego-lead">${CHAPTERS.some(c => last(c)) ? "" : E().welcome.replace("{name}", esc(Store.player || "")) + " "}${E().intro}</p><p class="ego-sub">${E().hubHint}</p>
-          <button class="act ghost ego-change-avatar" type="button" data-a="avatar">🖼️ ${avatar ? E().changeAvatar : E().chooseAvatar}</button></div>
+          <button class="act ghost ego-change-avatar" type="button" data-a="avatar">🖼️ ${avatar ? E().changeAvatar : E().chooseAvatar}</button>
+          <button class="act ghost ego-change-avatar" type="button" data-a="lines">✍️ ${T.repliques.button}</button></div>
       </div>
       <div class="ego-chapters">${CHAPTERS.map((ch, i) => {
         const r = last(ch), open = unlocked(ch), d = loadDraft(ch), C = E().chapters[ch];
@@ -197,6 +198,7 @@ const Ego = (() => {
       }).join("")}</div>
       <p class="ego-change">🌱 ${E().mayChange}</p>`;
     on("[data-a=avatar]", () => { step = "avatarFamily"; render(); });
+    on("[data-a=lines]", () => { step = "lines"; render(); });
     box().querySelectorAll("[data-start]").forEach(b => { b.onclick = () => begin(b.dataset.start, null); });
     box().querySelectorAll("[data-resume]").forEach(b => { b.onclick = () => begin(b.dataset.resume, loadDraft(b.dataset.resume)); });
     box().querySelectorAll("[data-see]").forEach(b => { b.onclick = () => { chapter = b.dataset.see; current = last(chapter); step = "result"; render(); }; });
@@ -305,6 +307,31 @@ const Ego = (() => {
     speak(E().whoCharacter);
     box().querySelectorAll("[data-k]").forEach(b => { b.onclick = () => finish(b.dataset.k); });
     wireFoot(() => { family = null; step = "family"; saveDraft(); render(); }, () => finish(null));
+  }
+
+  // « Mes répliques » : l'enfant écrit ses propres phrases (même taquines : lui peut se le permettre),
+  // que son avatar dira pendant les jeux, à lui seulement, mélangées aux répliques de KibooM (js/repliques.js).
+  let lineMoment = "success";
+  function lines() {
+    const R = T.repliques, mine = Repliques.myOwn();
+    box().innerHTML = `<div class="ego-q"><h3 class="ego-question">✍️ ${R.title}</h3><p class="ego-sub">${R.intro}</p></div>
+      <div class="rep-form">
+        <label class="rep-lbl" for="rep-moment">${R.when}</label>
+        <select id="rep-moment">${Repliques.OWN_MOMENTS.map(m => `<option value="${m}"${m === lineMoment ? " selected" : ""}>${R.moments[m]}</option>`).join("")}</select>
+        <input id="rep-text" type="text" maxlength="80" placeholder="${esc(R.placeholder)}" autocomplete="off">
+        <button class="act" type="button" data-a="addline">➕ ${R.add}</button>
+      </div>
+      <p class="ego-sub">${R.example}</p>
+      ${mine.length ? Repliques.OWN_MOMENTS.filter(m => mine.some(l => l.moment === m)).map(m => `<h4 class="rep-h">${R.moments[m]}</h4><ul class="rep-list">${mine.filter(l => l.moment === m).map(l => `<li><span>« ${esc(l.text)} »</span><button class="act ghost" type="button" data-del="${l.id}" aria-label="${R.remove}">🗑️</button></li>`).join("")}</ul>`).join("") : `<p class="ego-sub">${R.empty}</p>`}
+      <p class="ego-change">🔒 ${R.onlyYou}</p>
+      <div class="ego-nav"><button class="act ghost" type="button" data-a="back">← ${E().back}</button></div>`;
+    const input = box().querySelector("#rep-text"), sel = box().querySelector("#rep-moment");
+    sel.onchange = () => { lineMoment = sel.value; };
+    const add = () => { if (Repliques.addOwn(sel.value, input.value)) { lineMoment = sel.value; render(); const i = box().querySelector("#rep-text"); if (i) i.focus(); } };
+    on("[data-a=addline]", add);
+    input.addEventListener("keydown", ev => { if (ev.key === "Enter") add(); });
+    box().querySelectorAll("[data-del]").forEach(b => { b.onclick = () => { Repliques.removeOwn(b.dataset.del); render(); }; });
+    on("[data-a=back]", () => { step = "hub"; render(); });
   }
 
   // Changer d'avatar à tout moment, depuis l'accueil d'Ego (sans refaire le questionnaire) :

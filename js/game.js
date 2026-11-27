@@ -404,6 +404,7 @@
     Enquete.texts(T);
     Creatif.texts(T);
     Chrono.texts(T);
+    Repliques.texts(T);
     Kichallenge.texts(T);
     $("lang").setAttribute("aria-label", T.language);
     $("intro-title").textContent = T.introTitle;
@@ -453,6 +454,7 @@
     Enquete.init();
     Creatif.init();
     Chrono.init();
+    Repliques.init();
     Kichallenge.init();
     Parcours.init();
     Coach.init();

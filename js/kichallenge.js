@@ -194,6 +194,7 @@ const Kichallenge = (() => {
     document.body.classList.remove("in-challenge");
     banner();
     last = save(r, true);
+    if (last.record && last.best !== null && typeof Repliques !== "undefined") setTimeout(() => Repliques.say("record", null), 600);
     location.hash = "kichallenge";
   }
 

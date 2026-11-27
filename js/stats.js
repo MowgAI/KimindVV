@@ -182,7 +182,7 @@ const Stats = (() => {
   }
 
   /* ---------- Export ---------- */
-  const atom = s => (/^[a-z][a-zA-Z0-9_]*$/.test(String(s)) ? String(s) : "'" + String(s).replace(/'/g, "\\'") + "'");
+  const atom = s => (/^[a-z][a-zA-Z0-9_]*$/.test(String(s)) ? String(s) : "'" + String(s).replace(/\\/g, "\\\\").replace(/'/g, "\\'") + "'");
   const COLOUR_NAMES = { blue: "blue", green: "green", red: "red", yellow: "yellow" };
 
   // Faits Prolog au format de la BK de Kiboom (bkKiboomGenerale.pl), plus quelques faits
@@ -360,6 +360,10 @@ const Stats = (() => {
       else line("kichallenge_stopped(" + S + ", " + R + ", " + r.difficulty + ", " + r.list.filter(e => e.closed).length + ").");
       r.list.forEach((e, k) => { if (e.inst) line("kichallenge_exercise(" + R + ", " + (k + 1) + ", " + atom(e.inst) + ")."); });
     });
+    // Répliques de KibooM (js/repliques.js) : message_shown(Joueur, Exercice ou none, Moment, Réplique, Date) ;
+    // child_line(Joueur, Moment, Texte) : une réplique écrite par l'enfant (ses mots, montrés à lui seul).
+    (d.replies || []).forEach(r => line("message_shown(" + atom(Store.playerId(r.player || "joueur")) + ", " + (r.inst ? atom(r.inst) : "none") + ", " + r.moment + ", " + atom(r.id) + ", " + atom(new Date(r.time).toISOString()) + ")."));
+    (d.lines || []).forEach(l => line("child_line(" + atom(Store.playerId(l.player || "joueur")) + ", " + l.moment + ", " + atom(l.text) + ")."));
     // Ateliers créatifs (js/creatif.js) : rien n'y est noté « bien » ou « mal ».
     // invented_character(Id, Joueur, Tête, Corps, Pieds, Nom) ; invented_character_phrase(Id, Phrase).
     // divergent_round(Id, Joueur, [Cartes], Idées cachées) ; divergent_idea(Id, Carte, Raison) ;

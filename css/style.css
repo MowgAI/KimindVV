@@ -819,3 +819,18 @@ body.mode-auto [data-r=level], body.mode-auto [data-r=lbl-level], body.mode-auto
 body.in-challenge { padding-top: 96px; }
 body.in-challenge [data-r=level], body.in-challenge [data-r=lbl-level], body.in-challenge [data-r=next], body.in-challenge [data-r=menu] { display: none; }
 @media (max-width: 640px) { body.in-challenge { padding-top: 140px; } }
+
+/* Les répliques de KibooM (js/repliques.js) : bulle de l'avatar, en haut à droite. */
+.rep-bubble { position: fixed; top: 60px; right: 12px; z-index: 27; display: flex; align-items: center; gap: 10px; max-width: min(340px, calc(100vw - 24px)); background: var(--panel); color: var(--ink); border: 3px solid var(--brand); border-radius: 20px 20px 6px 20px; padding: 8px 14px 8px 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.22); font-weight: 700; pointer-events: none; }
+.rep-bubble[hidden] { display: none; }
+.rep-bubble.rep-pop { animation: ego-pop 0.35s ease-out; }
+.card.rep-av { display: block; width: 40px; aspect-ratio: 5 / 7; flex: none; }
+.rep-emoji { font-size: 1.6rem; width: auto; }
+body.in-challenge .rep-bubble { top: 110px; }
+@media (max-width: 640px) { body.in-challenge .rep-bubble { top: 150px; } }
+.rep-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 12px 0; }
+.rep-form select, .rep-form input { font: inherit; padding: 8px 10px; border-radius: 12px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); }
+.rep-form input { flex: 1 1 220px; min-width: 0; }
+.rep-h { margin: 14px 0 4px; }
+.rep-list { list-style: none; padding: 0; margin: 0; }
+.rep-list li { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--line); }
