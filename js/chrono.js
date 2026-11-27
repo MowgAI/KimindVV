@@ -70,6 +70,7 @@ const Chrono = (() => {
     if (tracked && tracked.key === c.key && c.ok && c.end) {
       const ms = c.end - c.start, b = c.inst ? best(c.inst) : null;
       result = T.chrono.done(fmt(ms)) + (b === null ? "" : ms < b ? " · 🏆 " + T.chrono.record : " · " + T.chrono.best(fmt(b)));
+      if (b !== null && ms < b && typeof Repliques !== "undefined") Repliques.say("record", c.inst);
       tracked = null;
     }
     if (result) { el.hidden = false; el.classList.add("end"); el.textContent = "⏱️ " + result; } else el.hidden = true;
