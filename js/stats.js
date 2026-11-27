@@ -428,7 +428,7 @@ const Stats = (() => {
     context = getContext;
     $("player-btn").addEventListener("click", () => askPlayer());
     $("stats-player").addEventListener("change", renderStats);
-    $("stats-menu").addEventListener("click", () => { location.hash = ""; });
+    $("stats-menu").addEventListener("click", () => Home.back());
     $("stats-export-pl").addEventListener("click", () => download("kimind-donnees.pl", prolog(), "text/plain"));
     $("stats-export-ilp").addEventListener("click", () => download("kimba-ilp.pl", Enquete.exportILP(), "text/plain"));
     $("stats-export-json").addEventListener("click", () => download("kimind-donnees.json", JSON.stringify(Store.data, null, 2), "application/json"));

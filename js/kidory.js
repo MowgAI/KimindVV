@@ -188,7 +188,7 @@ const KiDory = (() => {
     q("help").addEventListener("click", help);
     q("next").addEventListener("click", newRound);
     q("level").addEventListener("change", () => { level = Number(q("level").value); newRound(); });
-    q("menu").addEventListener("click", () => { location.hash = ""; });
+    q("menu").addEventListener("click", () => Home.back());
   }
 
   function texts(t) {

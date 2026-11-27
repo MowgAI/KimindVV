@@ -231,8 +231,8 @@ const Creatif = (() => {
     if (!$("intrus-screen").hidden) intrusRender();
   }
   function init() {
-    $("invente-menu").addEventListener("click", () => { location.hash = ""; });
-    $("intrus-menu").addEventListener("click", () => { location.hash = ""; });
+    $("invente-menu").addEventListener("click", () => Home.back());
+    $("intrus-menu").addEventListener("click", () => Home.back());
   }
 
   return { init, texts, start, mixHTML, mine, check, allIdeas };

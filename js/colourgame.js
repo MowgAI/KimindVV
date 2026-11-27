@@ -328,7 +328,7 @@ function ColourGame(opts) {
     q("help-type").addEventListener("change", () => { helpType = q("help-type").value; if (round) render(); });
     q("next").addEventListener("click", () => { say(""); newRound(); });
     q("level").addEventListener("change", () => { level = Number(q("level").value); say(""); newRound(); });
-    q("menu").addEventListener("click", () => { location.hash = ""; });
+    q("menu").addEventListener("click", () => Home.back());
   }
 
   // Textes de l'écran (au début et quand la langue change).
