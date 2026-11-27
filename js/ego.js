@@ -149,7 +149,7 @@ const Ego = (() => {
     if (!T) return;
     $("ego-title").textContent = "🪞 " + E().title;
     $("ego-menu").textContent = "☰ " + T.menu;
-    ({ hub, quiz, family: familyStep, character: characterStep, result, challenge, done, avatarFamily, avatarCharacter, lines }[step] || hub)();
+    ({ hub, quiz, family: familyStep, character: characterStep, result, challenge, done, avatarFamily, avatarCharacter, lines, tastes }[step] || hub)();
     window.scrollTo(0, 0);
   }
 
@@ -195,8 +195,9 @@ const Ego = (() => {
             ${r && ch !== "identity" ? `<button class="act ghost" type="button" data-see="${ch}">${E().see}</button>` : ""}
           </div>
         </section>`;
-      }).join("")}</div>
+      }).join("")}${tastesCard()}</div>
       <p class="ego-change">🌱 ${E().mayChange}</p>`;
+    on("[data-a=tastes]", () => { step = "tastes"; tastesRec = null; render(); });
     on("[data-a=avatar]", () => { step = "avatarFamily"; render(); });
     on("[data-a=lines]", () => { step = "lines"; render(); });
     box().querySelectorAll("[data-start]").forEach(b => { b.onclick = () => begin(b.dataset.start, null); });
@@ -307,6 +308,58 @@ const Ego = (() => {
     speak(E().whoCharacter);
     box().querySelectorAll("[data-k]").forEach(b => { b.onclick = () => finish(b.dataset.k); });
     wireFoot(() => { family = null; step = "family"; saveDraft(); render(); }, () => finish(null));
+  }
+
+  /* ---------- 4e espace : « Mes goûts », ouvert à tout moment, dans l'ordre qu'on veut ----------
+     La première fois, les goûts viennent à la fin du chapitre 2 (enchaînement de questions) ; ici, on
+     ajoute ou on change une info sans tout refaire. Chaque visite qui change quelque chose crée un
+     enregistrement daté (kind « likes ») : la BK individuelle garde l'évolution (Store.likes fusionne). */
+  let tastesRec = null;
+  const TASTE_QS = () => EGO.likes.concat(EGO.likesExtra || []);
+  function tastesCard() {
+    const lk = Store.likes();
+    const icons = TASTE_QS().flatMap(q => (lk[q.id] || []).map(v => (q.options.find(o => o.id === v) || {}).icon)).filter(Boolean).slice(0, 10).join(" ");
+    return `<section class="ego-chapter ego-tastes">
+      <div class="ego-ch-num">4</div>
+      <div class="ego-ch-icon" aria-hidden="true">❤️</div>
+      <h3>${T.tastes.name}</h3><p>${T.tastes.text}</p>
+      <p class="ego-ch-status">${icons ? icons : "▶ " + E().toDo}</p>
+      <div class="ego-ch-btns"><button class="act${icons ? " ghost" : ""}" type="button" data-a="tastes">${icons ? T.tastes.edit : T.tastes.open}</button></div>
+    </section>`;
+  }
+  function saveTaste(q, value, isFree) {
+    if (!tastesRec) {
+      tastesRec = { id: "ego_" + Date.now().toString(36), player: Store.player, time: Date.now(), kind: "likes", version: "likes_v1", likes: {}, free: {} };
+      list().push(tastesRec);
+    }
+    if (isFree) tastesRec.free[q] = value; else tastesRec.likes[q] = value;
+    tastesRec.time = Date.now();
+    Store.save();
+  }
+  function tastes() {
+    const lk = Store.likes(), free = Store.likesFree(), L = lang();
+    box().innerHTML = `<div class="ego-q"><h3 class="ego-question">❤️ ${T.tastes.name}</h3><p class="ego-sub">${T.tastes.intro}</p></div>
+      ${TASTE_QS().map(q => `<section class="taste-q" data-q="${q.id}">
+        <h4>${q[L]}</h4>
+        <div class="taste-opts">${q.options.map(o => `<button type="button" class="taste-opt" data-o="${o.id}" aria-pressed="${(lk[q.id] || []).includes(o.id)}">${o.icon} ${o[L]}</button>`).join("")}</div>
+        <input class="taste-free" type="text" maxlength="80" placeholder="${esc(T.tastes.free)}" value="${esc(free[q.id] || "")}">
+      </section>`).join("")}
+      <p class="ego-change">💾 ${T.tastes.saved}</p>
+      <div class="ego-nav"><button class="act" type="button" data-a="back">✔ ${T.tastes.done}</button></div>`;
+    box().querySelectorAll(".taste-q").forEach(sec => {
+      const q = TASTE_QS().find(x => x.id === sec.dataset.q);
+      sec.querySelectorAll(".taste-opt").forEach(b => {
+        b.onclick = () => {
+          const cur = (Store.likes()[q.id] || []).slice(), o = b.dataset.o, has = cur.includes(o);
+          const next = q.multi ? (has ? cur.filter(x => x !== o) : cur.concat(o)) : (has ? [] : [o]);
+          saveTaste(q.id, q.multi ? next : (next[0] || "skip"));
+          sec.querySelectorAll(".taste-opt").forEach(x => x.setAttribute("aria-pressed", String(next.includes(x.dataset.o))));
+        };
+      });
+      const input = sec.querySelector(".taste-free");
+      input.addEventListener("change", () => saveTaste(q.id, input.value.trim().slice(0, 80), true));
+    });
+    on("[data-a=back]", () => { step = "hub"; render(); });
   }
 
   // « Mes répliques » : l'enfant écrit ses propres phrases (même taquines : lui peut se le permettre),

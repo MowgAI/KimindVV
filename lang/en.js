@@ -42,6 +42,15 @@ LANGS.en = {
   gamesTitle: "The KiGames",
   funTitle: "Fun",
   persoTitle: "Personalisation",
+  tastes: {
+    name: "My tastes",
+    text: "Music, sport, hobbies… Add or change your tastes whenever you like, without redoing everything.",
+    open: "Start", edit: "Change",
+    intro: "Click on what you like, in any order. You can also write it in your own words (your team, your singer, your favourite book…).",
+    free: "Something else? Write it here…",
+    saved: "It's saved straight away. Come back and change it whenever you like.",
+    done: "Done",
+  },
   repliques: {
     button: "My lines",
     title: "My lines",
@@ -172,7 +181,7 @@ LANGS.en = {
     welcome: "Welcome, {name}!", chooseAvatar: "Choose my avatar", changeAvatar: "Change avatar",
     avatarFamily: "Your avatar: first, pick a family.", avatarCharacter: "Which character do you want as your avatar?", several: "You can pick more than one answer.",
     intro: "KibooM would like to get to know you better, to help you learn your way.",
-    hubHint: "Three chapters, in order. There are no right or wrong answers, take your time, and you can always skip a question.",
+    hubHint: "Three chapters in order, and "My tastes" to fill in whenever you like. There are no right or wrong answers, take your time, and you can always skip a question.",
     chapters: {
       identity: { name: "Who I am", text: "Your age, your class, your languages…" },
       personality: { name: "My personality", text: "What you're like, and your constellation of stars." },

@@ -124,7 +124,7 @@ const Enquete = (() => {
   function profile(player) {
     const style = lastEgo(player, "style"), pers = lastEgo(player, "personality");
     const type = style && style.percents ? Object.keys(style.percents).sort((a, b) => style.percents[b] - style.percents[a])[0] : null;
-    const fears = pers && pers.likes && Array.isArray(pers.likes.fears) ? pers.likes.fears.filter(f => f !== "none") : [];
+    const fears = (Store.likes(player).fears || []).filter(f => f !== "none");
     const tr = pers ? pers.traits : {};
     return { type, fears, emotivity: tr.emotivity || 0, neuroticism: tr.neuroticism || 0 };
   }

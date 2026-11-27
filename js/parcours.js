@@ -69,7 +69,7 @@ const Parcours = (() => {
   // Ce que l'enfant a dit dans Ego, réduit à quelques nombres (0 si on ne sait pas).
   function ego() {
     const style = lastEgo("style"), pers = lastEgo("personality"), id = lastEgo("identity");
-    const tr = (pers && pers.traits) || {}, st = (style && style.traits) || {}, lk = (pers && pers.likes) || {};
+    const tr = (pers && pers.traits) || {}, st = (style && style.traits) || {}, lk = Store.likes();
     const arr = k => (Array.isArray(lk[k]) ? lk[k] : []);
     const type = style && style.percents ? Object.keys(style.percents).sort((a, b) => style.percents[b] - style.percents[a])[0] : null;
     const goals = style && style.goals ? Object.keys(style.goals).filter(g => style.goals[g] === "accepted") : [];

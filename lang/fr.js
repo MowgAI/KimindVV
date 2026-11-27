@@ -43,6 +43,15 @@ LANGS.fr = {
   gamesTitle: "Les KiJeux",
   funTitle: "Amusement",
   persoTitle: "Personnalisation",
+  tastes: {
+    name: "Mes goûts",
+    text: "Musique, sport, passe-temps… Ajoute ou change tes goûts quand tu veux, sans tout refaire.",
+    open: "Commencer", edit: "Modifier",
+    intro: "Clique sur ce que tu aimes, dans l'ordre que tu veux. Tu peux aussi l'écrire avec tes mots (ton équipe, ton chanteur, ton livre préféré…).",
+    free: "Autre chose ? Écris-le ici…",
+    saved: "C'est enregistré tout de suite. Tu peux revenir changer quand tu veux.",
+    done: "C'est bon",
+  },
   repliques: {
     button: "Mes répliques",
     title: "Mes répliques",
@@ -173,7 +182,7 @@ LANGS.fr = {
     welcome: "Bienvenue, {name} !", chooseAvatar: "Choisir mon avatar", changeAvatar: "Changer d'avatar",
     avatarFamily: "Ton avatar : choisis d'abord une famille.", avatarCharacter: "Quel personnage veux-tu comme avatar ?", several: "Tu peux choisir plusieurs réponses.",
     intro: "KibooM aimerait mieux te connaître, pour t'aider à apprendre à ta façon.",
-    hubHint: "Trois chapitres, dans l'ordre. Il n'y a pas de bonne ou de mauvaise réponse, tu prends ton temps, et tu peux toujours passer une question.",
+    hubHint: "Trois chapitres dans l'ordre, et « Mes goûts » à remplir quand tu veux. Il n'y a pas de bonne ou de mauvaise réponse, tu prends ton temps, et tu peux toujours passer une question.",
     chapters: {
       identity: { name: "Qui je suis", text: "Ton âge, ta classe, tes langues…" },
       personality: { name: "Ma personnalité", text: "Comment tu es, et ta constellation d'étoiles." },

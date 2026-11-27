@@ -66,6 +66,28 @@ const Store = (() => {
     return inst;
   }
 
+  // Les goûts du joueur, à jour : ceux du chapitre 2 d'Ego (« Ce que j'aime »), puis ceux de l'espace
+  // « Mes goûts » (modifiables à tout moment), le plus récent l'emporte, question par question.
+  // { hobbies: [...], music_taste: [...], sports: [...], ... } ; « skip » (pas de réponse) est ignoré.
+  function likes(p) {
+    p = p || player;
+    const out = {};
+    (data.ego || []).filter(r => r.player === p && (r.kind === "personality" || r.kind === "likes")).sort((a, b) => a.time - b.time)
+      .forEach(r => Object.entries(r.likes || {}).forEach(([k, v]) => {
+        if (v === "skip" || v === undefined || v === null) return;
+        out[k] = (Array.isArray(v) ? v : [v]).filter(x => x !== "skip");
+      }));
+    return out;
+  }
+  // Ce que l'enfant a écrit librement dans « Mes goûts » : { music_taste: "Angèle", sports: "le PSG", ... }.
+  function likesFree(p) {
+    p = p || player;
+    const out = {};
+    (data.ego || []).filter(r => r.player === p && r.kind === "likes").sort((a, b) => a.time - b.time)
+      .forEach(r => Object.entries(r.free || {}).forEach(([k, v]) => { out[k] = v; }));
+    return out;
+  }
+
   function addState(state, context) {
     data.states.push({ player, state, time: Date.now(), game: context.game || null, instance: context.instance || null });
     save();
@@ -94,6 +116,6 @@ const Store = (() => {
     get player() { return player; },
     get data() { return data; },
     get avatar() { return (data.avatars || {})[player] || null; },
-    playerId, setPlayer, setAvatar, startInstance, addState, addKimind, save, clear,
+    playerId, likes, likesFree, setPlayer, setAvatar, startInstance, addState, addKimind, save, clear,
   };
 })();
