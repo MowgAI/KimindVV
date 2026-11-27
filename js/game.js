@@ -358,6 +358,7 @@
     if (hash === "enquete") Enquete.start(T);
     $("ego-screen").hidden = hash !== "ego";
     if (hash === "ego") Ego.start(T); else Ego.leave();
+    document.body.classList.toggle("on-menu", !hash);
     $("menu-screen").hidden = !!version || !!other || hash === "stats" || hash === "ego" || hash === "enquete" || atelier || challenge;
     $("game-screen").hidden = !version;
     $("game-btns").hidden = !version;

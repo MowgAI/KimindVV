@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Luckiest+Guy&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=56">
+<link rel="stylesheet" href="css/style.css?v=57">
 </head>
 <body>
 <div class="wrap">
@@ -23,11 +23,15 @@
       <button class="act ghost" id="btn-rules" type="button" aria-haspopup="dialog">📖 <span id="lbl-rules">Règles du jeu</span></button>
     </div>
     <button class="act" id="btn-home" type="button"></button>
-    <button class="act ghost" id="btn-sfx" type="button"></button>
+    <!-- Réglages : sur la page de lancement ils sont visibles ; ailleurs, un petit bouton ⚙️ les ouvre. -->
+    <button class="act ghost" id="btn-settings" type="button" aria-expanded="false" aria-controls="head-settings">⚙️</button>
+    <div class="head-settings" id="head-settings">
     <button class="act ghost" id="btn-music" type="button"></button>
+    <button class="act ghost" id="btn-sfx" type="button"></button>
     <button class="act ghost" id="btn-voice" type="button"></button>
     <button class="act ghost" id="player-btn" type="button"></button>
     <label class="lang-wrap"><span aria-hidden="true">🌐</span><select id="lang"></select></label>
+    </div>
     </div>
   </header>
 
@@ -215,40 +219,40 @@
   <form method="dialog"><button class="act" id="btn-close"></button></form>
 </dialog>
 
-<script src="lang/fr.js?v=56"></script>
-<script src="lang/en.js?v=56"></script>
-<script src="js/versions.js?v=56"></script>
-<script src="js/store.js?v=56"></script>
-<script src="lang/personnages.js?v=56"></script>
-<script src="lang/parade-modes.js?v=56"></script>
-<script src="js/kimind.js?v=56"></script>
-<script src="js/sound.js?v=56"></script>
-<script src="js/voice.js?v=56"></script>
-<script src="js/audio.js?v=56"></script>
-<script src="js/parade.js?v=56"></script>
-<script src="js/home.js?v=56"></script>
-<script src="js/colourgame.js?v=56"></script>
-<script src="js/kijun.js?v=56"></script>
-<script src="js/kipharaon.js?v=56"></script>
-<script src="js/kidory.js?v=56"></script>
-<script src="js/kibal.js?v=56"></script>
-<script src="js/kipotter.js?v=56"></script>
-<script src="js/kicompuzzle.js?v=56"></script>
-<script src="js/kipuzzle.js?v=56"></script>
-<script src="js/kiduel.js?v=56"></script>
-<script src="lang/ego.js?v=56"></script>
-<script src="js/ego.js?v=56"></script>
-<script src="js/coach.js?v=56"></script>
-<script src="js/enquete.js?v=56"></script>
-<script src="lang/creatif.js?v=56"></script>
-<script src="js/creatif.js?v=56"></script>
-<script src="lang/semantique.js?v=56"></script>
-<script src="js/parcours.js?v=56"></script>
-<script src="lang/repliques.js?v=56"></script>
-<script src="js/repliques.js?v=56"></script>
-<script src="js/chrono.js?v=56"></script>
-<script src="js/kichallenge.js?v=56"></script>
-<script src="js/stats.js?v=56"></script>
-<script src="js/game.js?v=56"></script>
+<script src="lang/fr.js?v=57"></script>
+<script src="lang/en.js?v=57"></script>
+<script src="js/versions.js?v=57"></script>
+<script src="js/store.js?v=57"></script>
+<script src="lang/personnages.js?v=57"></script>
+<script src="lang/parade-modes.js?v=57"></script>
+<script src="js/kimind.js?v=57"></script>
+<script src="js/sound.js?v=57"></script>
+<script src="js/voice.js?v=57"></script>
+<script src="js/audio.js?v=57"></script>
+<script src="js/parade.js?v=57"></script>
+<script src="js/home.js?v=57"></script>
+<script src="js/colourgame.js?v=57"></script>
+<script src="js/kijun.js?v=57"></script>
+<script src="js/kipharaon.js?v=57"></script>
+<script src="js/kidory.js?v=57"></script>
+<script src="js/kibal.js?v=57"></script>
+<script src="js/kipotter.js?v=57"></script>
+<script src="js/kicompuzzle.js?v=57"></script>
+<script src="js/kipuzzle.js?v=57"></script>
+<script src="js/kiduel.js?v=57"></script>
+<script src="lang/ego.js?v=57"></script>
+<script src="js/ego.js?v=57"></script>
+<script src="js/coach.js?v=57"></script>
+<script src="js/enquete.js?v=57"></script>
+<script src="lang/creatif.js?v=57"></script>
+<script src="js/creatif.js?v=57"></script>
+<script src="lang/semantique.js?v=57"></script>
+<script src="js/parcours.js?v=57"></script>
+<script src="lang/repliques.js?v=57"></script>
+<script src="js/repliques.js?v=57"></script>
+<script src="js/chrono.js?v=57"></script>
+<script src="js/kichallenge.js?v=57"></script>
+<script src="js/stats.js?v=57"></script>
+<script src="js/game.js?v=57"></script>
 </body>
 </html>

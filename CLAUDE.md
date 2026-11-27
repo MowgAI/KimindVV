@@ -9,6 +9,7 @@
 - Tests du moteur : `node tests/kimind.test.js`.
 - Redessiner un écran de jeu ne doit pas faire bouger la page (render garde window.scrollY) ; la zone de réponse (.cg-panel) reste collée en bas de l'écran.
 - Les boutons « ☰ Menu » des jeux ramènent à la page de lancement (Home.back()), pas à la liste du menu.
+- Barre du haut allégée : Musique, Bruitages, Voix, Qui joue et la langue sont sur la page de lancement (home-tools) ; dans les écrans, un petit bouton ⚙️ les ouvre (head-settings) ; « 🏠 Accueil » seulement sur la liste du menu.
 - À chaque changement de JS ou de CSS : augmenter le numéro `?v=` dans `index.html` (sinon le navigateur garde les anciens fichiers en cache).
 
 Descriptions des KiJeux : pas de phrase « avec Archi, Lili… », sauf pour les jeux à adversaire (Kiduel, Kipuzzle).
@@ -91,5 +92,5 @@ Même site (mowgai.github.io), donc même localStorage que Kiboo :
 
 - Ajouter des indices, par exemple pour la version la plus difficile (KimMinmaxus, niveau Difficile).
 - Chercher d'autres variantes de Kimind.
-- Récompenses (l'auteure veut en parler ensemble, prochaine étape) : comme dans Kiboo : par exemple, Play Kiboo bloqué au départ, et des parties de Kiboo débloquées par des succès dans les exercices. À faire seulement quand l'auteur le demande.
+- Récompenses (l'auteure veut en parler ensemble, plus tard) : comme dans Kiboo : par exemple, Play Kiboo bloqué au départ, et des parties de Kiboo débloquées par des succès dans les exercices. À faire seulement quand l'auteur le demande.
 - Pour la personnalisation, une récompense : quand l'enfant a gagné une carte, il peut lui donner un nom. Ce nom reste en local, pour ce joueur seulement, et la parade et la présentation des personnages l'utilisent. À faire avec la personnalisation et les récompenses.

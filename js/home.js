@@ -27,6 +27,7 @@ const Home = (() => {
     return `<svg class="home-waves" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">${paths}</svg>`;
   }
 
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
   const card = (c, v) => `<span class="card face home-mini" style="background-image:url(assets/cards/${c}-${v}.webp)"></span>`;
 
   // « Continuer mon aventure » : l'avatar propose la suite (js/parcours.js).
@@ -43,6 +44,8 @@ const Home = (() => {
         <p class="home-pitch">${H.pitch}</p>
         <p class="home-soon">${H.soon}</p>
         <p class="home-slogan">${H.slogan}</p>
+        <div class="home-tools" role="group">${["music", "sfx", "voice"].map(k => `<button type="button" data-tool="${k}" aria-pressed="${GameAudio.isOn(k)}">${GameAudio.label(k)}</button>`).join("")}
+          <button type="button" data-tool="player">👤 ${Store.player ? esc(Store.player) : T.stats.noPlayer}</button></div>
         ${forYou()}
         <div class="home-rubs">
           <section class="rub">
@@ -110,6 +113,10 @@ const Home = (() => {
     box.querySelector("[data-a=ego]").onclick = () => { close(); location.hash = "ego"; };
     box.querySelector("[data-a=stats]").onclick = () => { close(); location.hash = "stats"; };
     box.querySelector("[data-a=player]").onclick = () => Stats.askPlayer();
+    box.querySelectorAll("[data-tool]").forEach(b => { b.onclick = () => {
+      if (b.dataset.tool === "player") return Stats.askPlayer(render);
+      GameAudio.toggle(b.dataset.tool); render();
+    }; });
     box.querySelectorAll("[data-lang]").forEach(b => { b.onclick = () => onLang(b.dataset.lang); });
   }
 
@@ -136,6 +143,10 @@ const Home = (() => {
     onLang = setLang;
     $("logo-btn").addEventListener("click", open);
     $("btn-home").addEventListener("click", open);
+    // Le petit bouton ⚙️ ouvre et ferme les réglages ; un clic ailleurs les ferme.
+    const panel = $("head-settings"), gear = $("btn-settings");
+    gear.addEventListener("click", e => { e.stopPropagation(); const o = panel.classList.toggle("open"); gear.setAttribute("aria-expanded", o); });
+    document.addEventListener("click", e => { if (!panel.contains(e.target) && e.target !== gear) { panel.classList.remove("open"); gear.setAttribute("aria-expanded", "false"); } });
     $("home").addEventListener("keydown", e => { if (e.key === "Escape") close(); });
     if (!location.hash) open();
   }
