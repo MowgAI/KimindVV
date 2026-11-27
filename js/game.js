@@ -310,12 +310,13 @@
 
   function renderMenu() {
     const box = id => { const e = $(id); e.textContent = ""; return e; };
-    const kimind = box("versions"), games = box("games"), fun = box("fun"), perso = box("perso");
+    const kimind = box("versions"), challenge = box("challenge"), games = box("games"), fun = box("fun"), perso = box("perso");
     kimind.append(menuCard(T.menuRules, () => $("dlg-intro").showModal(), "extra", T.menuRules.action));
     VERSIONS.forEach(v => kimind.append(menuCard(T.versions[v.id], () => { location.hash = v.id; }, "", T.play)));
+    // Kichallenge (js/kichallenge.js), à part et mis en valeur, comme Kimind : 5 exercices au hasard,
+    // chronométrés, records personnels.
+    challenge.append(menuCard(Object.assign({ image: "assets/cards/blue-10.webp", description: T.menuKichallenge.description + Kichallenge.recordLine() }, { name: T.menuKichallenge.name, subtitle: T.menuKichallenge.subtitle }), () => { location.hash = "kichallenge"; }, "game-card challenge-card", T.menuKichallenge.action));
     GAMES.forEach(g => games.append(menuCard(Object.assign({ image: g.image }, T.games[g.id]), () => { location.hash = g.id; }, "game-card", T.play)));
-    // Kichallenge (js/kichallenge.js) : 5 exercices au hasard, chronométrés, records personnels.
-    games.append(menuCard(Object.assign({ image: "assets/cards/blue-10.webp" }, T.menuKichallenge), () => { location.hash = "kichallenge"; }, "game-card", T.play));
     games.append(menuCard(Object.assign({ image: "assets/cards/red-2.webp" }, T.menuKiboo), () => window.open("https://mowgai.github.io/Kiboo/", "_blank", "noopener"), "game-card extra", T.menuKiboo.action + " ↗"));
     // Les ateliers créatifs (js/creatif.js) : pas de bonne réponse, seulement des idées.
     fun.append(menuCard(T.menuInvente, () => { location.hash = "invente"; }, "extra", T.menuInvente.action));
@@ -413,6 +414,7 @@
     T.intro.forEach(([term, text]) => intro.append(el("dt", "", term), el("dd", "", text)));
     $("btn-intro-close").textContent = T.close;
     $("kimind-title").textContent = T.kimindTitle;
+    $("challenge-title").textContent = T.challengeTitle;
     $("fun-title").textContent = T.funTitle;
     $("perso-title").textContent = T.persoTitle;
     Home.texts(T);

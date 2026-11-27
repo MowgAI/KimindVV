@@ -63,6 +63,14 @@ const Home = (() => {
               <button class="act" type="button" data-go="kimind-title">${H.kimind.go}</button>
             </div>
           </section>
+          <section class="rub rub-challenge">
+            <h2 class="rub-title">${H.challenge.title}</h2>
+            <div class="rub-body">
+              <div class="rub-fun">${card("blue", 10)}<span class="rub-fire" aria-hidden="true">⏱️🔥</span></div>
+              <p class="rub-text">${H.challenge.text}${typeof Kichallenge !== "undefined" ? Kichallenge.recordLine() : ""}</p>
+              <button class="act" type="button" data-a="challenge">🔥 ${H.challenge.go}</button>
+            </div>
+          </section>
           <section class="rub">
             <h2 class="rub-title">${H.games.title}</h2>
             <div class="rub-body">
@@ -94,6 +102,7 @@ const Home = (() => {
         </div>
       </div>`;
     box.querySelectorAll("[data-go]").forEach(b => { b.onclick = () => { close(); location.hash = ""; setTimeout(() => $(b.dataset.go).scrollIntoView({ behavior: "smooth" }), 50); }; });
+    box.querySelector("[data-a=challenge]").onclick = () => { close(); location.hash = "kichallenge"; };
     box.querySelector("[data-a=invente]").onclick = () => { close(); location.hash = "invente"; };
     box.querySelector("[data-a=intrus]").onclick = () => { close(); location.hash = "intrus"; };
     box.querySelector("[data-a=parade]").onclick = () => { close(); Parade.open(T, $("lang").value); };

@@ -834,3 +834,9 @@ body.in-challenge .rep-bubble { top: 110px; }
 .rep-h { margin: 14px 0 4px; }
 .rep-list { list-style: none; padding: 0; margin: 0; }
 .rep-list li { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--line); }
+
+/* Kichallenge à part et mis en valeur (accueil et menu). */
+.rub-challenge .rub-title, .rub-challenge .rub-body { border-color: #F59E0B; border-width: 4px; box-shadow: 0 6px 18px rgba(245,158,11,0.35); }
+.rub-challenge .rub-fun { justify-content: center; }
+.rub-fire { font-size: 2rem; align-self: center; margin-left: 8px; }
+.challenge-card { border: 4px solid #F59E0B; box-shadow: 0 6px 18px rgba(245,158,11,0.35); }

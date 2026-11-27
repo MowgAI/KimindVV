@@ -226,6 +226,15 @@ const Kichallenge = (() => {
     if (location.hash.slice(1) !== ex.game) abort();
   }
 
+  // Pour l'accueil et le menu : le meilleur record du joueur (« Ton record : 2:14 (Moyen) »), ou rien.
+  function recordLine() {
+    if (!T || !Store.player) return "";
+    const l = mine();
+    if (!l.length) return "";
+    const order = ["ultimate", "hard", "medium", "easy"], d = order.find(x => l.some(r => r.difficulty === x));
+    return " " + C().yourBest(fmt(Math.min(...mine(d).map(r => r.total))), C().diffs[d]);
+  }
+
   function texts(t) { T = t; if (run) banner(); }
   function init() {
     screen = $("kichallenge-screen");
@@ -233,5 +242,5 @@ const Kichallenge = (() => {
     window.addEventListener("hashchange", onHash);
   }
 
-  return { init, texts, start, running, tag };
+  return { init, texts, start, running, tag, recordLine };
 })();
