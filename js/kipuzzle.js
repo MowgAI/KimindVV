@@ -96,7 +96,14 @@ const Kipuzzle = (() => {
     return e;
   }
 
+  // Redessiner ne doit pas faire bouger la page (sinon, avec beaucoup de cartes, l'écran remonte à
+  // chaque chiffre tapé) : on garde la position de défilement.
   function render() {
+    const keepY = window.scrollY;
+    renderScreen();
+    if (window.scrollY !== keepY) window.scrollTo(0, keepY);
+  }
+  function renderScreen() {
     q("level").value = level;
     q("score").textContent = T.kipuzzle.score(score, games);
     const mine = round.turn === "me" && !round.done;

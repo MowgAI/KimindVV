@@ -76,6 +76,7 @@ LANGS.fr = {
     well: "Bien joué à {game} ! On passe à une nouvelle aventure ?", nextAdventure: "Nouvelle aventure", stayHere: "Je reste ici",
     modeLabel: "Qui choisit ?", modeFree: "Je choisis", modeAuto: "KibooM choisit",
     modeFreeHint: "Tu choisis tes jeux ; je te fais des propositions.", modeAutoHint: "Je choisis les jeux et les niveaux pour toi.",
+    helpSuggest: "Un coup de pouce ?",
     autoSame: "On continue ici, au niveau qui te va.", autoJump: "C'était trop facile : je te fais sauter des niveaux !", autoOther: "Place à une nouvelle aventure :", continue: "On continue",
   },
   menuInvente: { name: "🧪 Invente ton personnage", subtitle: "Atelier créatif", description: "Mélange la tête, le corps et les pieds des personnages, donne-lui un nom et une phrase drôle : il rejoindra la parade !", action: "Inventer" },
