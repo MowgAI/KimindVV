@@ -60,10 +60,11 @@ LANGS.en = {
     wordPh: "A word of your own (your team, your nickname…)", word: "Add my word",
     done: "Looks great!",
   },
+  menuZemowg: { name: "ZeMowg", subtitle: "The friend who helps you", description: "Who is ZeMowg, your personalisation friend? His story, and the real Mowgli. His page opens in another tab.", action: "Discover" },
   zemowg: {
     knowsTitle: "What ZeMowg knows about me",
     about: "Who is ZeMowg?",
-    credit: "ZeMowg, based on Vac, Socrates' dog, created by Xavier (L'Émotif de Xavier)",
+    credit: "ZeMowg, the chocolate version of Vac, Socrates' dog, created by the artist Xavier (L'Émotif de Xavier)",
     knowsText: "Everything ZeMowg has understood about you, for now. You can confirm or correct it.",
     knowsGo: "See",
     knowsCount: n => "ZeMowg knows " + n + (n > 1 ? " things" : " thing") + " about you",

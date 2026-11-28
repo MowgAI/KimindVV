@@ -19,14 +19,16 @@ const ZeMowg = (() => {
   const lastEgo = kind => (Store.data.ego || []).filter(r => r.player === Store.player && (r.kind || "style") === kind).slice(-1)[0] || null;
   const gameName = id => (T.games[id] ? T.games[id].name : T.versions[id] ? T.versions[id].name : id);
 
-  // ZeMowg a une seule page, dans Kiboo (même site) : on fait un lien vers elle et on prend son image,
-  // sans rien copier (une seule page à tenir à jour). ZeMowg est une déclinaison de Vac, le chien de
-  // Socrate, créé par l'artiste Xavier (« L'Émotif de Xavier ») : toujours citer l'artiste.
-  const PAGE = "https://mowgai.github.io/Kiboo/zemowg/";
-  const IMG = PAGE + "zemowg.webp";
+  // La page de ZeMowg et ses images viennent du dépôt MowgAI/ZeMowg (source unique), recopié tel quel
+  // dans le dossier zemowg/ (on corrige là-bas, puis on recopie ici). ZeMowg est la déclinaison chocolat
+  // de Vac, le chien de Socrate, créé par l'artiste Xavier (« L'Émotif de Xavier ») : toujours le citer.
+  const page = () => "zemowg/index.html?lang=" + lang();
+  const IMG = "zemowg/zemowg.webp";
   // Le visage de ZeMowg (la bulle 🔮 si l'image ne se charge pas).
   const face = (cls = "") => `<span class="zm-face ${cls}" aria-hidden="true"><img src="${IMG}" alt="" onerror="this.replaceWith('🔮')"></span>`;
-  const aboutLink = () => `<a class="zm-about" href="${PAGE}" target="_blank" rel="noopener">${Z().about} ↗</a>`;
+  const aboutLink = () => `<a class="zm-about" href="${page()}" target="_blank" rel="noopener">${Z().about} ↗</a>`;
+  // Ouvrir la page de ZeMowg (bouton « ZeMowg » de la page de lancement et du menu).
+  function open() { window.open(page(), "_blank", "noopener"); }
 
   /* ---------- Ce que l'enfant a fait ---------- */
   function ctx() {
@@ -240,5 +242,5 @@ const ZeMowg = (() => {
   function count() { return planets().reduce((t, p) => t + p.facts.length, 0); }
 
   function texts(t) { T = t; }
-  return { texts, renderKnows, guessCardHTML, wire, pending, count, face };
+  return { texts, renderKnows, guessCardHTML, wire, pending, count, face, open };
 })();

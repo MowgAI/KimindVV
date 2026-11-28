@@ -328,6 +328,7 @@
     if (adv) perso.append(menuCard({ name: "🧭 " + T.parcours.title, subtitle: Store.player || "", description: adv.text }, adv.run, "extra for-you", T.parcours.go));
     if (Enquete.available()) perso.append(menuCard(T.menuEnquete, () => { location.hash = "enquete"; }, "extra", T.menuEnquete.action));
     perso.append(menuCard(T.menuEgo, () => { location.hash = "ego"; }, "extra", T.menuEgo.action));
+    perso.append(menuCard(Object.assign({ image: "zemowg/zemowg.webp" }, T.menuZemowg), () => ZeMowg.open(), "extra", T.menuZemowg.action + " ↗"));
     perso.append(menuCard(T.menuStats, () => { location.hash = "stats"; }, "extra", T.menuStats.action));
     perso.append(menuCard(T.menuPlayer, () => Stats.askPlayer(), "extra", T.menuPlayer.action));
     perso.append(menuCard(T.menuSoon, null, "extra soon"));

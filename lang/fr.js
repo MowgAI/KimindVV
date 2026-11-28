@@ -61,10 +61,11 @@ LANGS.fr = {
     wordPh: "Un mot à toi (ton équipe, ton surnom…)", word: "Ajouter mon mot",
     done: "C'est beau !",
   },
+  menuZemowg: { name: "ZeMowg", subtitle: "L'ami qui t'aide", description: "Qui est ZeMowg, ton ami de la personnalisation ? Son histoire, et le vrai Mowgli. Sa page s'ouvre dans un autre onglet.", action: "Découvrir" },
   zemowg: {
     knowsTitle: "Ce que ZeMowg sait de moi",
     about: "Qui est ZeMowg ?",
-    credit: "ZeMowg, d'après Vac, le chien de Socrate, créé par Xavier (L'Émotif de Xavier)",
+    credit: "ZeMowg, la déclinaison chocolat de Vac, le chien de Socrate, créé par l'artiste Xavier (L'Émotif de Xavier)",
     knowsText: "Tout ce que ZeMowg a compris de toi, pour le moment. Tu peux confirmer ou corriger.",
     knowsGo: "Voir",
     knowsCount: n => "ZeMowg sait " + n + (n > 1 ? " choses" : " chose") + " sur toi",
