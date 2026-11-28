@@ -63,6 +63,8 @@ LANGS.fr = {
   },
   zemowg: {
     knowsTitle: "Ce que ZeMowg sait de moi",
+    about: "Qui est ZeMowg ?",
+    credit: "ZeMowg, d'après Vac, le chien de Socrate, créé par Xavier (L'Émotif de Xavier)",
     knowsText: "Tout ce que ZeMowg a compris de toi, pour le moment. Tu peux confirmer ou corriger.",
     knowsGo: "Voir",
     knowsCount: n => "ZeMowg sait " + n + (n > 1 ? " choses" : " chose") + " sur toi",

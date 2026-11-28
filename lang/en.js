@@ -62,6 +62,8 @@ LANGS.en = {
   },
   zemowg: {
     knowsTitle: "What ZeMowg knows about me",
+    about: "Who is ZeMowg?",
+    credit: "ZeMowg, based on Vac, Socrates' dog, created by Xavier (L'Émotif de Xavier)",
     knowsText: "Everything ZeMowg has understood about you, for now. You can confirm or correct it.",
     knowsGo: "See",
     knowsCount: n => "ZeMowg knows " + n + (n > 1 ? " things" : " thing") + " about you",
