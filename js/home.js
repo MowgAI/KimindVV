@@ -99,6 +99,7 @@ const Home = (() => {
               <div class="rub-icons" aria-hidden="true">📊 👤 📝</div>
               <p class="rub-text">${H.perso.text}</p>
               <button class="act" type="button" data-a="ego">🪞 ${H.perso.ego}</button>
+              <button class="act ghost" type="button" data-a="zemowg">🐾 ZeMowg ↗</button>
               <button class="act ghost" type="button" data-a="stats">${H.perso.stats}</button>
               <button class="act ghost" type="button" data-a="player">👤 ${H.perso.player}</button>
             </div>
@@ -113,6 +114,7 @@ const Home = (() => {
     if (typeof Parcours !== "undefined") Parcours.wire(box, render);
     if (typeof ZeMowg !== "undefined") ZeMowg.wire(box, render);
     box.querySelector("[data-a=ego]").onclick = () => { close(); location.hash = "ego"; };
+    box.querySelector("[data-a=zemowg]").onclick = () => ZeMowg.open();
     box.querySelector("[data-a=stats]").onclick = () => { close(); location.hash = "stats"; };
     box.querySelector("[data-a=player]").onclick = () => Stats.askPlayer();
     box.querySelectorAll("[data-tool]").forEach(b => { b.onclick = () => {
