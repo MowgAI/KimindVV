@@ -149,7 +149,7 @@ const Ego = (() => {
     if (!T) return;
     $("ego-title").textContent = "🪞 " + E().title;
     $("ego-menu").textContent = "☰ " + T.menu;
-    ({ hub, quiz, family: familyStep, character: characterStep, result, challenge, done, avatarFamily, avatarCharacter, lines, tastes, knows }[step] || hub)();
+    ({ hub, quiz, family: familyStep, character: characterStep, result, challenge, done, avatarFamily, avatarCharacter, lines, tastes, knows, tot, univers }[step] || hub)();
     window.scrollTo(0, 0);
   }
 
@@ -354,6 +354,10 @@ const Ego = (() => {
   function tastes() {
     const lk = Store.likes(), free = Store.likesFree(), L = lang(), keepY = window.scrollY;
     box().innerHTML = `<div class="ego-q"><h3 class="ego-question">❤️ ${T.tastes.name}</h3><p class="ego-sub">${T.tastes.intro}</p></div>
+      <div class="taste-games">
+        <button type="button" class="taste-game" data-a="tot"><span>⚡</span><b>${T.tot.title}</b><small>${T.tot.pitch}</small></button>
+        <button type="button" class="taste-game" data-a="univers"><span>🪐</span><b>${T.univers.title}</b><small>${T.univers.pitch}</small></button>
+      </div>
       ${TASTE_QS().filter(q => !q.when || q.when(lk)).map(q => tasteQHTML(q, lk, free, L)).join("")}
       <p class="ego-change">💾 ${T.tastes.saved}</p>
       <div class="ego-nav"><button class="act" type="button" data-a="back">✔ ${T.tastes.done}</button></div>`;
@@ -377,7 +381,12 @@ const Ego = (() => {
       if (input) input.addEventListener("change", () => saveTaste(q.id, input.value.trim().slice(0, 80), true));
     });
     on("[data-a=back]", () => { step = "hub"; render(); });
+    on("[data-a=tot]", () => { step = "tot"; render(); });
+    on("[data-a=univers]", () => { step = "univers"; render(); });
   }
+  // « Ceci ou cela ? » et « Mon univers » (js/gouts.js) : on revient ensuite à « Mes goûts ».
+  function tot() { Gouts.renderTot(box(), () => { step = "tastes"; render(); }); }
+  function univers() { Gouts.renderUnivers(box(), () => { step = "tastes"; render(); }); }
 
   /* ---------- 5e espace : « Ce que ZeMowg sait de moi » (js/zemowg.js) ----------
      Tout ce qu'on sait, rassemblé à partir des 4 autres espaces et des jeux ; l'enfant confirme ou corrige. */
@@ -396,6 +405,7 @@ const Ego = (() => {
     on("[data-a=back]", () => { step = "hub"; render(); });
     ZeMowg.renderKnows(box().querySelector(".zm-box"), action => {
       if (action === "tastes") { step = "tastes"; tastesRec = null; render(); }
+      else if (action === "tot" || action === "univers") { step = action; render(); }
       else if (action === "avatar") { step = "avatarFamily"; render(); }
       else if (action === "personality" && last("personality")) { chapter = "personality"; current = last("personality"); step = "result"; render(); }
       else if (CHAPTERS.includes(action) && unlocked(action)) begin(action, null);
