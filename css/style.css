@@ -936,3 +936,9 @@ body.on-menu #btn-home { display: inline-flex; }
 .uv-word input { font: inherit; flex: 1 1 220px; padding: 8px 10px; border-radius: 12px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); }
 .zm-univers { font-size: 1.4rem; margin: 2px 0 6px; }
 .card.zm-mini.inline { display: inline-block; width: 22px; vertical-align: middle; }
+
+/* ZeMowg : son image vient de sa page dans Kiboo (https://mowgai.github.io/Kiboo/zemowg/). */
+.zm-face { overflow: hidden; }
+.zm-face img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.zm-credit { font-size: 0.85rem; color: var(--ink-soft); margin: 4px 0 0; }
+.zm-about { font-weight: 700; color: #7C3AED; }

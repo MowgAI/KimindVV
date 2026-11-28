@@ -19,8 +19,14 @@ const ZeMowg = (() => {
   const lastEgo = kind => (Store.data.ego || []).filter(r => r.player === Store.player && (r.kind || "style") === kind).slice(-1)[0] || null;
   const gameName = id => (T.games[id] ? T.games[id].name : T.versions[id] ? T.versions[id].name : id);
 
-  // Le visage de ZeMowg (en attendant le dessin de l'artiste : une bulle 🔮).
-  const face = (cls = "") => `<span class="zm-face ${cls}" aria-hidden="true">🔮</span>`;
+  // ZeMowg a une seule page, dans Kiboo (même site) : on fait un lien vers elle et on prend son image,
+  // sans rien copier (une seule page à tenir à jour). ZeMowg est une déclinaison de Vac, le chien de
+  // Socrate, créé par l'artiste Xavier (« L'Émotif de Xavier ») : toujours citer l'artiste.
+  const PAGE = "https://mowgai.github.io/Kiboo/zemowg/";
+  const IMG = PAGE + "zemowg.webp";
+  // Le visage de ZeMowg (la bulle 🔮 si l'image ne se charge pas).
+  const face = (cls = "") => `<span class="zm-face ${cls}" aria-hidden="true"><img src="${IMG}" alt="" onerror="this.replaceWith('🔮')"></span>`;
+  const aboutLink = () => `<a class="zm-about" href="${PAGE}" target="_blank" rel="noopener">${Z().about} ↗</a>`;
 
   /* ---------- Ce que l'enfant a fait ---------- */
   function ctx() {
@@ -83,7 +89,7 @@ const ZeMowg = (() => {
     const p = pending();
     if (!p.length) return "";
     if (!homeShown || !p.includes(homeShown)) homeShown = p[Math.floor(Math.random() * p.length)];
-    return `<div class="zm-card" data-zm-home>${face()}<div><p class="zm-title">${Z().guessTitle}</p><p>${esc(guessText(homeShown))}</p>${guessButtons(homeShown)}</div></div>`;
+    return `<div class="zm-card" data-zm-home>${face()}<div><p class="zm-title">${Z().guessTitle}</p><p>${esc(guessText(homeShown))}</p>${guessButtons(homeShown)}<p class="zm-credit">${aboutLink()}</p></div></div>`;
   }
   function wire(root, rerender) {
     root.querySelectorAll("[data-g]").forEach(b => {
@@ -210,7 +216,7 @@ const ZeMowg = (() => {
             ${f.fix ? `<button type="button" data-fix="${f.fix}">✏️ ${Z().fix}</button>` : ""}
             ${f.src === "seen" ? (fb.get(f.id) === "disagree" ? `<span class="zm-ok">${Z().disagreed}</span>` : `<button type="button" data-fb="disagree">🙅 ${Z().disagree}</button>`) : ""}
             ${f.src !== "told" ? `<button type="button" data-fb="forget">🙈 ${Z().forget}</button>` : ""}</p></div></li>`;
-    box.innerHTML = `<div class="zm-head">${face("big")}<div><h3 class="ego-question">${Z().knowsTitle}</h3><p class="ego-sub">${Z().knowsIntro}</p></div></div>
+    box.innerHTML = `<div class="zm-head">${face("big")}<div><h3 class="ego-question">${Z().knowsTitle}</h3><p class="ego-sub">${Z().knowsIntro}</p><p class="zm-credit">${aboutLink()} · ${Z().credit}</p></div></div>
       ${pend.length ? `<section class="zm-guesses"><h4>${Z().guessTitle}</h4>${pend.slice(0, 3).map(id => `<div class="zm-guess"><p>${esc(guessText(id))}</p>${guessButtons(id)}</div>`).join("")}</section>` : ""}
       ${surp.length ? `<section class="zm-surprises"><h4>😮 ${Z().surprisesTitle}</h4><ul>${surp.map(s => `<li>${esc(s)}</li>`).join("")}</ul></section>` : ""}
       <div class="zm-planets">${ps.map(p => `<section class="zm-planet zm-${p.id}"><h4>${p.icon} ${Z().planets[p.id]}</h4>
