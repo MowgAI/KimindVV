@@ -33,7 +33,16 @@ const Repliques = (() => {
   const band = a => (a === null ? "mid" : a <= 7 ? "young" : a <= 10 ? "mid" : "old");
   function profile() {
     const e = typeof Parcours !== "undefined" ? Parcours.ego() : { hobbies: [], type: null, emotivity: 0, neuroticism: 0 };
-    return { band: band(age()), hobbies: e.hobbies || [], type: e.type, sensitive: e.emotivity >= 0.67 || e.neuroticism >= 0.67, evening: new Date().getHours() >= 19 };
+    // Ce qu'il n'aime pas n'est jamais utilisé (un enfant qui déteste le foot n'entend jamais « Buuut ! »).
+    const lk = Store.likes(), free = Store.likesFree(), no = lk.dislikes || [], L = lang(), personal = {};
+    const opt = (qid, id) => { const q = (EGO.likesExtra || []).find(x => x.id === qid), o = q && q.options.find(x => x.id === id); return o ? o[L].replace(/^(le |la |l'|les )/, "") : null; };
+    if (free.fav_player && !no.includes("sport")) personal.player = free.fav_player;
+    const team = (lk.fav_team || [])[0] ? opt("fav_team", lk.fav_team[0]) : free.fav_team;
+    if (team && !no.includes("sport")) personal.team = team;
+    if (free.fav_artist && !no.includes("music")) personal.artist = free.fav_artist;
+    const ctry = (lk.country_love || [])[0] && EGO.countries.find(c => c.id === lk.country_love[0]);
+    if (ctry) personal.country = ctry[L];
+    return { personal, band: band(age()), hobbies: (e.hobbies || []).filter(h => !no.includes(h)), type: e.type, sensitive: e.emotivity >= 0.67 || e.neuroticism >= 0.67, evening: new Date().getHours() >= 19 };
   }
 
   /* ---------- Choisir une réplique ---------- */
@@ -42,6 +51,11 @@ const Repliques = (() => {
     const g = R().general[moment] || R().general[FALLBACK[moment]] || {};
     const gm = R().general[moment] ? moment : FALLBACK[moment];
     add(g[p.band] || g.all, 1, "gen_" + gm + "_" + (g[p.band] ? p.band : "all"));
+    // Ce qu'il nous a dit dans « Mes goûts » : son joueur, son équipe, son artiste, son pays de rêve.
+    Object.entries(p.personal).forEach(([k, val]) => {
+      const lines = (R().personal && R().personal[k] && R().personal[k][moment]) || [];
+      lines.forEach((l, i) => out.push({ id: "personal_" + k + "_" + moment + "_" + (i + 1), text: l[lang() === "en" ? 1 : 0].split("{" + k + "}").join(val), w: 1.6 }));
+    });
     // Passe-temps : ensemble ils pèsent plus que les phrases générales, et on alterne entre eux.
     p.hobbies.forEach(h => { const hb = R().hobbies[h]; if (hb) { const m = hb[moment] ? moment : FALLBACK[moment]; add(hb[m], 2 / p.hobbies.length + 0.3, h + "_" + m); } });
     if (p.type && R().types[p.type]) { const tp = R().types[p.type], m = tp[moment] ? moment : FALLBACK[moment]; add(tp[m], 1.2, p.type + "_" + m); }
@@ -92,6 +106,10 @@ const Repliques = (() => {
     const av = Store.avatar;
     el.innerHTML = (av ? `<span class="card face rep-av" style="background-image:url(assets/cards/${av}.webp)"></span>` : `<span class="rep-av rep-emoji">💬</span>`) + `<span class="rep-text"></span>`;
     el.querySelector(".rep-text").textContent = text;
+    // Les couleurs de son équipe préférée, s'il en a une.
+    const t = (Store.likes().fav_team || [])[0], tq = (EGO.likesExtra || []).find(x => x.id === "fav_team"), to = t && tq && tq.options.find(o => o.id === t);
+    el.style.borderColor = to ? to.colors[0] : "";
+    el.style.boxShadow = to ? "0 0 0 3px " + to.colors[1] + ", 0 8px 24px rgba(0,0,0,0.22)" : "";
     el.hidden = false;
     el.classList.remove("rep-pop"); void el.offsetWidth; el.classList.add("rep-pop");
     clearTimeout(hideTimer);

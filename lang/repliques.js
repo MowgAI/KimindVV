@@ -158,6 +158,31 @@ window.REPLIQUES = {
     levelDown: [["On prend le temps, c'est très bien comme ça.", "Taking our time is just fine."], ["Pas à pas, c'est la bonne façon 🐾", "Step by step is the right way 🐾"]],
   },
 
+  /* Répliques avec ce que l'enfant nous a dit dans « Mes goûts » : {player} (son joueur ou sa joueuse),
+     {team} (son équipe), {artist} (son artiste), {country} (le pays qu'il adore). Utilisées seulement s'il l'a dit. */
+  personal: {
+    player: {
+      success: [["Une frappe digne de {player} !", "A strike worthy of {player}!"], ["{player} applaudirait !", "{player} would be clapping!"]],
+      fast: [["Plus rapide que {player} sur un contre !", "Faster than {player} on a counter-attack!"]],
+      record: [["Même {player} n'a jamais fait ça !", "Even {player} has never done that!"]],
+      levelUp: [["{player} t'attend au niveau du dessus !", "{player} is waiting for you on the next level!"]],
+    },
+    team: {
+      success: [["Allez {team} ! ⚽", "Come on {team}! ⚽"]],
+      streak: [["{team} enchaîne les victoires !", "{team} keep on winning!"]],
+      levelUp: [["{team} monte au classement !", "{team} climb the table!"]],
+      record: [["Les supporters de {team} chantent ton nom !", "The {team} fans are singing your name!"]],
+    },
+    artist: {
+      success: [["Ça mérite une chanson de {artist} 🎤", "That deserves a song by {artist} 🎤"]],
+      record: [["{artist} va écrire une chanson sur ton record !", "{artist} is going to write a song about your record!"]],
+    },
+    country: {
+      start: [["Prochaine escale : {country} ✈️ ! Mais d'abord, un petit exercice.", "Next stop: {country} ✈️! But first, a little exercise."]],
+      levelUp: [["Encore un niveau, et direction {country} ✈️ !", "One more level, and off to {country} ✈️!"]],
+    },
+  },
+
   evening: {
     start: [["Bonsoir ! Une petite partie avant de dormir ? 🌙", "Good evening! A little game before bed? 🌙"], ["Les étoiles sont là, et les cartes aussi ✨", "The stars are out, and so are the cards ✨"]],
     success: [["Même le soir, ton cerveau brille ! 🌙", "Even in the evening, your brain shines! 🌙"], ["Bravo, la lune est fière de toi 🌛", "Well done, the moon is proud of you 🌛"]],

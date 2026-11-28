@@ -368,6 +368,10 @@ const Stats = (() => {
         if (e.closed) line("kichallenge_step(" + R + ", " + (k + 1) + ", " + atom(e.game) + ", " + e.level + ", " + (e.ok ? "ok" : e.skipped ? "skipped" : "missed") + ", " + Math.round(e.ms / 1000) + ", " + e.help + ").");
       });
     });
+    // ZeMowg (js/zemowg.js) : zemowg_guess(Joueur, Hypothèse, yes | bit | no, Date) ;
+    // zemowg_feedback(Joueur, Fait, agree | disagree | forget, Date) sur la page « Ce que ZeMowg sait de moi ».
+    (d.guesses || []).forEach(g => line("zemowg_guess(" + atom(Store.playerId(g.player || "joueur")) + ", " + atom(g.id) + ", " + g.answer + ", " + atom(new Date(g.time).toISOString()) + ")."));
+    (d.zemowgFeedback || []).forEach(f => line("zemowg_feedback(" + atom(Store.playerId(f.player || "joueur")) + ", " + atom(f.fact) + ", " + f.answer + ", " + atom(new Date(f.time).toISOString()) + ")."));
     // Répliques de KibooM (js/repliques.js) : message_shown(Joueur, Exercice ou none, Moment, Réplique, Date) ;
     // child_line(Joueur, Moment, Texte) : une réplique écrite par l'enfant (ses mots, montrés à lui seul).
     (d.replies || []).forEach(r => line("message_shown(" + atom(Store.playerId(r.player || "joueur")) + ", " + (r.inst ? atom(r.inst) : "none") + ", " + r.moment + ", " + atom(r.id) + ", " + atom(new Date(r.time).toISOString()) + ")."));

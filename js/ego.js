@@ -149,7 +149,7 @@ const Ego = (() => {
     if (!T) return;
     $("ego-title").textContent = "🪞 " + E().title;
     $("ego-menu").textContent = "☰ " + T.menu;
-    ({ hub, quiz, family: familyStep, character: characterStep, result, challenge, done, avatarFamily, avatarCharacter, lines, tastes }[step] || hub)();
+    ({ hub, quiz, family: familyStep, character: characterStep, result, challenge, done, avatarFamily, avatarCharacter, lines, tastes, knows }[step] || hub)();
     window.scrollTo(0, 0);
   }
 
@@ -195,9 +195,10 @@ const Ego = (() => {
             ${r && ch !== "identity" ? `<button class="act ghost" type="button" data-see="${ch}">${E().see}</button>` : ""}
           </div>
         </section>`;
-      }).join("")}${tastesCard()}</div>
+      }).join("")}${tastesCard()}${knowsCard()}</div>
       <p class="ego-change">🌱 ${E().mayChange}</p>`;
     on("[data-a=tastes]", () => { step = "tastes"; tastesRec = null; render(); });
+    on("[data-a=knows]", () => { step = "knows"; render(); });
     on("[data-a=avatar]", () => { step = "avatarFamily"; render(); });
     on("[data-a=lines]", () => { step = "lines"; render(); });
     box().querySelectorAll("[data-start]").forEach(b => { b.onclick = () => begin(b.dataset.start, null); });
@@ -318,7 +319,7 @@ const Ego = (() => {
   const TASTE_QS = () => EGO.likes.concat(EGO.likesExtra || []);
   function tastesCard() {
     const lk = Store.likes();
-    const icons = TASTE_QS().flatMap(q => (lk[q.id] || []).map(v => (q.options.find(o => o.id === v) || {}).icon)).filter(Boolean).slice(0, 10).join(" ");
+    const icons = TASTE_QS().flatMap(q => (lk[q.id] || []).map(v => ((q.options || EGO[q.list] || []).find(o => o.id === v) || {}).icon)).filter(Boolean).slice(0, 10).join(" ");
     return `<section class="ego-chapter ego-tastes">
       <div class="ego-ch-num">4</div>
       <div class="ego-ch-icon" aria-hidden="true">❤️</div>
@@ -336,16 +337,27 @@ const Ego = (() => {
     tastesRec.time = Date.now();
     Store.save();
   }
+  // Une question de « Mes goûts » : boutons à cocher (une ou plusieurs réponses), liste (pays) ou texte
+  // libre seul ; « when » : la question ne s'ouvre que si elle a du sens (l'équipe si on aime le foot…).
+  function tasteQHTML(q, lk, free, L) {
+    let body = "";
+    if (q.type === "select") {
+      const list = EGO[q.list] || [], cur = (lk[q.id] || [])[0] || "";
+      body = `<select class="taste-select"><option value="">—</option>${list.map(o => `<option value="${o.id}"${o.id === cur ? " selected" : ""}>${o.icon} ${esc(o[L])}</option>`).join("")}</select>`;
+    } else if (q.type !== "free") {
+      body = `<div class="taste-opts">${q.options.map(o => `<button type="button" class="taste-opt" data-o="${o.id}" aria-pressed="${(lk[q.id] || []).includes(o.id)}"${o.colors ? ` style="--c1:${o.colors[0]};--c2:${o.colors[1]}"` : ""}>${o.colors ? `<i class="taste-colors"></i>` : o.icon + " "}${esc(o[L])}</button>`).join("")}</div>`;
+    }
+    const ph = q.type === "free" ? T.tastes.freeOnly : T.tastes.free;
+    return `<section class="taste-q${q.when ? " taste-sub" : ""}" data-q="${q.id}"><h4>${q[L]}</h4>${body}
+      ${q.type === "select" ? "" : `<input class="taste-free" type="text" maxlength="80" placeholder="${esc(ph)}" value="${esc(free[q.id] || "")}">`}</section>`;
+  }
   function tastes() {
-    const lk = Store.likes(), free = Store.likesFree(), L = lang();
+    const lk = Store.likes(), free = Store.likesFree(), L = lang(), keepY = window.scrollY;
     box().innerHTML = `<div class="ego-q"><h3 class="ego-question">❤️ ${T.tastes.name}</h3><p class="ego-sub">${T.tastes.intro}</p></div>
-      ${TASTE_QS().map(q => `<section class="taste-q" data-q="${q.id}">
-        <h4>${q[L]}</h4>
-        <div class="taste-opts">${q.options.map(o => `<button type="button" class="taste-opt" data-o="${o.id}" aria-pressed="${(lk[q.id] || []).includes(o.id)}">${o.icon} ${o[L]}</button>`).join("")}</div>
-        <input class="taste-free" type="text" maxlength="80" placeholder="${esc(T.tastes.free)}" value="${esc(free[q.id] || "")}">
-      </section>`).join("")}
+      ${TASTE_QS().filter(q => !q.when || q.when(lk)).map(q => tasteQHTML(q, lk, free, L)).join("")}
       <p class="ego-change">💾 ${T.tastes.saved}</p>
       <div class="ego-nav"><button class="act" type="button" data-a="back">✔ ${T.tastes.done}</button></div>`;
+    window.scrollTo(0, keepY);
     box().querySelectorAll(".taste-q").forEach(sec => {
       const q = TASTE_QS().find(x => x.id === sec.dataset.q);
       sec.querySelectorAll(".taste-opt").forEach(b => {
@@ -353,13 +365,42 @@ const Ego = (() => {
           const cur = (Store.likes()[q.id] || []).slice(), o = b.dataset.o, has = cur.includes(o);
           const next = q.multi ? (has ? cur.filter(x => x !== o) : cur.concat(o)) : (has ? [] : [o]);
           saveTaste(q.id, q.multi ? next : (next[0] || "skip"));
-          sec.querySelectorAll(".taste-opt").forEach(x => x.setAttribute("aria-pressed", String(next.includes(x.dataset.o))));
+          // Aimer et ne pas aimer la même chose : la dernière réponse l'emporte.
+          if (q.id === "dislikes" && !has) { const h = (Store.likes().hobbies || []).filter(x => x !== o); saveTaste("hobbies", h); }
+          if (q.id === "hobbies" && !has) { const d = (Store.likes().dislikes || []).filter(x => x !== o); saveTaste("dislikes", d); }
+          tastes();      // des questions peuvent s'ouvrir ou se fermer (l'équipe si on coche le foot…)
         };
       });
+      const sel = sec.querySelector(".taste-select");
+      if (sel) sel.onchange = () => saveTaste(q.id, sel.value ? [sel.value] : "skip");
       const input = sec.querySelector(".taste-free");
-      input.addEventListener("change", () => saveTaste(q.id, input.value.trim().slice(0, 80), true));
+      if (input) input.addEventListener("change", () => saveTaste(q.id, input.value.trim().slice(0, 80), true));
     });
     on("[data-a=back]", () => { step = "hub"; render(); });
+  }
+
+  /* ---------- 5e espace : « Ce que ZeMowg sait de moi » (js/zemowg.js) ----------
+     Tout ce qu'on sait, rassemblé à partir des 4 autres espaces et des jeux ; l'enfant confirme ou corrige. */
+  function knowsCard() {
+    const n = ZeMowg.count();
+    return `<section class="ego-chapter ego-knows">
+      <div class="ego-ch-num">5</div>
+      <div class="ego-ch-icon">${ZeMowg.face()}</div>
+      <h3>${T.zemowg.knowsTitle}</h3><p>${T.zemowg.knowsText}</p>
+      <p class="ego-ch-status">${n ? T.zemowg.knowsCount(n) : "🌱 " + T.zemowg.knowsNone}</p>
+      <div class="ego-ch-btns"><button class="act" type="button" data-a="knows">${T.zemowg.knowsGo}</button></div>
+    </section>`;
+  }
+  function knows() {
+    box().innerHTML = `<div class="zm-box"></div><div class="ego-nav"><button class="act ghost" type="button" data-a="back">← ${E().back}</button></div>`;
+    on("[data-a=back]", () => { step = "hub"; render(); });
+    ZeMowg.renderKnows(box().querySelector(".zm-box"), action => {
+      if (action === "tastes") { step = "tastes"; tastesRec = null; render(); }
+      else if (action === "avatar") { step = "avatarFamily"; render(); }
+      else if (action === "personality" && last("personality")) { chapter = "personality"; current = last("personality"); step = "result"; render(); }
+      else if (CHAPTERS.includes(action) && unlocked(action)) begin(action, null);
+      else { step = "hub"; render(); }
+    });
   }
 
   // « Mes répliques » : l'enfant écrit ses propres phrases (même taquines : lui peut se le permettre),
