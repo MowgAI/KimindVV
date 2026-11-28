@@ -864,3 +864,37 @@ body.on-menu #btn-home { display: inline-flex; }
 .taste-opt { font: inherit; cursor: pointer; padding: 6px 12px; border-radius: 999px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); }
 .taste-opt[aria-pressed="true"] { border-color: var(--brand); background: var(--brand); color: #fff; }
 .taste-free { font: inherit; width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 12px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); }
+
+/* Mes goûts : questions qui s'ouvrent selon les réponses, couleurs des équipes, pays. */
+.taste-sub { border-left: 4px solid var(--brand); }
+.taste-colors { display: inline-block; width: 14px; height: 14px; border-radius: 50%; margin-right: 6px; vertical-align: -2px; background: linear-gradient(90deg, var(--c1) 50%, var(--c2) 50%); border: 1px solid rgba(0,0,0,0.3); }
+.taste-select { font: inherit; padding: 8px 10px; border-radius: 12px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); min-width: 220px; }
+
+/* ZeMowg (js/zemowg.js) : le représentant de la personnalisation. */
+.zm-face { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #E9D5FF, #7C3AED); font-size: 1.5rem; flex: none; box-shadow: 0 3px 10px rgba(124,58,237,0.35); }
+.zm-face.big { width: 72px; height: 72px; font-size: 2.4rem; }
+.ego-knows { border-color: #7C3AED; }
+.zm-card { display: flex; gap: 12px; align-items: flex-start; max-width: 900px; margin: 12px auto; background: var(--panel); border: 3px solid #7C3AED; border-radius: 22px; padding: 12px 16px; text-align: left; }
+.zm-card p { margin: 0 0 6px; }
+.zm-title { font-weight: 800; color: #7C3AED; }
+.zm-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.zm-thanks { font-weight: 700; margin: 0; align-self: center; }
+.zm-head { display: flex; gap: 14px; align-items: center; margin-bottom: 8px; }
+.zm-guesses, .zm-surprises { background: var(--panel); border: 3px dashed #7C3AED; border-radius: 18px; padding: 10px 14px; margin: 10px 0; }
+.zm-guesses h4, .zm-surprises h4 { margin: 0 0 6px; }
+.zm-guess { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.zm-guess p { margin: 0; flex: 1 1 260px; }
+.zm-planets { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+.zm-planet { background: var(--panel); border-radius: 20px; padding: 12px 14px; border: 3px solid var(--brand-soft); }
+.zm-planet h4 { margin: 0 0 8px; font-size: 1.1rem; }
+.zm-planet ul { list-style: none; margin: 0; padding: 0; }
+.zm-seen { border-color: #F59E0B; } .zm-confirmed { border-color: #7C3AED; } .zm-tastes { border-color: #F472B6; }
+.zm-fact { display: flex; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.zm-fact:last-child { border-bottom: 0; }
+.zm-fact-body p { margin: 0 0 4px; }
+.zm-src { font-size: 0.85rem; color: var(--ink-soft); }
+.zm-fact-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.zm-fact-btns button { font: inherit; font-size: 0.85rem; cursor: pointer; padding: 3px 10px; border-radius: 999px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); }
+.zm-ok { font-size: 0.85rem; color: var(--ink-soft); }
+.zm-empty { color: var(--ink-soft); margin: 0 0 8px; }
+.card.zm-mini { display: block; width: 34px; aspect-ratio: 5 / 7; flex: none; }

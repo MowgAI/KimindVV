@@ -407,6 +407,7 @@
     Creatif.texts(T);
     Chrono.texts(T);
     Repliques.texts(T);
+    ZeMowg.texts(T);
     Kichallenge.texts(T);
     $("lang").setAttribute("aria-label", T.language);
     $("intro-title").textContent = T.introTitle;

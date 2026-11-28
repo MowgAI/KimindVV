@@ -47,6 +47,7 @@ const Home = (() => {
         <div class="home-tools" role="group">${["music", "sfx", "voice"].map(k => `<button type="button" data-tool="${k}" aria-pressed="${GameAudio.isOn(k)}">${GameAudio.label(k)}</button>`).join("")}
           <button type="button" data-tool="player">👤 ${Store.player ? esc(Store.player) : T.stats.noPlayer}</button></div>
         ${forYou()}
+        ${typeof ZeMowg !== "undefined" ? ZeMowg.guessCardHTML() : ""}
         <div class="home-rubs">
           <section class="rub">
             <h2 class="rub-title">${H.kiboo.title}</h2>
@@ -110,6 +111,7 @@ const Home = (() => {
     box.querySelector("[data-a=intrus]").onclick = () => { close(); location.hash = "intrus"; };
     box.querySelector("[data-a=parade]").onclick = () => { close(); Parade.open(T, $("lang").value); };
     if (typeof Parcours !== "undefined") Parcours.wire(box, render);
+    if (typeof ZeMowg !== "undefined") ZeMowg.wire(box, render);
     box.querySelector("[data-a=ego]").onclick = () => { close(); location.hash = "ego"; };
     box.querySelector("[data-a=stats]").onclick = () => { close(); location.hash = "stats"; };
     box.querySelector("[data-a=player]").onclick = () => Stats.askPlayer();

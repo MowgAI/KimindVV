@@ -390,7 +390,86 @@ window.EGO = {
         { id: "gym", icon: "🤸", fr: "la gym", en: "gymnastics" }, { id: "martial_arts", icon: "🥋", fr: "le judo, le karaté…", en: "judo, karate…" },
         { id: "horse_riding", icon: "🏇", fr: "l'équitation", en: "horse riding" }, { id: "running", icon: "🏃", fr: "la course", en: "running" },
         { id: "skiing", icon: "⛷️", fr: "le ski", en: "skiing" }, { id: "climbing", icon: "🧗", fr: "l'escalade", en: "climbing" }] },
+    // Questions qui s'ouvrent selon les réponses (when) : on n'approfondit que ce que l'enfant aime.
+    // Équipes : noms seulement (pas de logos ni de photos : marques et droits d'image), avec leurs couleurs.
+    { id: "fav_team", when: lk => (lk.sports || []).includes("football"), fr: "Ton équipe de foot préférée ?", en: "Your favourite football team?",
+      options: [
+        { id: "france", icon: "🇫🇷", fr: "l'équipe de France", en: "France", colors: ["#002395", "#ED2939"] },
+        { id: "psg", icon: "⚽", fr: "le PSG", en: "PSG", colors: ["#004170", "#DA291C"] },
+        { id: "om", icon: "⚽", fr: "l'OM", en: "Marseille", colors: ["#2FAEE0", "#FFFFFF"] },
+        { id: "ol", icon: "⚽", fr: "l'OL", en: "Lyon", colors: ["#1A3D8F", "#E30613"] },
+        { id: "losc", icon: "⚽", fr: "le LOSC", en: "Lille", colors: ["#E01E13", "#1B2B5B"] },
+        { id: "monaco", icon: "⚽", fr: "l'AS Monaco", en: "Monaco", colors: ["#E51B22", "#FFFFFF"] },
+        { id: "rennes", icon: "⚽", fr: "le Stade Rennais", en: "Rennes", colors: ["#E13327", "#000000"] },
+        { id: "lens", icon: "⚽", fr: "le RC Lens", en: "Lens", colors: ["#FFD200", "#E30613"] },
+        { id: "nice", icon: "⚽", fr: "l'OGC Nice", en: "Nice", colors: ["#D2001F", "#000000"] },
+        { id: "nantes", icon: "⚽", fr: "le FC Nantes", en: "Nantes", colors: ["#FCE300", "#00A650"] },
+        { id: "real", icon: "⚽", fr: "le Real Madrid", en: "Real Madrid", colors: ["#00529F", "#FEBE10"] },
+        { id: "barca", icon: "⚽", fr: "le FC Barcelone", en: "Barcelona", colors: ["#A50044", "#004D98"] },
+        { id: "city", icon: "⚽", fr: "Manchester City", en: "Manchester City", colors: ["#6CABDD", "#1C2C5B"] },
+        { id: "liverpool", icon: "⚽", fr: "Liverpool", en: "Liverpool", colors: ["#C8102E", "#00B2A9"] },
+        { id: "arsenal", icon: "⚽", fr: "Arsenal", en: "Arsenal", colors: ["#EF0107", "#063672"] },
+        { id: "bayern", icon: "⚽", fr: "le Bayern Munich", en: "Bayern Munich", colors: ["#DC052D", "#0066B2"] },
+        { id: "juventus", icon: "⚽", fr: "la Juventus", en: "Juventus", colors: ["#000000", "#FFFFFF"] },
+        { id: "inter", icon: "⚽", fr: "l'Inter Milan", en: "Inter Milan", colors: ["#0068A8", "#000000"] }] },
+    { id: "fav_player", type: "free", when: lk => (lk.sports || []).includes("football"), fr: "Ton joueur ou ta joueuse de foot préférée ?", en: "Your favourite football player?" },
+    { id: "position", when: lk => (lk.sports || []).includes("football"), fr: "Sur le terrain, tu joues…", en: "On the pitch, you play…",
+      options: [{ id: "goal", icon: "🧤", fr: "dans les buts", en: "in goal" }, { id: "defence", icon: "🛡️", fr: "en défense", en: "in defence" },
+        { id: "midfield", icon: "🔄", fr: "au milieu", en: "in midfield" }, { id: "attack", icon: "⚡", fr: "en attaque", en: "up front" },
+        { id: "watch", icon: "📺", fr: "je ne joue pas, je regarde", en: "I don't play, I watch" }] },
+    { id: "fav_sportsperson", type: "free", when: lk => (lk.sports || []).some(s => s !== "football"), fr: "Un sportif ou une sportive que tu adores ?", en: "A sportsperson you love?" },
+    { id: "fav_artist", type: "free", when: lk => !(lk.dislikes || []).includes("music") && ((lk.music_taste || []).some(m => m !== "dunno") || (lk.hobbies || []).includes("music")), fr: "Un chanteur, une chanteuse ou un groupe que tu adores ?", en: "A singer or band you love?" },
+    { id: "country_live", type: "select", list: "countries", fr: "Le pays où tu vis ?", en: "The country you live in?" },
+    { id: "country_love", type: "select", list: "countries", fr: "Un pays que tu adores, ou dont tu rêves ?", en: "A country you love, or dream of?" },
+    // Ce que l'enfant n'aime pas : on ne lui en parle pas (un enfant qui déteste le foot n'entend jamais « Buuut ! »).
+    { id: "dislikes", multi: true, fr: "Et ce que tu n'aimes pas du tout ?", en: "And what you really don't like?",
+      options: [{ id: "sport", icon: "⚽", fr: "le sport", en: "sport" }, { id: "music", icon: "🎵", fr: "la musique", en: "music" },
+        { id: "drawing", icon: "🎨", fr: "le dessin", en: "drawing" }, { id: "reading", icon: "📚", fr: "la lecture", en: "reading" },
+        { id: "board_games", icon: "🎲", fr: "les jeux de société", en: "board games" }, { id: "video_games", icon: "🎮", fr: "les jeux vidéo", en: "video games" },
+        { id: "nature", icon: "🌳", fr: "la nature", en: "nature" }, { id: "dance", icon: "💃", fr: "la danse", en: "dancing" },
+        { id: "cooking", icon: "🧁", fr: "la cuisine", en: "cooking" }, { id: "building", icon: "🧱", fr: "construire", en: "building" }] },
   ],
+  // Pays (pour « Mes goûts ») : nom et drapeau. À compléter.
+  countries: [
+    ["fr", "🇫🇷", "France", "France"], ["be", "🇧🇪", "Belgique", "Belgium"], ["ch", "🇨🇭", "Suisse", "Switzerland"], ["ca", "🇨🇦", "Canada", "Canada"],
+    ["lu", "🇱🇺", "Luxembourg", "Luxembourg"], ["mc", "🇲🇨", "Monaco", "Monaco"], ["ma", "🇲🇦", "Maroc", "Morocco"], ["dz", "🇩🇿", "Algérie", "Algeria"],
+    ["tn", "🇹🇳", "Tunisie", "Tunisia"], ["sn", "🇸🇳", "Sénégal", "Senegal"], ["ci", "🇨🇮", "Côte d'Ivoire", "Ivory Coast"], ["cm", "🇨🇲", "Cameroun", "Cameroon"],
+    ["gb", "🇬🇧", "Royaume-Uni", "United Kingdom"], ["ie", "🇮🇪", "Irlande", "Ireland"], ["es", "🇪🇸", "Espagne", "Spain"], ["pt", "🇵🇹", "Portugal", "Portugal"],
+    ["it", "🇮🇹", "Italie", "Italy"], ["de", "🇩🇪", "Allemagne", "Germany"], ["nl", "🇳🇱", "Pays-Bas", "Netherlands"], ["gr", "🇬🇷", "Grèce", "Greece"],
+    ["no", "🇳🇴", "Norvège", "Norway"], ["is", "🇮🇸", "Islande", "Iceland"], ["us", "🇺🇸", "États-Unis", "United States"], ["mx", "🇲🇽", "Mexique", "Mexico"],
+    ["br", "🇧🇷", "Brésil", "Brazil"], ["ar", "🇦🇷", "Argentine", "Argentina"], ["jp", "🇯🇵", "Japon", "Japan"], ["cn", "🇨🇳", "Chine", "China"],
+    ["kr", "🇰🇷", "Corée du Sud", "South Korea"], ["in", "🇮🇳", "Inde", "India"], ["au", "🇦🇺", "Australie", "Australia"], ["eg", "🇪🇬", "Égypte", "Egypt"],
+  ].map(([id, icon, fr, en]) => ({ id, icon, fr, en })),
+
+  /* ZeMowg, le représentant de la personnalisation : il devine, montre ce qu'il a compris, et l'enfant
+     corrige (js/zemowg.js). KibooM reste le nom de l'ensemble de jeux de maths. */
+  zemowg: {
+    // « ZeMowg devine… » : hypothèses tirées du jeu (règles dans js/zemowg.js). L'enfant répond.
+    guesses: {
+      memory:    { icon: "🧠", fr: "Je parie que tu adores les jeux de mémoire !", en: "I bet you love memory games!" },
+      speed:     { icon: "⚡", fr: "J'ai l'impression que tu aimes aller vite. Je me trompe ?", en: "I get the feeling you like going fast. Am I wrong?" },
+      calc:      { icon: "➕", fr: "Les calculs, ça te plaît, non ?", en: "You enjoy sums, don't you?" },
+      logic:     { icon: "🕵️", fr: "Tu aimes les énigmes où il faut deviner, comme Kimind ?", en: "You like puzzles where you have to guess, like Kimind?" },
+      duel:      { icon: "🤺", fr: "Jouer contre quelqu'un, ça te motive ?", en: "Does playing against someone motivate you?" },
+      create:    { icon: "🎨", fr: "Tu adores inventer des choses, je me trompe ?", en: "You love making things up, am I right?" },
+      challenge: { icon: "⏱️", fr: "Les défis chrono, ça te plaît ?", en: "Do you like time challenges?" },
+      persist:   { icon: "💪", fr: "Tu ne lâches jamais rien, hein ?", en: "You never give up, do you?" },
+      evening:   { icon: "🌙", fr: "Tu es plutôt du soir, toi ?", en: "You're more of an evening person, right?" },
+      auto:      { icon: "🤖", fr: "Tu aimes bien qu'on choisisse les jeux pour toi ?", en: "You like it when the games are chosen for you?" },
+      timer:     { icon: "⏱️", fr: "Tu aimes voir le temps défiler pendant les exercices ?", en: "You like watching the clock during exercises?" },
+      blue:      { icon: "🐾", fr: "Ton avatar est un animal : tu adores les animaux ?", en: "Your avatar is an animal: do you love animals?" },
+      green:     { icon: "🦖", fr: "Ton avatar est un dino : tu es fan des dinosaures ?", en: "Your avatar is a dino: are you a dinosaur fan?" },
+      red:       { icon: "🤖", fr: "Ton avatar est un robot : les robots, ça te fascine ?", en: "Your avatar is a robot: do robots fascinate you?" },
+      yellow:    { icon: "👷", fr: "Ton avatar a un métier : tu sais déjà ce que tu veux faire plus tard ?", en: "Your avatar has a job: do you already know what you want to do later?" },
+    },
+    // Surprises : ce que l'enfant a dit et ce qu'il fait ne collent pas (toujours dit avec le sourire).
+    surprises: {
+      fast_thinker: { fr: "Tu m'as dit préférer prendre ton temps… mais à Kibal, tu es une fusée 🚀 !", en: "You told me you like taking your time… but at Kibal you're a rocket 🚀!" },
+      creative:     { fr: "Tu ne pensais pas aimer inventer… et pourtant tu as déjà inventé {n} personnages 🎨 !", en: "You didn't think you liked making things up… yet you've already invented {n} characters 🎨!" },
+      challenger:   { fr: "Les défis, pas trop ton truc ? Tu as pourtant déjà fait {n} Kichallenges ⏱️ !", en: "Challenges not really your thing? Yet you've already done {n} Kichallenges ⏱️!" },
+      persistent:   { fr: "Tu m'as dit abandonner vite quand c'est dur… mais tu as réussi {n} exercices après plein d'essais 💪 !", en: "You told me you give up quickly when it's hard… but you've succeeded at {n} exercises after lots of tries 💪!" },
+    },
+  },
 
   /* ---------- Le conseil de KibooM (js/coach.js), dit par l'avatar de l'enfant ----------
      openers : la première phrase, selon le moment (temps de jeu, échecs, humeur, soir).
