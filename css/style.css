@@ -898,3 +898,41 @@ body.on-menu #btn-home { display: inline-flex; }
 .zm-ok { font-size: 0.85rem; color: var(--ink-soft); }
 .zm-empty { color: var(--ink-soft); margin: 0 0 8px; }
 .card.zm-mini { display: block; width: 34px; aspect-ratio: 5 / 7; flex: none; }
+
+/* Mes goûts : « Ceci ou cela ? » et « Mon univers » (js/gouts.js). */
+.taste-games { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin: 10px 0 14px; }
+.taste-game { font: inherit; cursor: pointer; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 10px; text-align: left; align-items: center; padding: 12px 16px; border-radius: 20px; border: 3px solid #F472B6; background: var(--panel); color: var(--ink); }
+.taste-game span { grid-row: 1 / 3; font-size: 2rem; }
+.taste-game small { color: var(--ink-soft); }
+.tot-step { text-align: center; font-weight: 700; color: var(--ink-soft); margin: 4px 0; }
+.tot-duel { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 10px 0; }
+.tot-side { font: inherit; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; width: min(260px, 42vw); padding: 16px 10px; border-radius: 24px; border: 4px solid var(--brand-soft); background: var(--panel); color: var(--ink); transition: transform 0.12s; }
+.tot-side:hover, .tot-side:focus-visible { transform: scale(1.04); border-color: var(--brand); }
+.tot-emoji { font-size: clamp(3.5rem, 12vw, 6rem); line-height: 1; }
+.tot-emoji.small { font-size: 1.2rem; }
+.card.tot-card { display: block; width: clamp(90px, 20vw, 140px); aspect-ratio: 5 / 7; }
+.card.tot-card.small { display: inline-block; width: 18px; vertical-align: middle; }
+.tot-face { width: clamp(90px, 20vw, 140px); height: auto; border-radius: 50%; }
+.tot-face.small { width: 20px; vertical-align: middle; }
+.tot-or { font-weight: 800; font-size: 1.4rem; color: var(--brand); }
+.tot-more { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.tot-summary { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.tot-chip { background: var(--panel); border: 2px solid #F472B6; border-radius: 999px; padding: 4px 12px; }
+.uv-board { position: relative; width: 100%; aspect-ratio: 16 / 9; max-height: 55vh; border-radius: 24px; overflow: hidden; touch-action: none; user-select: none;
+  background: radial-gradient(circle at 20% 25%, rgba(255,255,255,0.8) 0 1px, transparent 2px), radial-gradient(circle at 70% 60%, rgba(255,255,255,0.7) 0 1px, transparent 2px), radial-gradient(circle at 45% 80%, rgba(255,255,255,0.6) 0 1px, transparent 2px), linear-gradient(160deg, #1E1B4B, #4C1D95 55%, #BE185D); background-size: 90px 90px, 130px 130px, 70px 70px, 100% 100%; }
+.uv-item { position: absolute; translate: -50% -50%; font-size: calc(2.6rem * var(--s, 1)); line-height: 1; cursor: grab; filter: drop-shadow(0 3px 4px rgba(0,0,0,0.4)); }
+.uv-item.sel { outline: 3px dashed #FDE68A; outline-offset: 4px; border-radius: 10px; }
+.card.uv-card { display: block; width: calc(52px * var(--s, 1)); aspect-ratio: 5 / 7; }
+.card.uv-card.small { width: 26px; }
+.uv-text { display: inline-block; font-family: "Luckiest Guy", "Fredoka", sans-serif; font-size: 0.55em; color: #FDE68A; -webkit-text-stroke: 0.04em #000; paint-order: stroke fill; white-space: nowrap; }
+.uv-hint { position: absolute; inset: 0; display: grid; place-items: center; color: #FDE68A; font-weight: 700; text-align: center; padding: 20px; margin: 0; }
+.uv-tools { display: flex; gap: 8px; flex-wrap: wrap; min-height: 42px; align-items: center; }
+.uv-tip { color: var(--ink-soft); font-size: 0.9rem; }
+.uv-h { margin: 10px 0 6px; }
+.uv-palette { display: flex; flex-wrap: wrap; gap: 4px; }
+.uv-pick { font-size: 1.6rem; line-height: 1; cursor: pointer; padding: 6px; border-radius: 12px; border: 2px solid var(--line); background: var(--panel); }
+.uv-pick.mine { border-color: #F472B6; }
+.uv-word { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.uv-word input { font: inherit; flex: 1 1 220px; padding: 8px 10px; border-radius: 12px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); }
+.zm-univers { font-size: 1.4rem; margin: 2px 0 6px; }
+.card.zm-mini.inline { display: inline-block; width: 22px; vertical-align: middle; }

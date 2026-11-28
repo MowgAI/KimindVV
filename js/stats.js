@@ -368,6 +368,10 @@ const Stats = (() => {
         if (e.closed) line("kichallenge_step(" + R + ", " + (k + 1) + ", " + atom(e.game) + ", " + e.level + ", " + (e.ok ? "ok" : e.skipped ? "skipped" : "missed") + ", " + Math.round(e.ms / 1000) + ", " + e.help + ").");
       });
     });
+    // « Ceci ou cela ? » : this_or_that(Joueur, Duel, a | b | both | none, Date) ;
+    // « Mon univers » : univers_sticker(Joueur, Type (emoji | card | text), Contenu), pour l'univers actuel.
+    (d.tot || []).forEach(t => line("this_or_that(" + atom(Store.playerId(t.player || "joueur")) + ", " + atom(t.id) + ", " + t.answer + ", " + atom(new Date(t.time).toISOString()) + ")."));
+    Object.entries(d.univers || {}).forEach(([p, u]) => (u.items || []).forEach(it => line("univers_sticker(" + atom(Store.playerId(p)) + ", " + (it.card ? "card, " + atom(it.card) : it.text ? "text, " + atom(it.text) : "emoji, " + atom(it.e)) + ").")));
     // ZeMowg (js/zemowg.js) : zemowg_guess(Joueur, Hypothèse, yes | bit | no, Date) ;
     // zemowg_feedback(Joueur, Fait, agree | disagree | forget, Date) sur la page « Ce que ZeMowg sait de moi ».
     (d.guesses || []).forEach(g => line("zemowg_guess(" + atom(Store.playerId(g.player || "joueur")) + ", " + atom(g.id) + ", " + g.answer + ", " + atom(new Date(g.time).toISOString()) + ")."));

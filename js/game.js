@@ -408,6 +408,7 @@
     Chrono.texts(T);
     Repliques.texts(T);
     ZeMowg.texts(T);
+    Gouts.texts(T);
     Kichallenge.texts(T);
     $("lang").setAttribute("aria-label", T.language);
     $("intro-title").textContent = T.introTitle;

@@ -441,6 +441,43 @@ window.EGO = {
     ["kr", "🇰🇷", "Corée du Sud", "South Korea"], ["in", "🇮🇳", "Inde", "India"], ["au", "🇦🇺", "Australie", "Australia"], ["eg", "🇪🇬", "Égypte", "Egypt"],
   ].map(([id, icon, fr, en]) => ({ id, icon, fr, en })),
 
+  /* « Ceci ou cela ? » (Mes goûts) : des duels rapides, en grandes images (cartes, personnages ou émojis).
+     a et b : { icon } ou { card: "blue-3" } ou { face: "archi" }, avec fr et en. À compléter. */
+  thisOrThat: [
+    { id: "cat_dog", a: { card: "blue-3", fr: "le chat", en: "cats" }, b: { card: "blue-4", fr: "le chien", en: "dogs" } },
+    { id: "dino_robot", a: { card: "green-10", fr: "les dinosaures", en: "dinosaurs" }, b: { card: "red-10", fr: "les robots", en: "robots" } },
+    { id: "archi_poupetta", a: { face: "archi", fr: "Archi", en: "Archi" }, b: { face: "poupetta", fr: "Poupetta", en: "Poupetta" } },
+    { id: "lili_ray", a: { face: "lili", fr: "Lili", en: "Lili" }, b: { face: "ray", fr: "Ray", en: "Ray" } },
+    { id: "sea_mountain", a: { icon: "🌊", fr: "la mer", en: "the sea" }, b: { icon: "🏔️", fr: "la montagne", en: "the mountains" } },
+    { id: "draw_build", a: { icon: "🎨", fr: "dessiner", en: "drawing" }, b: { icon: "🧱", fr: "construire", en: "building" } },
+    { id: "out_in", a: { icon: "🌳", fr: "jouer dehors", en: "playing outside" }, b: { icon: "🏠", fr: "jouer à la maison", en: "playing at home" } },
+    { id: "sweet_salty", a: { icon: "🍫", fr: "le sucré", en: "sweet" }, b: { icon: "🥨", fr: "le salé", en: "salty" } },
+    { id: "summer_winter", a: { icon: "☀️", fr: "l'été", en: "summer" }, b: { icon: "❄️", fr: "l'hiver", en: "winter" } },
+    { id: "book_cartoon", a: { icon: "📚", fr: "une histoire à lire", en: "a story to read" }, b: { icon: "📺", fr: "un dessin animé", en: "a cartoon" } },
+    { id: "alone_together", a: { icon: "🧍", fr: "jouer par moi-même", en: "playing on my own" }, b: { icon: "👫", fr: "jouer à plusieurs", en: "playing with others" } },
+    { id: "fast_slow", a: { icon: "⚡", fr: "aller vite", en: "going fast" }, b: { icon: "🐢", fr: "prendre mon temps", en: "taking my time" } },
+    { id: "sing_dance", a: { icon: "🎤", fr: "chanter", en: "singing" }, b: { icon: "💃", fr: "danser", en: "dancing" } },
+    { id: "pizza_fries", a: { icon: "🍕", fr: "la pizza", en: "pizza" }, b: { icon: "🍟", fr: "les frites", en: "chips" } },
+    { id: "morning_evening", a: { icon: "🌅", fr: "le matin", en: "mornings" }, b: { icon: "🌙", fr: "le soir", en: "evenings" } },
+    { id: "rocket_submarine", a: { icon: "🚀", fr: "partir en fusée", en: "a rocket trip" }, b: { icon: "🐠", fr: "partir en sous-marin", en: "a submarine trip" } },
+    { id: "hero_wizard", a: { icon: "🦸", fr: "les super-héros", en: "superheroes" }, b: { icon: "🧙", fr: "les magiciens", en: "wizards" } },
+    { id: "puzzle_speed", a: { icon: "🧩", fr: "les énigmes", en: "puzzles" }, b: { icon: "🏃", fr: "les jeux de rapidité", en: "speed games" } },
+    { id: "cards_dice", a: { icon: "🃏", fr: "les jeux de cartes", en: "card games" }, b: { icon: "🎲", fr: "les jeux de dés", en: "dice games" } },
+    { id: "jokes_spooky", a: { icon: "😂", fr: "les blagues", en: "jokes" }, b: { icon: "👻", fr: "les histoires qui font peur", en: "spooky stories" } },
+    { id: "bike_scooter", a: { icon: "🚲", fr: "le vélo", en: "bikes" }, b: { icon: "🛴", fr: "la trottinette", en: "scooters" } },
+    { id: "lion_dolphin", a: { icon: "🦁", fr: "le lion", en: "lions" }, b: { icon: "🐬", fr: "le dauphin", en: "dolphins" } },
+    { id: "invent_follow", a: { icon: "🛠️", fr: "inventer mes règles", en: "making up my own rules" }, b: { icon: "📏", fr: "suivre les règles", en: "following the rules" } },
+    { id: "win_fun", a: { icon: "🏆", fr: "gagner", en: "winning" }, b: { icon: "🎉", fr: "m'amuser", en: "having fun" } },
+    { id: "help_myself", a: { icon: "🤝", fr: "qu'on m'aide", en: "getting help" }, b: { icon: "💡", fr: "trouver par moi-même", en: "working it out myself" } },
+    { id: "bright_soft", a: { icon: "🌈", fr: "les couleurs vives", en: "bright colours" }, b: { icon: "🩵", fr: "les couleurs douces", en: "soft colours" } },
+    { id: "loud_quiet", a: { icon: "🔊", fr: "la musique forte", en: "loud music" }, b: { icon: "🔉", fr: "la musique douce", en: "quiet music" } },
+  ],
+  // « Mon univers » : les autocollants proposés à tout le monde (en plus de ceux tirés de ses goûts).
+  stickers: ["⭐", "🌙", "☀️", "🪐", "🚀", "🌈", "❤️", "🔥", "⚡", "🎉", "🎈", "👑", "💎", "🍀", "🌸", "🌳", "🌊", "🏔️", "🏝️", "🏠",
+    "🐱", "🐶", "🐰", "🦊", "🐼", "🦁", "🐬", "🦄", "🐉", "🦖", "🤖", "👽", "🧙", "🦸", "🧚", "👻",
+    "⚽", "🏀", "🎾", "🏊", "🚲", "🛹", "🎸", "🎹", "🥁", "🎤", "🎧", "🎨", "✏️", "📚", "🎮", "🧩", "🎲", "🃏", "🧱",
+    "🍕", "🍟", "🍦", "🍫", "🧁", "🍓", "🍌", "🥐", "😂", "😎", "🤩", "🥳", "😴", "🤔"],
+
   /* ZeMowg, le représentant de la personnalisation : il devine, montre ce qu'il a compris, et l'enfant
      corrige (js/zemowg.js). KibooM reste le nom de l'ensemble de jeux de maths. */
   zemowg: {

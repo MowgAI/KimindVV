@@ -145,6 +145,10 @@ const ZeMowg = (() => {
       const txt = v.map(x => optLabel(q, x)).concat(f ? ["« " + f + " »"] : []).join(", ");
       goo.push(fact("like_" + q.id, (Z().likeLabels[q.id] || q[L]) + " " + txt, "told", { fix: "tastes" }));
     });
+    // « Ceci ou cela ? » et « Mon univers » (js/gouts.js)
+    const tot = Gouts.summary();
+    if (tot.length) goo.push(fact("tot", Z().totFact + " " + tot.map(x => x.text).join(", "), "told", { fix: "tot" }));
+    if (Gouts.univers().items.length) goo.push(fact("univers", Z().universFact, "told", { fix: "univers", html: Gouts.universLine() }));
     out.push({ id: "tastes", icon: "❤️", facts: goo });
 
     // 👀 Ce que j'ai remarqué en jouant (traces des jeux), comparé à lui-même seulement.
@@ -200,7 +204,7 @@ const ZeMowg = (() => {
     const pend = pending(), surp = surprises();
     const factHTML = f => `<li class="zm-fact" data-f="${f.id}">
         ${f.card ? `<span class="card face zm-mini" style="background-image:url(assets/cards/${f.card}.webp)"></span>` : ""}
-        <div class="zm-fact-body"><p>${esc(f.text)}</p>
+        <div class="zm-fact-body"><p>${esc(f.text)}</p>${f.html ? `<p class="zm-univers">${f.html}</p>` : ""}
           <p class="zm-src">${src[f.src]}${f.why ? ` · <span class="zm-why">${Z().why} ${esc(f.why)}</span>` : ""}</p>
           <p class="zm-fact-btns">${fb.get(f.id) === "agree" ? `<span class="zm-ok">✔ ${Z().agreed}</span>` : `<button type="button" data-fb="agree">✔ ${Z().agree}</button>`}
             ${f.fix ? `<button type="button" data-fix="${f.fix}">✏️ ${Z().fix}</button>` : ""}
